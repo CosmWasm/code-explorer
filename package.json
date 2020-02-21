@@ -19,7 +19,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "lint": "eslint -c .eslintrc.js --max-warnings 0 'src/**/*.ts{,x}'",
+    "lint-fix": "eslint -c .eslintrc.js 'src/**/*.ts{,x}' --fix"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -34,5 +35,15 @@
       "last 1 chrome version",
       "last 1 firefox version"
     ]
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.20.0",
+    "@typescript-eslint/parser": "^2.20.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-config-react-app": "^5.2.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-simple-import-sort": "^5.0.1",
+    "prettier": "^1.19.1"
   }
 }
