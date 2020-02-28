@@ -3,7 +3,7 @@ import "./Code.css";
 import { RestClient } from "@cosmwasm/sdk";
 import React from "react";
 
-import { settings } from "./settings";
+import { settings } from "../settings";
 
 function ellideMiddle(str: string, maxOutLen: number): string {
   if (str.length <= maxOutLen) {

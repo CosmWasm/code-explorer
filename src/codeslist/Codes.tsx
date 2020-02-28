@@ -3,8 +3,8 @@ import "./Codes.css";
 import { RestClient } from "@cosmwasm/sdk";
 import React from "react";
 
+import { settings } from "../settings";
 import { Code, CodeData } from "./Code";
-import { settings } from "./settings";
 
 export function Codes(): JSX.Element {
   const [codes, setCodes] = React.useState<readonly CodeData[]>([]);
