@@ -25,7 +25,6 @@ interface InstantiationInfo {
 
 export function Code({ data }: Props): JSX.Element {
   const [instantiationInfo, setInstantiationInfo] = React.useState<InstantiationInfo | undefined>();
-  const [size, setSize] = React.useState<number | undefined>();
 
   React.useEffect(() => {
     const client = new CosmWasmClient(settings.nodeUrl);
@@ -33,9 +32,6 @@ export function Code({ data }: Props): JSX.Element {
       setInstantiationInfo({
         instantiations: contracts.length,
       });
-    });
-    client.getCodeDetails(data.codeId).then(code => {
-      setSize(code.wasm.length);
     });
   }, [data.codeId]);
 
@@ -51,8 +47,6 @@ export function Code({ data }: Props): JSX.Element {
           Builder: {data.builder || "–"}
           <br />
           Checksum: {data.checksum.slice(0, 10)}
-          <br />
-          Size: {size ? Math.round(size / 1024) + " KiB" : "Loading …"}
           <br />
           Instances: {instantiationInfo ? instantiationInfo.instantiations : "Loading …"}
         </div>
