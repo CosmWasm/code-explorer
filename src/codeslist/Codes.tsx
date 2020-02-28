@@ -1,6 +1,6 @@
 import "./Codes.css";
 
-import { RestClient } from "@cosmwasm/sdk";
+import { CosmWasmClient } from "@cosmwasm/sdk";
 import React from "react";
 
 import { settings } from "../settings";
@@ -10,13 +10,13 @@ export function Codes(): JSX.Element {
   const [codes, setCodes] = React.useState<readonly CodeData[]>([]);
 
   React.useEffect(() => {
-    const client = new RestClient(settings.nodeUrl);
-    client.listCodeInfo().then(codeInfos => {
+    const client = new CosmWasmClient(settings.nodeUrl);
+    client.getCodes().then(codeInfos => {
       const processed = codeInfos
         .map(
           (response): CodeData => ({
             codeId: response.id,
-            checksum: response.code_hash.toLowerCase(),
+            checksum: response.checksum,
             creator: response.creator,
             source: response.source || "",
             builder: response.builder || "",

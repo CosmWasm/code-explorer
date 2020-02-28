@@ -1,6 +1,6 @@
 import "./Code.css";
 
-import { RestClient } from "@cosmwasm/sdk";
+import { CosmWasmClient } from "@cosmwasm/sdk";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -28,14 +28,14 @@ export function Code({ data }: Props): JSX.Element {
   const [size, setSize] = React.useState<number | undefined>();
 
   React.useEffect(() => {
-    const client = new RestClient(settings.nodeUrl);
-    client.listContractsByCodeId(data.codeId).then(contracts => {
+    const client = new CosmWasmClient(settings.nodeUrl);
+    client.getContracts(data.codeId).then(contracts => {
       setInstantiationInfo({
         instantiations: contracts.length,
       });
     });
-    client.getCode(data.codeId).then(code => {
-      setSize(code.length);
+    client.getCodeDetails(data.codeId).then(code => {
+      setSize(code.wasm.length);
     });
   }, [data.codeId]);
 
