@@ -2,6 +2,7 @@ import "./Code.css";
 
 import { RestClient } from "@cosmwasm/sdk";
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { settings } from "../settings";
 
@@ -49,9 +50,9 @@ export function Code({ data }: Props): JSX.Element {
 
   return (
     <div className="p-2 flex-grow-1">
-      <div className="code-content">
-        <div className="code-id">#{data.codeId}</div>
-        <div className="code-details">
+      <Link to={`/codes/${data.codeId}`} className="code-content">
+        <div className="id">#{data.codeId}</div>
+        <div className="details">
           Creator: {data.creator}
           <br />
           Source: {ellideMiddle(data.source, 45) || "–"}
@@ -64,7 +65,7 @@ export function Code({ data }: Props): JSX.Element {
           <br />
           Instances: {instantiationInfo ? instantiationInfo.instantiations : "Loading …"}
         </div>
-      </div>
+      </Link>
     </div>
   );
 }
