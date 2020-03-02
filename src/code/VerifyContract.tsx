@@ -1,4 +1,5 @@
 import React from "react";
+import { quote } from "shell-quote";
 
 interface Props {
   readonly checksum: string;
@@ -15,11 +16,9 @@ function VerifyContract({ checksum, source, builder }: Props): JSX.Element {
     );
   }
 
-  return (
-    <code>
-      cosmwasm-verify "{source}" "{builder}" {checksum}
-    </code>
-  );
+  const verificationCmd = quote(["cosmwasm-verify", source, builder, checksum]);
+
+  return <code>{verificationCmd}</code>;
 }
 
 export default VerifyContract;
