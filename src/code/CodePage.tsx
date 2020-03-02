@@ -55,11 +55,13 @@ function CodePage(): JSX.Element {
             Code verfication allows you to verify that uploaded code was compiled from the source it claims.{" "}
             <a href="https://github.com/confio/cosmwasm-verify">Tell me more!</a>
           </p>
-          {details ? (
-            <VerifyContract checksum={details.checksum} source={details.source} builder={details.builder} />
-          ) : (
-            <p>Loading …</p>
-          )}
+          <p>
+            {details ? (
+              <VerifyContract checksum={details.checksum} source={details.source} builder={details.builder} />
+            ) : (
+              <span>Loading …</span>
+            )}
+          </p>
         </div>
       </div>
       <div className="row">
