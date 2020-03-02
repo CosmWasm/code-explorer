@@ -1,4 +1,4 @@
-import "./CodeDetails.css";
+import "./CodePage.css";
 
 import { CodeDetails, Contract, CosmWasmClient } from "@cosmwasm/sdk";
 import React from "react";
@@ -22,7 +22,7 @@ function CodePage(): JSX.Element {
   }, [codeId]);
 
   return (
-    <div className="container mt-3 code-details">
+    <div className="container mt-3 code-container">
       <div className="row">
         <div className="col">
           <h1>Code #{codeId}</h1>

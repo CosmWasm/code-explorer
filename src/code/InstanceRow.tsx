@@ -1,5 +1,6 @@
 import { Contract, CosmWasmClient } from "@cosmwasm/sdk";
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { settings } from "../settings";
 
@@ -30,7 +31,9 @@ function InstanceRow({ position, contract }: Props): JSX.Element {
     <tr>
       <th scope="row">{position}</th>
       <td>{contract.label}</td>
-      <td>{contract.address}</td>
+      <td>
+        <Link to={`/contracts/${contract.address}`}>{contract.address}</Link>
+      </td>
       <td>{contract.creator}</td>
       <td>{executionCount === undefined ? "Loading …" : executionCount}</td>
     </tr>
