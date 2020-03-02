@@ -14,6 +14,7 @@ module.exports = {
     "plugin:prettier/recommended",
   ],
   rules: {
+    curly: ["warn", "multi-line", "consistent"],
     "no-empty": "off",
     "no-console": [
       "warn",

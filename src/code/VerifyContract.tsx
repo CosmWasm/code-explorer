@@ -7,12 +7,13 @@ interface Props {
 }
 
 function VerifyContract({ checksum, source, builder }: Props): JSX.Element {
-  if (!source || !builder)
+  if (!source || !builder) {
     return (
       <span>
         Contract cannot be verified since <code>builder</code> or <code>source</code> is missing
       </span>
     );
+  }
 
   return (
     <code>
