@@ -2,8 +2,9 @@ import "./ContractPage.css";
 
 import { ContractDetails, CosmWasmClient, types } from "@cosmwasm/sdk";
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
+import CodeLink from "../components/CodeLink";
 import { settings } from "../settings";
 import { ellideMiddle } from "../ui-utils";
 
@@ -48,16 +49,30 @@ function ContractPage(): JSX.Element {
     });
   }, [contractAddress]);
 
+  const pageTitle = <span title={contractAddress}>Contract {ellideMiddle(contractAddress, 15)}</span>;
+
   return (
     <div className="container mt-3 contract-container">
       <div className="row">
         <div className="col">
-          <h1>
-            Contract <span title={contractAddress}>{ellideMiddle(contractAddress, 15)}</span>
-          </h1>
-          <ul className="list-group list-group-horizontal">
-            <li className="list-group-item">Code: {details ? details.codeId : "Loading …"}</li>
-          </ul>
+          <nav aria-label="breadcrumb">
+            <ol className="breadcrumb">
+              <li className="breadcrumb-item">
+                <Link to="/">Home</Link>
+              </li>
+              <li className="breadcrumb-item">
+                {details ? <CodeLink codeId={details.codeId} /> : <span>Loading …</span>}
+              </li>
+              <li className="breadcrumb-item active" aria-current="page">
+                {pageTitle}
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col">
+          <h1>{pageTitle}</h1>
         </div>
         <div className="col">
           <h2>Init message</h2>

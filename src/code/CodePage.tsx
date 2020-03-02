@@ -2,7 +2,7 @@ import "./CodePage.css";
 
 import { CodeDetails, Contract, CosmWasmClient } from "@cosmwasm/sdk";
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { settings } from "../settings";
 import InstanceRow from "./InstanceRow";
@@ -21,11 +21,27 @@ function CodePage(): JSX.Element {
     client.getCodeDetails(codeId).then(setDetails);
   }, [codeId]);
 
+  const pageTitle = <span>Code #{codeId}</span>;
+
   return (
     <div className="container mt-3 code-container">
       <div className="row">
         <div className="col">
-          <h1>Code #{codeId}</h1>
+          <nav aria-label="breadcrumb">
+            <ol className="breadcrumb">
+              <li className="breadcrumb-item">
+                <Link to="/">Home</Link>
+              </li>
+              <li className="breadcrumb-item active" aria-current="page">
+                {pageTitle}
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col">
+          <h1>{pageTitle}</h1>
           <ul className="list-group list-group-horizontal">
             <li className="list-group-item">Type: Wasm</li>
             <li className="list-group-item">
