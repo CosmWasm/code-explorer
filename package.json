@@ -11,7 +11,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "lint": "eslint -c .eslintrc.js --max-warnings 0 'src/**/*.ts{,x}'",
-    "lint-fix": "eslint -c .eslintrc.js 'src/**/*.ts{,x}' --fix"
+    "lint-fix": "eslint -c .eslintrc.js 'src/**/*.ts{,x}' --fix",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -55,6 +57,7 @@
     "eslint-config-react-app": "^5.2.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-simple-import-sort": "^5.0.1",
+    "gh-pages": "^2.2.0",
     "prettier": "^1.19.1"
   }
 }
