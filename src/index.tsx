@@ -10,7 +10,7 @@ import CodeslistPage from "./codeslist/CodeslistPage";
 import ContractPage from "./contract/ContractPage";
 
 ReactDOM.render(
-  <BrowserRouter>
+  <BrowserRouter basename={process.env.PUBLIC_URL}>
     <Switch>
       <Route path="/codes/:codeId" component={CodePage} />
       <Route path="/contracts/:contractAddress" component={ContractPage} />
