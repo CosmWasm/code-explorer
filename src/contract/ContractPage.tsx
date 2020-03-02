@@ -9,6 +9,7 @@ import { settings } from "../settings";
 import { ellideMiddle } from "../ui-utils";
 
 interface Execution {
+  readonly key: string;
   readonly transactionId: string;
   readonly msg: types.MsgExecuteContract;
 }
@@ -37,9 +38,13 @@ function ContractPage(): JSX.Element {
     client.searchTx({ tags: tags }).then(execTxs => {
       const out = new Array<Execution>();
       for (const tx of execTxs) {
-        for (const msg of tx.tx.value.msg) {
+        for (const [index, msg] of tx.tx.value.msg.entries()) {
           if (types.isMsgExecuteContract(msg)) {
-            out.push({ msg: msg, transactionId: tx.hash });
+            out.push({
+              key: `${tx.hash}_${index}`,
+              msg: msg,
+              transactionId: tx.hash,
+            });
           } else {
             // skip
           }
@@ -94,7 +99,7 @@ function ContractPage(): JSX.Element {
             </thead>
             <tbody>
               {executions.map((execution, index) => (
-                <tr>
+                <tr key={execution.key}>
                   <th scope="row">{index + 1}</th>
                   <td>{execution.transactionId}</td>
                   <td>{execution.msg.value.sender}</td>
