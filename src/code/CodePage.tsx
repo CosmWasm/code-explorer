@@ -5,6 +5,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 
 import { settings } from "../settings";
+import InstanceRow from "./InstanceRow";
 import VerifyContract from "./VerifyContract";
 
 function CodePage(): JSX.Element {
@@ -55,16 +56,12 @@ function CodePage(): JSX.Element {
                 <th scope="col">Label</th>
                 <th scope="col">Address</th>
                 <th scope="col">Creator</th>
+                <th scope="col">Executions</th>
               </tr>
             </thead>
             <tbody>
               {contracts.map((contract, index) => (
-                <tr>
-                  <th scope="row">{index + 1}</th>
-                  <td>{contract.label}</td>
-                  <td>{contract.address}</td>
-                  <td>{contract.creator}</td>
-                </tr>
+                <InstanceRow position={index + 1} contract={contract} key={contract.address} />
               ))}
             </tbody>
           </table>
