@@ -5,7 +5,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 
 import { settings } from "../settings";
-import Verification from "./Verfication";
+import VerifyContract from "./VerifyContract";
 
 function CodePage(): JSX.Element {
   const { codeId: codeIdParam } = useParams();
@@ -34,7 +34,15 @@ function CodePage(): JSX.Element {
         </div>
         <div className="col">
           <h2>Verification</h2>
-          {details ? <Verification code={details} /> : <p>Loading …</p>}
+          <p>
+            Code verfication allows you to verify that uploaded code was compiled from the source it claims.{" "}
+            <a href="https://github.com/confio/cosmwasm-verify">Tell me more!</a>
+          </p>
+          {details ? (
+            <VerifyContract checksum={details.checksum} source={details.source} builder={details.builder} />
+          ) : (
+            <p>Loading …</p>
+          )}
         </div>
       </div>
       <div className="row">
