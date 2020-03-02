@@ -889,10 +889,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@cosmwasm/sdk@^0.7.0-alpha.4":
-  version "0.7.0-alpha.4"
-  resolved "https://registry.yarnpkg.com/@cosmwasm/sdk/-/sdk-0.7.0-alpha.4.tgz#75f7806af81e57ec5a33c4504b89acd86569037d"
-  integrity sha512-qE3l25o2bPOdHfiowHbxxP7WUQY81+FenJ+W82I90VHIEVHxQaTLWbJP0wHYRPYWXBUmlRIN/2HK+niSh7xM3w==
+"@cosmwasm/sdk@^0.7.0-alpha.5":
+  version "0.7.0-alpha.5"
+  resolved "https://registry.yarnpkg.com/@cosmwasm/sdk/-/sdk-0.7.0-alpha.5.tgz#bc2d0321faf6afc43b966f4281174ea68c1d241e"
+  integrity sha512-kl/e8vSH4QEOpl/OtijEocMX4GMjGnvNzhlwILvYJ9GJj3kkcnY5D/sI7Ub9vMCFziLP/0KxPzyfQ8MD9nh7FQ==
   dependencies:
     "@iov/crypto" "^2.1.0"
     "@iov/encoding" "^2.1.0"
