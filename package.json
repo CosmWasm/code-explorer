@@ -1,11 +1,12 @@
 {
-  "name": "explorer",
+  "name": "code-explorer",
   "version": "0.1.0",
   "private": true,
   "contributors": [
     "Simon Warta"
   ],
   "license": "Apache-2.0",
+  "homepage": "https://confio.github.io/code-explorer/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
