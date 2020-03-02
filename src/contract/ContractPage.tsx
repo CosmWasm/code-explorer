@@ -1,6 +1,6 @@
 import "./ContractPage.css";
 
-import { CosmWasmClient, types } from "@cosmwasm/sdk";
+import { ContractDetails, CosmWasmClient, types } from "@cosmwasm/sdk";
 import React from "react";
 import { useParams } from "react-router-dom";
 
@@ -16,7 +16,7 @@ function ContractPage(): JSX.Element {
   const { contractAddress: contractAddressParam } = useParams();
   const contractAddress = contractAddressParam || "";
 
-  const [details, setDetails] = React.useState<any | undefined>();
+  const [details, setDetails] = React.useState<ContractDetails | undefined>();
   const [executions, setExecutions] = React.useState<readonly Execution[]>([]);
 
   React.useEffect(() => {
@@ -55,6 +55,9 @@ function ContractPage(): JSX.Element {
           <h1>
             Contract <span title={contractAddress}>{ellideMiddle(contractAddress, 15)}</span>
           </h1>
+          <ul className="list-group list-group-horizontal">
+            <li className="list-group-item">Code: {details ? details.codeId : "Loading …"}</li>
+          </ul>
         </div>
         <div className="col">
           <h2>Init message</h2>
