@@ -21,7 +21,7 @@ function CodePage(): JSX.Element {
   }, [codeId]);
 
   return (
-    <div className="container code-details">
+    <div className="container mt-3 code-details">
       <div className="row">
         <div className="col">
           <h1>Code #{codeId}</h1>
