@@ -3,7 +3,7 @@ export interface Settings {
 }
 
 const demonetSettings: Settings = {
-  nodeUrl: "https://lcd.demo.cosmwasm.com",
+  nodeUrl: "http://lcd.demo-07.cosmwasm.com",
 };
 
 const devnetSettings: Settings = {
