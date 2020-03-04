@@ -72,7 +72,7 @@ function CodePage(): JSX.Element {
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Label</th>
-                <th scope="col">Address</th>
+                <th scope="col">Contract</th>
                 <th scope="col">Creator</th>
                 <th scope="col">Executions</th>
               </tr>

@@ -1,12 +1,12 @@
 import "./ContractPage.css";
 
-import { ContractDetails, CosmWasmClient, types } from "@cosmwasm/sdk";
+import { Account, ContractDetails, CosmWasmClient, types } from "@cosmwasm/sdk";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
 import CodeLink from "../components/CodeLink";
 import { settings } from "../settings";
-import { ellideMiddle } from "../ui-utils";
+import { ellideMiddle, printableBalance } from "../ui-utils";
 import { Execution, ExecutionsTable } from "./ExecutionsTable";
 
 function ContractPage(): JSX.Element {
@@ -14,11 +14,13 @@ function ContractPage(): JSX.Element {
   const contractAddress = contractAddressParam || "";
 
   const [details, setDetails] = React.useState<ContractDetails | undefined>();
+  const [account, setAccount] = React.useState<Account | undefined>();
   const [executions, setExecutions] = React.useState<readonly Execution[]>([]);
 
   React.useEffect(() => {
     const client = new CosmWasmClient(settings.nodeUrl);
     client.getContract(contractAddress).then(setDetails);
+    client.getAccount(contractAddress).then(setAccount);
 
     const tags = [
       {
@@ -73,6 +75,11 @@ function ContractPage(): JSX.Element {
       <div className="row">
         <div className="col">
           <h1>{pageTitle}</h1>
+          <ul className="list-group list-group-horizontal">
+            <li className="list-group-item" title="Bank tokens owned by this contract">
+              Balance: {printableBalance(account?.balance || [])}
+            </li>
+          </ul>
         </div>
         <div className="col">
           <h2>Init message</h2>
