@@ -8,7 +8,7 @@ export default function CodeslistPage(): JSX.Element {
   return (
     <div className="container mt-3">
       <Codes />
-      <FooterRow endpoint={settings.nodeUrl} />
+      <FooterRow endpoint={settings.backend.nodeUrl} />
     </div>
   );
 }

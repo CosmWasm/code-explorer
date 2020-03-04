@@ -10,7 +10,7 @@ export function Codes(): JSX.Element {
   const [codes, setCodes] = React.useState<readonly CodeData[]>([]);
 
   React.useEffect(() => {
-    const client = new CosmWasmClient(settings.nodeUrl);
+    const client = new CosmWasmClient(settings.backend.nodeUrl);
     client.getCodes().then(codeInfos => {
       const processed = codeInfos
         .map(

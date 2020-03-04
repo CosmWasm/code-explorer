@@ -27,7 +27,7 @@ export function Code({ data }: Props): JSX.Element {
   const [instantiationInfo, setInstantiationInfo] = React.useState<InstantiationInfo | undefined>();
 
   React.useEffect(() => {
-    const client = new CosmWasmClient(settings.nodeUrl);
+    const client = new CosmWasmClient(settings.backend.nodeUrl);
     client.getContracts(data.codeId).then(contracts => {
       setInstantiationInfo({
         instantiations: contracts.length,

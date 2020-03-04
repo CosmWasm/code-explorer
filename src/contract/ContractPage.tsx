@@ -19,7 +19,7 @@ export default function ContractPage(): JSX.Element {
   const [executions, setExecutions] = React.useState<readonly Execution[]>([]);
 
   React.useEffect(() => {
-    const client = new CosmWasmClient(settings.nodeUrl);
+    const client = new CosmWasmClient(settings.backend.nodeUrl);
     client.getContract(contractAddress).then(setDetails);
     client.getAccount(contractAddress).then(setAccount);
 
@@ -100,7 +100,7 @@ export default function ContractPage(): JSX.Element {
         </div>
       </div>
 
-      <FooterRow endpoint={settings.nodeUrl} />
+      <FooterRow endpoint={settings.backend.nodeUrl} />
     </div>
   );
 }

@@ -13,7 +13,7 @@ function InstanceRow({ position, contract }: Props): JSX.Element {
   const [executionCount, setExecutionCount] = React.useState<number | undefined>();
 
   React.useEffect(() => {
-    const client = new CosmWasmClient(settings.nodeUrl);
+    const client = new CosmWasmClient(settings.backend.nodeUrl);
     const tags = [
       {
         key: "message.contract_address",

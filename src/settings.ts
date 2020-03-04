@@ -1,13 +1,35 @@
-export interface Settings {
+export interface BackendSettings {
   readonly nodeUrl: string;
 }
 
-const demonetSettings: Settings = {
+export interface DeploymentSettings {
+  readonly routerType: "browser-router" | "hash-router";
+}
+
+export interface Settings {
+  /** Where do we connect to */
+  readonly backend: BackendSettings;
+  /** How are we hosted */
+  readonly deployment: DeploymentSettings;
+}
+
+const demonetSettings: BackendSettings = {
   nodeUrl: "https://lcd.demo-07.cosmwasm.com",
 };
 
-const devnetSettings: Settings = {
+const devnetSettings: BackendSettings = {
   nodeUrl: "http://localhost:1317",
 };
 
-export const settings = process.env.NODE_ENV === "development" ? devnetSettings : demonetSettings;
+const developmentServer: DeploymentSettings = {
+  routerType: "browser-router",
+};
+
+const ghPages: DeploymentSettings = {
+  routerType: "hash-router",
+};
+
+export const settings: Settings = {
+  backend: process.env.NODE_ENV === "development" ? devnetSettings : demonetSettings,
+  deployment: process.env.NODE_ENV === "production" ? ghPages : developmentServer,
+};

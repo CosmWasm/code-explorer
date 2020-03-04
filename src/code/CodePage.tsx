@@ -17,7 +17,7 @@ function CodePage(): JSX.Element {
   const [contracts, setContracts] = React.useState<readonly Contract[]>([]);
 
   React.useEffect(() => {
-    const client = new CosmWasmClient(settings.nodeUrl);
+    const client = new CosmWasmClient(settings.backend.nodeUrl);
     client.getContracts(codeId).then(setContracts);
     client.getCodeDetails(codeId).then(setDetails);
   }, [codeId]);
@@ -86,7 +86,7 @@ function CodePage(): JSX.Element {
           </table>
         </div>
       </div>
-      <FooterRow endpoint={settings.nodeUrl} />
+      <FooterRow endpoint={settings.backend.nodeUrl} />
     </div>
   );
 }
