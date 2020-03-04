@@ -5,11 +5,12 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 
 import CodeLink from "../components/CodeLink";
+import { FooterRow } from "../components/FooterRow";
 import { settings } from "../settings";
 import { ellideMiddle, printableBalance } from "../ui-utils";
 import { Execution, ExecutionsTable } from "./ExecutionsTable";
 
-function ContractPage(): JSX.Element {
+export default function ContractPage(): JSX.Element {
   const { contractAddress: contractAddressParam } = useParams();
   const contractAddress = contractAddressParam || "";
 
@@ -55,7 +56,7 @@ function ContractPage(): JSX.Element {
 
   return (
     <div className="container mt-3 contract-container">
-      <div className="row">
+      <div className="row contract-row contract-row-first">
         <div className="col">
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
@@ -72,7 +73,7 @@ function ContractPage(): JSX.Element {
           </nav>
         </div>
       </div>
-      <div className="row">
+      <div className="row contract-row">
         <div className="col">
           <h1>{pageTitle}</h1>
           <ul className="list-group list-group-horizontal">
@@ -88,7 +89,7 @@ function ContractPage(): JSX.Element {
           </pre>
         </div>
       </div>
-      <div className="row">
+      <div className="row contract-row contract-row-last">
         <div className="col">
           <h2>Executions</h2>
           {executions.length !== 0 ? (
@@ -98,8 +99,8 @@ function ContractPage(): JSX.Element {
           )}
         </div>
       </div>
+
+      <FooterRow endpoint={settings.nodeUrl} />
     </div>
   );
 }
-
-export default ContractPage;

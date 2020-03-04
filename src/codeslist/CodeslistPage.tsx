@@ -1,13 +1,14 @@
 import React from "react";
 
+import { FooterRow } from "../components/FooterRow";
+import { settings } from "../settings";
 import { Codes } from "./Codes";
 
-function CodeslistPage(): JSX.Element {
+export default function CodeslistPage(): JSX.Element {
   return (
     <div className="container mt-3">
       <Codes />
+      <FooterRow endpoint={settings.nodeUrl} />
     </div>
   );
 }
-
-export default CodeslistPage;

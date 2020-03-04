@@ -4,6 +4,7 @@ import { CodeDetails, Contract, CosmWasmClient } from "@cosmwasm/sdk";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
+import { FooterRow } from "../components/FooterRow";
 import { settings } from "../settings";
 import InstanceRow from "./InstanceRow";
 import VerifyContract from "./VerifyContract";
@@ -24,8 +25,8 @@ function CodePage(): JSX.Element {
   const pageTitle = <span>Code #{codeId}</span>;
 
   return (
-    <div className="container mt-3 code-container">
-      <div className="row">
+    <div className="container mt-3">
+      <div className="row code-row code-row-first">
         <div className="col">
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
@@ -39,7 +40,7 @@ function CodePage(): JSX.Element {
           </nav>
         </div>
       </div>
-      <div className="row">
+      <div className="row code-row">
         <div className="col">
           <h1>{pageTitle}</h1>
           <ul className="list-group list-group-horizontal">
@@ -64,7 +65,7 @@ function CodePage(): JSX.Element {
           </p>
         </div>
       </div>
-      <div className="row">
+      <div className="row code-row code-row-last">
         <div className="col">
           <h2>Instances</h2>
           <table className="table">
@@ -85,6 +86,7 @@ function CodePage(): JSX.Element {
           </table>
         </div>
       </div>
+      <FooterRow endpoint={settings.nodeUrl} />
     </div>
   );
 }

@@ -1,6 +1,16 @@
-.contract-container {
-  padding: 10px;
-  border-radius: 5px;
+.contract-row {
   background-color: rgba(255, 255, 255, 0.8);
   color: #222;
+}
+
+.contract-row-first {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding-top: 10px;
+}
+
+.contract-row-last {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding-bottom: 10px;
 }
