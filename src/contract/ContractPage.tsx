@@ -7,12 +7,7 @@ import { Link, useParams } from "react-router-dom";
 import CodeLink from "../components/CodeLink";
 import { settings } from "../settings";
 import { ellideMiddle } from "../ui-utils";
-
-interface Execution {
-  readonly key: string;
-  readonly transactionId: string;
-  readonly msg: types.MsgExecuteContract;
-}
+import { Execution, ExecutionsTable } from "./ExecutionsTable";
 
 function ContractPage(): JSX.Element {
   const { contractAddress: contractAddressParam } = useParams();
@@ -89,24 +84,11 @@ function ContractPage(): JSX.Element {
       <div className="row">
         <div className="col">
           <h2>Executions</h2>
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Transaction ID</th>
-                <th scope="col">Sender</th>
-              </tr>
-            </thead>
-            <tbody>
-              {executions.map((execution, index) => (
-                <tr key={execution.key}>
-                  <th scope="row">{index + 1}</th>
-                  <td>{execution.transactionId}</td>
-                  <td>{execution.msg.value.sender}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          {executions.length !== 0 ? (
+            <ExecutionsTable executions={executions} />
+          ) : (
+            <p>Contract was not yet executed</p>
+          )}
         </div>
       </div>
     </div>
