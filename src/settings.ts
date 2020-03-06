@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 export interface BackendSettings {
   readonly nodeUrl: string;
 }
@@ -27,6 +29,10 @@ const developmentServer: DeploymentSettings = {
 
 const ghPages: DeploymentSettings = {
   routerType: "hash-router",
+};
+
+const firebaseHosting: DeploymentSettings = {
+  routerType: "browser-router",
 };
 
 export const settings: Settings = {
