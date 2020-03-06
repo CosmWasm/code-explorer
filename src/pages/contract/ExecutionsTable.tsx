@@ -1,5 +1,6 @@
 import { types } from "@cosmwasm/sdk";
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { ellideMiddle } from "../../ui-utils";
 
@@ -31,9 +32,9 @@ export function ExecutionsTable({ executions }: Props): JSX.Element {
             <th scope="row">{index + 1}</th>
             <td>{execution.height}</td>
             <td>
-              <a href="https://github.com/confio/code-explorer/issues/3" title={execution.transactionId}>
+              <Link to={`/tx/${execution.transactionId}`} title={execution.transactionId}>
                 {ellideMiddle(execution.transactionId, 20)}
-              </a>
+              </Link>
             </td>
             <td>{execution.msg.value.sender}</td>
           </tr>

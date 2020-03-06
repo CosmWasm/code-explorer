@@ -9,6 +9,7 @@ import { FlexibleRouter } from "./components/FlexibleRouter";
 import CodePage from "./pages/code/CodePage";
 import CodeslistPage from "./pages/codeslist/CodeslistPage";
 import ContractPage from "./pages/contract/ContractPage";
+import TxPage from "./pages/tx/TxPage";
 import { settings } from "./settings";
 
 ReactDOM.render(
@@ -16,6 +17,7 @@ ReactDOM.render(
     <Switch>
       <Route path="/codes/:codeId" component={CodePage} />
       <Route path="/contracts/:contractAddress" component={ContractPage} />
+      <Route path="/tx/:txId" component={TxPage} />
       <Route component={() => <CodeslistPage />} />
     </Switch>
   </FlexibleRouter>,
