@@ -10,6 +10,7 @@ import { Header } from "../../components/Header";
 import { settings } from "../../settings";
 import { ellideMiddle, printableBalance } from "../../ui-utils";
 import { Execution, ExecutionsTable } from "./ExecutionsTable";
+import { InitializationInfo } from "./InitializationInfo";
 
 export function ContractPage(): JSX.Element {
   const { contractAddress: contractAddressParam } = useParams();
@@ -86,12 +87,7 @@ export function ContractPage(): JSX.Element {
               </li>
             </ul>
           </div>
-          <div className="col">
-            <h2>Init message</h2>
-            <pre>
-              <code>{details ? JSON.stringify(details.initMsg, null, 2) : "Loading …"}</code>
-            </pre>
-          </div>
+          <div className="col">{details ? <InitializationInfo contract={details} /> : <p>Loading …</p>}</div>
         </div>
         <div className="row white-row white-row-last">
           <div className="col">
