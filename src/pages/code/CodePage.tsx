@@ -7,8 +7,8 @@ import { Link, useParams } from "react-router-dom";
 import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
 import { settings } from "../../settings";
+import { CodeInfo } from "./CodeInfo";
 import InstanceRow from "./InstanceRow";
-import VerifyContract from "./VerifyContract";
 
 export function CodePage(): JSX.Element {
   const { codeId: codeIdParam } = useParams();
@@ -53,24 +53,7 @@ export function CodePage(): JSX.Element {
               </li>
             </ul>
           </div>
-          <div className="col">
-            <h2>Verification</h2>
-            <p>
-              Code verfication allows you to verify that uploaded code was compiled from the source it claims.{" "}
-              <a href="https://github.com/confio/cosmwasm-verify">Tell me more!</a>
-            </p>
-            <p>
-              {details ? (
-                <VerifyContract
-                  checksum={details.checksum}
-                  source={details.source}
-                  builder={details.builder}
-                />
-              ) : (
-                <span>Loading …</span>
-              )}
-            </p>
-          </div>
+          <div className="col">{details ? <CodeInfo code={details} /> : <span>Loading …</span>}</div>
         </div>
         <div className="row white-row white-row-last">
           <div className="col">
