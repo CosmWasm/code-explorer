@@ -11,6 +11,8 @@
 # production
 /build
 .firebase/
+# Copy firebase.site-xy.json to firebase.json as part of the deployment step to support multiple configs
+firebase.json
 
 # misc
 .DS_Store
