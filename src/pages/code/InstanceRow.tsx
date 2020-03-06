@@ -1,6 +1,7 @@
 import { Contract, CosmWasmClient } from "@cosmwasm/sdk";
 import React from "react";
 
+import { AccountLink } from "../../components/AccountLink";
 import { ContractLink } from "../../components/ContractLink";
 import { settings } from "../../settings";
 
@@ -34,7 +35,9 @@ function InstanceRow({ position, contract }: Props): JSX.Element {
       <td>
         <ContractLink address={contract.address} />
       </td>
-      <td>{contract.creator}</td>
+      <td>
+        <AccountLink address={contract.creator} />
+      </td>
       <td>{executionCount === undefined ? "Loading …" : executionCount}</td>
     </tr>
   );

@@ -5,6 +5,7 @@ import React, { Fragment } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 
+import { AccountLink } from "../../components/AccountLink";
 import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
 import { settings } from "../../settings";
@@ -85,7 +86,9 @@ export function TxPage(): JSX.Element {
                               Contract:{" "}
                               <Link to={`/contracts/${msg.value.contract}`}>{msg.value.contract}</Link>
                             </li>
-                            <li className="list-group-item">Sender: {msg.value.sender}</li>
+                            <li className="list-group-item">
+                              Sender: <AccountLink address={msg.value.sender} maxLength={null} />
+                            </li>
                             <li className="list-group-item">
                               Sent funds: {printableBalance(msg.value.sent_funds)}
                             </li>

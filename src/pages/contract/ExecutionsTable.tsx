@@ -2,6 +2,7 @@ import { types } from "@cosmwasm/sdk";
 import React from "react";
 import { Link } from "react-router-dom";
 
+import { AccountLink } from "../../components/AccountLink";
 import { ellideMiddle } from "../../ui-utils";
 
 export interface Execution {
@@ -36,7 +37,9 @@ export function ExecutionsTable({ executions }: Props): JSX.Element {
                 {ellideMiddle(execution.transactionId, 20)}
               </Link>
             </td>
-            <td>{execution.msg.value.sender}</td>
+            <td>
+              <AccountLink address={execution.msg.value.sender} />
+            </td>
           </tr>
         ))}
       </tbody>
