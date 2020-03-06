@@ -9,7 +9,7 @@ import { FooterRow } from "../../components/FooterRow";
 import { settings } from "../../settings";
 import { ellideMiddle, printableBalance } from "../../ui-utils";
 
-export default function TxPage(): JSX.Element {
+export function TxPage(): JSX.Element {
   const { txId: txIdParam } = useParams();
   const txId = txIdParam || "";
 

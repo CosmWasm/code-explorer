@@ -6,10 +6,10 @@ import ReactDOM from "react-dom";
 import { Redirect, Route, Switch } from "react-router-dom";
 
 import { FlexibleRouter } from "./components/FlexibleRouter";
-import CodePage from "./pages/code/CodePage";
-import CodesPage from "./pages/codes/CodesPage";
-import ContractPage from "./pages/contract/ContractPage";
-import TxPage from "./pages/tx/TxPage";
+import { CodePage } from "./pages/code/CodePage";
+import { CodesPage } from "./pages/codes/CodesPage";
+import { ContractPage } from "./pages/contract/ContractPage";
+import { TxPage } from "./pages/tx/TxPage";
 import { settings } from "./settings";
 
 ReactDOM.render(

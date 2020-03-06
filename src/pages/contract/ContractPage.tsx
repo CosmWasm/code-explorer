@@ -10,7 +10,7 @@ import { settings } from "../../settings";
 import { ellideMiddle, printableBalance } from "../../ui-utils";
 import { Execution, ExecutionsTable } from "./ExecutionsTable";
 
-export default function ContractPage(): JSX.Element {
+export function ContractPage(): JSX.Element {
   const { contractAddress: contractAddressParam } = useParams();
   const contractAddress = contractAddressParam || "";
 

@@ -9,7 +9,7 @@ import { settings } from "../../settings";
 import InstanceRow from "./InstanceRow";
 import VerifyContract from "./VerifyContract";
 
-function CodePage(): JSX.Element {
+export function CodePage(): JSX.Element {
   const { codeId: codeIdParam } = useParams();
   const codeId = parseInt(codeIdParam || "0", 10);
 
@@ -90,5 +90,3 @@ function CodePage(): JSX.Element {
     </div>
   );
 }
-
-export default CodePage;

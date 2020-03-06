@@ -4,7 +4,7 @@ import { FooterRow } from "../../components/FooterRow";
 import { settings } from "../../settings";
 import { Codes } from "./Codes";
 
-export default function CodesPage(): JSX.Element {
+export function CodesPage(): JSX.Element {
   return (
     <div className="container mt-3">
       <div className="row white-row white-row-first">
