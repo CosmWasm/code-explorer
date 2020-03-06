@@ -16,6 +16,8 @@ export function CodeInfo({ code }: Props): JSX.Element {
           Creator: <AccountLink address={code.creator} maxLength={null} />
         </li>
         <li className="list-group-item">Checksum: {code.checksum}</li>
+        <li className="list-group-item">Source: {code.source || "–"}</li>
+        <li className="list-group-item">Builder: {code.builder || "–"}</li>
         <li className="list-group-item">
           <p>
             Code verfication allows you to verify that uploaded code was compiled from the source it claims.{" "}
