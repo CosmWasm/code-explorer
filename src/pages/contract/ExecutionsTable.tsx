@@ -1,7 +1,7 @@
 import { types } from "@cosmwasm/sdk";
 import React from "react";
 
-import { ellideMiddle } from "../ui-utils";
+import { ellideMiddle } from "../../ui-utils";
 
 export interface Execution {
   readonly key: string;

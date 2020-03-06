@@ -4,8 +4,8 @@ import { CosmWasmClient } from "@cosmwasm/sdk";
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { settings } from "../settings";
-import { ellideMiddle } from "../ui-utils";
+import { settings } from "../../settings";
+import { ellideMiddle } from "../../ui-utils";
 
 export interface CodeData {
   readonly codeId: number;

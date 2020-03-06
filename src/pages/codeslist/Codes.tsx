@@ -3,7 +3,7 @@ import "./Codes.css";
 import { CosmWasmClient } from "@cosmwasm/sdk";
 import React from "react";
 
-import { settings } from "../settings";
+import { settings } from "../../settings";
 import { Code, CodeData } from "./Code";
 
 export function Codes(): JSX.Element {

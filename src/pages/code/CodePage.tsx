@@ -4,8 +4,8 @@ import { CodeDetails, Contract, CosmWasmClient } from "@cosmwasm/sdk";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
-import { FooterRow } from "../components/FooterRow";
-import { settings } from "../settings";
+import { FooterRow } from "../../components/FooterRow";
+import { settings } from "../../settings";
 import InstanceRow from "./InstanceRow";
 import VerifyContract from "./VerifyContract";
 

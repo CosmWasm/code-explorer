@@ -2,7 +2,7 @@ import { Contract, CosmWasmClient } from "@cosmwasm/sdk";
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { settings } from "../settings";
+import { settings } from "../../settings";
 
 interface Props {
   readonly position: number;

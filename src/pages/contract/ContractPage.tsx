@@ -4,10 +4,10 @@ import { Account, ContractDetails, CosmWasmClient, types } from "@cosmwasm/sdk";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
-import CodeLink from "../components/CodeLink";
-import { FooterRow } from "../components/FooterRow";
-import { settings } from "../settings";
-import { ellideMiddle, printableBalance } from "../ui-utils";
+import CodeLink from "../../components/CodeLink";
+import { FooterRow } from "../../components/FooterRow";
+import { settings } from "../../settings";
+import { ellideMiddle, printableBalance } from "../../ui-utils";
 import { Execution, ExecutionsTable } from "./ExecutionsTable";
 
 export default function ContractPage(): JSX.Element {

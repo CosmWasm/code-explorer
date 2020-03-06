@@ -1,7 +1,7 @@
 import React from "react";
 
-import { FooterRow } from "../components/FooterRow";
-import { settings } from "../settings";
+import { FooterRow } from "../../components/FooterRow";
+import { settings } from "../../settings";
 import { Codes } from "./Codes";
 
 export default function CodeslistPage(): JSX.Element {
