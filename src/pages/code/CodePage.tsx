@@ -26,7 +26,7 @@ function CodePage(): JSX.Element {
 
   return (
     <div className="container mt-3">
-      <div className="row code-row code-row-first">
+      <div className="row white-row white-row-first">
         <div className="col">
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
@@ -40,7 +40,7 @@ function CodePage(): JSX.Element {
           </nav>
         </div>
       </div>
-      <div className="row code-row">
+      <div className="row white-row">
         <div className="col">
           <h1>{pageTitle}</h1>
           <ul className="list-group list-group-horizontal">
@@ -65,7 +65,7 @@ function CodePage(): JSX.Element {
           </p>
         </div>
       </div>
-      <div className="row code-row code-row-last">
+      <div className="row white-row white-row-last">
         <div className="col">
           <h2>Instances</h2>
           <table className="table">

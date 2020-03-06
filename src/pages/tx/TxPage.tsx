@@ -27,7 +27,7 @@ export default function TxPage(): JSX.Element {
 
   return (
     <div className="container mt-3">
-      <div className="row tx-row tx-row-first">
+      <div className="row white-row white-row-first">
         <div className="col">
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
@@ -42,7 +42,7 @@ export default function TxPage(): JSX.Element {
         </div>
       </div>
 
-      <div className="row tx-row">
+      <div className="row white-row">
         <div className="col">
           <h1>{pageTitle}</h1>
           <ul className="list-group list-group-horizontal mb-3">
@@ -59,7 +59,7 @@ export default function TxPage(): JSX.Element {
         </div>
       </div>
 
-      <div className="row tx-row tx-row-last">
+      <div className="row white-row white-row-last">
         <div className="col">
           <h2>Messages</h2>
           <p>

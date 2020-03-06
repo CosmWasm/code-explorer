@@ -57,7 +57,7 @@ export default function ContractPage(): JSX.Element {
 
   return (
     <div className="container mt-3 contract-container">
-      <div className="row contract-row contract-row-first">
+      <div className="row white-row white-row-first">
         <div className="col">
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
@@ -74,7 +74,7 @@ export default function ContractPage(): JSX.Element {
           </nav>
         </div>
       </div>
-      <div className="row contract-row">
+      <div className="row white-row">
         <div className="col">
           <h1>{pageTitle}</h1>
           <ul className="list-group list-group-horizontal">
@@ -90,7 +90,7 @@ export default function ContractPage(): JSX.Element {
           </pre>
         </div>
       </div>
-      <div className="row contract-row contract-row-last">
+      <div className="row white-row white-row-last">
         <div className="col">
           <h2>Executions</h2>
           {executions.length !== 0 ? (
