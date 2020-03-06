@@ -62,7 +62,7 @@ export default function ContractPage(): JSX.Element {
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
-                <Link to="/">Home</Link>
+                <Link to="/codes">Codes</Link>
               </li>
               <li className="breadcrumb-item">
                 {details ? <CodeLink codeId={details.codeId} /> : <span>Loading …</span>}
