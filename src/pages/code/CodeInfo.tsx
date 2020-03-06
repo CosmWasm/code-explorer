@@ -19,9 +19,11 @@ export function CodeInfo({ code }: Props): JSX.Element {
         <li className="list-group-item">Source: {code.source || "–"}</li>
         <li className="list-group-item">Builder: {code.builder || "–"}</li>
         <li className="list-group-item">
-          <p>
+          <p className="text-muted">
             Code verfication allows you to verify that uploaded code was compiled from the source it claims.{" "}
-            <a href="https://github.com/confio/cosmwasm-verify">Tell me more!</a>
+            <a href="https://github.com/confio/cosmwasm-verify" className="text-muted">
+              Tell me more!
+            </a>
           </p>
           <p className="mb-0">
             <VerifyContract checksum={code.checksum} source={code.source} builder={code.builder} />
