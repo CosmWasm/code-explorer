@@ -1,8 +1,11 @@
 import { types } from "@cosmwasm/sdk";
 import React from "react";
 
+import { ellideMiddle } from "../ui-utils";
+
 export interface Execution {
   readonly key: string;
+  readonly height: number;
   readonly transactionId: string;
   readonly msg: types.MsgExecuteContract;
 }
@@ -17,6 +20,7 @@ export function ExecutionsTable({ executions }: Props): JSX.Element {
       <thead>
         <tr>
           <th scope="col">#</th>
+          <th scope="col">Height</th>
           <th scope="col">Transaction ID</th>
           <th scope="col">Sender</th>
         </tr>
@@ -25,7 +29,12 @@ export function ExecutionsTable({ executions }: Props): JSX.Element {
         {executions.map((execution, index) => (
           <tr key={execution.key}>
             <th scope="row">{index + 1}</th>
-            <td>{execution.transactionId}</td>
+            <td>{execution.height}</td>
+            <td>
+              <a href="https://github.com/confio/code-explorer/issues/3" title={execution.transactionId}>
+                {ellideMiddle(execution.transactionId, 20)}
+              </a>
+            </td>
             <td>{execution.msg.value.sender}</td>
           </tr>
         ))}

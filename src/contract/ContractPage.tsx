@@ -40,8 +40,9 @@ export default function ContractPage(): JSX.Element {
           if (types.isMsgExecuteContract(msg)) {
             out.push({
               key: `${tx.hash}_${index}`,
-              msg: msg,
+              height: tx.height,
               transactionId: tx.hash,
+              msg: msg,
             });
           } else {
             // skip
