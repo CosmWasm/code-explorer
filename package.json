@@ -6,15 +6,13 @@
     "Simon Warta"
   ],
   "license": "Apache-2.0",
-  "homepage": "https://confio.github.io/code-explorer/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "lint": "eslint -c .eslintrc.js --max-warnings 0 'src/**/*.ts{,x}'",
     "lint-fix": "eslint -c .eslintrc.js 'src/**/*.ts{,x}' --fix",
-    "predeploy": "yarn build",
-    "deploy": "gh-pages -d build"
+    "deploy": "PUBLIC_URL=https://confio.github.io/code-explorer/ yarn build && gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
