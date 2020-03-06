@@ -7,7 +7,7 @@ import { settings } from "../../settings";
 import { Code, CodeData } from "./Code";
 
 export function Codes(): JSX.Element {
-  const [codes, setCodes] = React.useState<readonly CodeData[]>([]);
+  const [codes, setCodes] = React.useState<readonly CodeData[] | "loading">("loading");
 
   React.useEffect(() => {
     const client = new CosmWasmClient(settings.backend.nodeUrl);
@@ -29,9 +29,13 @@ export function Codes(): JSX.Element {
 
   return (
     <div className="d-flex flex-wrap mb-3">
-      {codes.map(code => (
-        <Code data={code} key={code.codeId} />
-      ))}
+      {codes === "loading" ? (
+        <p>Loading …</p>
+      ) : codes.length === 0 ? (
+        <p>No code uploaded yet</p>
+      ) : (
+        codes.map(code => <Code data={code} key={code.codeId} />)
+      )}
     </div>
   );
 }
