@@ -4,7 +4,7 @@ import { Account, ContractDetails, CosmWasmClient, types } from "@cosmwasm/sdk";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
-import CodeLink from "../../components/CodeLink";
+import { CodeLink } from "../../components/CodeLink";
 import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
 import { settings } from "../../settings";
