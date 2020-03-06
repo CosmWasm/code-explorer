@@ -46,7 +46,7 @@ export function CodePage(): JSX.Element {
         <div className="row white-row">
           <div className="col">
             <h1>{pageTitle}</h1>
-            <ul className="list-group list-group-horizontal">
+            <ul className="list-group list-group-horizontal mb-3">
               <li className="list-group-item">Type: Wasm</li>
               <li className="list-group-item">
                 Size: {details ? Math.round(details.data.length / 1024) + " KiB" : "Loading …"}

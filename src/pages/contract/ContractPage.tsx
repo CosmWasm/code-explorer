@@ -80,7 +80,7 @@ export function ContractPage(): JSX.Element {
         <div className="row white-row">
           <div className="col">
             <h1>{pageTitle}</h1>
-            <ul className="list-group list-group-horizontal">
+            <ul className="list-group list-group-horizontal mb-3">
               <li className="list-group-item" title="Bank tokens owned by this contract">
                 Balance: {printableBalance(account?.balance || [])}
               </li>
