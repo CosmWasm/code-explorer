@@ -104,7 +104,7 @@ export function ContractPage(): JSX.Element {
           </div>
         </div>
 
-        <FooterRow endpoint={settings.backend.nodeUrl} />
+        <FooterRow backend={settings.backend} />
       </div>
     </div>
   );

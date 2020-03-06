@@ -26,7 +26,7 @@ export function CodesPage(): JSX.Element {
             <Codes />
           </div>
         </div>
-        <FooterRow endpoint={settings.backend.nodeUrl} />
+        <FooterRow backend={settings.backend} />
       </div>
     </div>
   );

@@ -93,7 +93,7 @@ export function CodePage(): JSX.Element {
             </table>
           </div>
         </div>
-        <FooterRow endpoint={settings.backend.nodeUrl} />
+        <FooterRow backend={settings.backend} />
       </div>
     </div>
   );
