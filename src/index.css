@@ -16,6 +16,15 @@ code {
     monospace;
 }
 
+/*
+ * .page is the base node within the JavaScript application. It is the direct child of .root,
+ * whichlives outside of JavaScript. The .page has a Header and a .container.
+ */
+/*
+.page {
+}
+*/
+
 .white-row {
   background-color: rgba(255, 255, 255, 0.8);
   color: #222;

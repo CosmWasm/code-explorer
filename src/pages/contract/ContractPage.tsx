@@ -6,6 +6,7 @@ import { Link, useParams } from "react-router-dom";
 
 import CodeLink from "../../components/CodeLink";
 import { FooterRow } from "../../components/FooterRow";
+import { Header } from "../../components/Header";
 import { settings } from "../../settings";
 import { ellideMiddle, printableBalance } from "../../ui-utils";
 import { Execution, ExecutionsTable } from "./ExecutionsTable";
@@ -56,52 +57,55 @@ export function ContractPage(): JSX.Element {
   const pageTitle = <span title={contractAddress}>Contract {ellideMiddle(contractAddress, 15)}</span>;
 
   return (
-    <div className="container mt-3 contract-container">
-      <div className="row white-row white-row-first">
-        <div className="col">
-          <nav aria-label="breadcrumb">
-            <ol className="breadcrumb">
-              <li className="breadcrumb-item">
-                <Link to="/codes">Codes</Link>
+    <div className="page">
+      <Header />
+      <div className="container mt-3 contract-container">
+        <div className="row white-row white-row-first">
+          <div className="col">
+            <nav aria-label="breadcrumb">
+              <ol className="breadcrumb">
+                <li className="breadcrumb-item">
+                  <Link to="/codes">Codes</Link>
+                </li>
+                <li className="breadcrumb-item">
+                  {details ? <CodeLink codeId={details.codeId} /> : <span>Loading …</span>}
+                </li>
+                <li className="breadcrumb-item active" aria-current="page">
+                  {pageTitle}
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+        <div className="row white-row">
+          <div className="col">
+            <h1>{pageTitle}</h1>
+            <ul className="list-group list-group-horizontal">
+              <li className="list-group-item" title="Bank tokens owned by this contract">
+                Balance: {printableBalance(account?.balance || [])}
               </li>
-              <li className="breadcrumb-item">
-                {details ? <CodeLink codeId={details.codeId} /> : <span>Loading …</span>}
-              </li>
-              <li className="breadcrumb-item active" aria-current="page">
-                {pageTitle}
-              </li>
-            </ol>
-          </nav>
+            </ul>
+          </div>
+          <div className="col">
+            <h2>Init message</h2>
+            <pre>
+              <code>{details ? JSON.stringify(details.initMsg, null, 2) : "Loading …"}</code>
+            </pre>
+          </div>
         </div>
-      </div>
-      <div className="row white-row">
-        <div className="col">
-          <h1>{pageTitle}</h1>
-          <ul className="list-group list-group-horizontal">
-            <li className="list-group-item" title="Bank tokens owned by this contract">
-              Balance: {printableBalance(account?.balance || [])}
-            </li>
-          </ul>
+        <div className="row white-row white-row-last">
+          <div className="col">
+            <h2>Executions</h2>
+            {executions.length !== 0 ? (
+              <ExecutionsTable executions={executions} />
+            ) : (
+              <p>Contract was not yet executed</p>
+            )}
+          </div>
         </div>
-        <div className="col">
-          <h2>Init message</h2>
-          <pre>
-            <code>{details ? JSON.stringify(details.initMsg, null, 2) : "Loading …"}</code>
-          </pre>
-        </div>
-      </div>
-      <div className="row white-row white-row-last">
-        <div className="col">
-          <h2>Executions</h2>
-          {executions.length !== 0 ? (
-            <ExecutionsTable executions={executions} />
-          ) : (
-            <p>Contract was not yet executed</p>
-          )}
-        </div>
-      </div>
 
-      <FooterRow endpoint={settings.backend.nodeUrl} />
+        <FooterRow endpoint={settings.backend.nodeUrl} />
+      </div>
     </div>
   );
 }
