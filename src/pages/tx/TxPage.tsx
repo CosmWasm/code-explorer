@@ -11,6 +11,7 @@ import { settings } from "../../settings";
 import { ellideMiddle } from "../../ui-utils";
 import { MsgExecuteContract } from "./msgs/MsgExecuteContract";
 import { MsgSend } from "./msgs/MsgSend";
+import { TxInfo } from "./TxInfo";
 
 export function TxPage(): JSX.Element {
   const { txId: txIdParam } = useParams();
@@ -57,11 +58,16 @@ export function TxPage(): JSX.Element {
               <li className="list-group-item">
                 Time: {details === "loading" ? "Loading..." : details?.timestamp || "–"}
               </li>
-              <li className="list-group-item">
-                Signatures:{" "}
-                {details === "loading" ? "Loading..." : details?.tx.value.signatures.length || "–"}
-              </li>
             </ul>
+          </div>
+          <div className="col">
+            {details === "loading" ? (
+              <span>Loading …</span>
+            ) : details ? (
+              <TxInfo tx={details.tx} />
+            ) : (
+              <p>Transaction not found</p>
+            )}
           </div>
         </div>
 
