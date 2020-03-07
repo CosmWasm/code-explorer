@@ -33,7 +33,7 @@ export function ExecutionsTable({ executions }: Props): JSX.Element {
             <th scope="row">{index + 1}</th>
             <td>{execution.height}</td>
             <td>
-              <Link to={`/tx/${execution.transactionId}`} title={execution.transactionId}>
+              <Link to={`/transactions/${execution.transactionId}`} title={execution.transactionId}>
                 {ellideMiddle(execution.transactionId, 20)}
               </Link>
             </td>

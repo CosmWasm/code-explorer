@@ -19,7 +19,7 @@ ReactDOM.render(
       <Route exact path="/codes" component={CodesPage} />
       <Route path="/codes/:codeId" component={CodePage} />
       <Route path="/contracts/:contractAddress" component={ContractPage} />
-      <Route path="/tx/:txId" component={TxPage} />
+      <Route path="/transactions/:txId" component={TxPage} />
       <Route path="/accounts/:address" component={AccountPage} />
       <Route component={() => <Redirect to="/codes" />} />
     </Switch>
