@@ -1,16 +1,15 @@
 import "./TxPage.css";
 
 import { CosmWasmClient, IndexedTx, types } from "@cosmwasm/sdk";
-import React, { Fragment } from "react";
+import React from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 
-import { AccountLink } from "../../components/AccountLink";
-import { ContractLink } from "../../components/ContractLink";
 import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
 import { settings } from "../../settings";
-import { ellideMiddle, printableBalance } from "../../ui-utils";
+import { ellideMiddle } from "../../ui-utils";
+import { MsgExecuteContract } from "./msgs/MsgExecuteContract";
 
 export function TxPage(): JSX.Element {
   const { txId: txIdParam } = useParams();
@@ -81,23 +80,7 @@ export function TxPage(): JSX.Element {
                     <div className="card" key={`${details.hash}_${index}`}>
                       <div className="card-header">Type: {msg.type}</div>
                       <ul className="list-group list-group-flush">
-                        {types.isMsgExecuteContract(msg) && (
-                          <Fragment>
-                            <li className="list-group-item">
-                              Contract: <ContractLink address={msg.value.contract} maxLength={null} />
-                            </li>
-                            <li className="list-group-item">
-                              Sender: <AccountLink address={msg.value.sender} maxLength={null} />
-                            </li>
-                            <li className="list-group-item">
-                              Sent funds: {printableBalance(msg.value.sent_funds)}
-                            </li>
-                            <li className="list-group-item">
-                              <span title="The contract level message">Handle message</span>:{" "}
-                              <pre className="mb-0">{JSON.stringify(msg.value.msg, null, "  ")}</pre>
-                            </li>
-                          </Fragment>
-                        )}
+                        {types.isMsgExecuteContract(msg) && <MsgExecuteContract msg={msg} />}
                       </ul>
                     </div>
                   ))
