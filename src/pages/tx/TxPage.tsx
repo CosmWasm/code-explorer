@@ -10,6 +10,7 @@ import { Header } from "../../components/Header";
 import { settings } from "../../settings";
 import { ellideMiddle } from "../../ui-utils";
 import { MsgExecuteContract } from "./msgs/MsgExecuteContract";
+import { MsgSend } from "./msgs/MsgSend";
 
 export function TxPage(): JSX.Element {
   const { txId: txIdParam } = useParams();
@@ -81,6 +82,7 @@ export function TxPage(): JSX.Element {
                       <div className="card-header">Type: {msg.type}</div>
                       <ul className="list-group list-group-flush">
                         {types.isMsgExecuteContract(msg) && <MsgExecuteContract msg={msg} />}
+                        {types.isMsgSend(msg) && <MsgSend msg={msg} />}
                       </ul>
                     </div>
                   ))
