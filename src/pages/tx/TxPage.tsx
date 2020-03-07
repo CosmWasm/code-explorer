@@ -6,6 +6,7 @@ import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 
 import { AccountLink } from "../../components/AccountLink";
+import { ContractLink } from "../../components/ContractLink";
 import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
 import { settings } from "../../settings";
@@ -83,8 +84,7 @@ export function TxPage(): JSX.Element {
                         {types.isMsgExecuteContract(msg) && (
                           <Fragment>
                             <li className="list-group-item">
-                              Contract:{" "}
-                              <Link to={`/contracts/${msg.value.contract}`}>{msg.value.contract}</Link>
+                              Contract: <ContractLink address={msg.value.contract} maxLength={null} />
                             </li>
                             <li className="list-group-item">
                               Sender: <AccountLink address={msg.value.sender} maxLength={null} />
