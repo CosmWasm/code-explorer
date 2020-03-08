@@ -35,7 +35,12 @@ const firebaseHosting: DeploymentSettings = {
   routerType: "browser-router",
 };
 
+const knownBackends: { [index: string]: BackendSettings } = {
+  devnet: devnetSettings,
+  demonet: demonetSettings,
+};
+
 export const settings: Settings = {
-  backend: process.env.NODE_ENV === "development" ? devnetSettings : demonetSettings,
+  backend: knownBackends[process.env.REACT_APP_BACKEND || "devnet"],
   deployment: process.env.NODE_ENV === "production" ? ghPages : developmentServer,
 };
