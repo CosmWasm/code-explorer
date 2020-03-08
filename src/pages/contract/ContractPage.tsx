@@ -16,9 +16,9 @@ export function ContractPage(): JSX.Element {
   const { contractAddress: contractAddressParam } = useParams();
   const contractAddress = contractAddressParam || "";
 
-  const [details, setDetails] = React.useState<ContractDetails | undefined | "loading">("loading");
-  const [account, setAccount] = React.useState<Account | undefined | "loading">("loading");
-  const [executions, setExecutions] = React.useState<readonly Execution[]>([]);
+  const [details, setDetails] = React.useState<ContractDetails | "error" | "loading">("loading");
+  const [account, setAccount] = React.useState<Account | undefined | "error" | "loading">("loading");
+  const [executions, setExecutions] = React.useState<readonly Execution[] | "error" | "loading">("loading");
 
   React.useEffect(() => {
     const client = new CosmWasmClient(settings.backend.nodeUrl);
@@ -27,14 +27,14 @@ export function ContractPage(): JSX.Element {
       .then(setDetails)
       .catch(error => {
         console.error(error);
-        setDetails(undefined);
+        setDetails("error");
       });
     client
       .getAccount(contractAddress)
       .then(setAccount)
       .catch(error => {
         console.error(error);
-        setAccount(undefined);
+        setAccount("error");
       });
 
     const tags = [
@@ -47,24 +47,30 @@ export function ContractPage(): JSX.Element {
         value: "execute",
       },
     ];
-    client.searchTx({ tags: tags }).then(execTxs => {
-      const out = new Array<Execution>();
-      for (const tx of execTxs) {
-        for (const [index, msg] of tx.tx.value.msg.entries()) {
-          if (types.isMsgExecuteContract(msg)) {
-            out.push({
-              key: `${tx.hash}_${index}`,
-              height: tx.height,
-              transactionId: tx.hash,
-              msg: msg,
-            });
-          } else {
-            // skip
+    client
+      .searchTx({ tags: tags })
+      .then(execTxs => {
+        const out = new Array<Execution>();
+        for (const tx of execTxs) {
+          for (const [index, msg] of tx.tx.value.msg.entries()) {
+            if (types.isMsgExecuteContract(msg)) {
+              out.push({
+                key: `${tx.hash}_${index}`,
+                height: tx.height,
+                transactionId: tx.hash,
+                msg: msg,
+              });
+            } else {
+              // skip
+            }
           }
         }
-      }
-      setExecutions(out);
-    });
+        setExecutions(out);
+      })
+      .catch(error => {
+        console.error(error);
+        setExecutions("error");
+      });
   }, [contractAddress]);
 
   const pageTitle = <span title={contractAddress}>Contract {ellideMiddle(contractAddress, 15)}</span>;
@@ -83,10 +89,10 @@ export function ContractPage(): JSX.Element {
                 <li className="breadcrumb-item">
                   {details === "loading" ? (
                     <span>Loading …</span>
-                  ) : details ? (
-                    <CodeLink codeId={details.codeId} />
-                  ) : (
+                  ) : details === "error" ? (
                     <span>Error</span>
+                  ) : (
+                    <CodeLink codeId={details.codeId} />
                   )}
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
@@ -101,24 +107,33 @@ export function ContractPage(): JSX.Element {
             <h1>{pageTitle}</h1>
             <ul className="list-group list-group-horizontal mb-3">
               <li className="list-group-item" title="Bank tokens owned by this contract">
-                Balance: {account === "loading" ? "Loading …" : printableBalance(account?.balance || [])}
+                Balance:{" "}
+                {account === "loading"
+                  ? "Loading …"
+                  : account === "error"
+                  ? "Error"
+                  : printableBalance(account?.balance || [])}
               </li>
             </ul>
           </div>
           <div className="col">
             {details === "loading" ? (
               <p>Loading …</p>
-            ) : details ? (
-              <InitializationInfo contract={details} />
-            ) : (
+            ) : details === "error" ? (
               <p>An Error occurred when loading contract</p>
+            ) : (
+              <InitializationInfo contract={details} />
             )}
           </div>
         </div>
         <div className="row white-row white-row-last">
           <div className="col">
             <h2>Executions</h2>
-            {executions.length !== 0 ? (
+            {executions === "loading" ? (
+              <p>Loading …</p>
+            ) : executions === "error" ? (
+              <p>An Error occurred when loading transactions</p>
+            ) : executions.length !== 0 ? (
               <ExecutionsTable executions={executions} />
             ) : (
               <p>Contract was not yet executed</p>
