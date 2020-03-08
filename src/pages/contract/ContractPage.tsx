@@ -16,14 +16,26 @@ export function ContractPage(): JSX.Element {
   const { contractAddress: contractAddressParam } = useParams();
   const contractAddress = contractAddressParam || "";
 
-  const [details, setDetails] = React.useState<ContractDetails | undefined>();
-  const [account, setAccount] = React.useState<Account | undefined>();
+  const [details, setDetails] = React.useState<ContractDetails | undefined | "loading">("loading");
+  const [account, setAccount] = React.useState<Account | undefined | "loading">("loading");
   const [executions, setExecutions] = React.useState<readonly Execution[]>([]);
 
   React.useEffect(() => {
     const client = new CosmWasmClient(settings.backend.nodeUrl);
-    client.getContract(contractAddress).then(setDetails);
-    client.getAccount(contractAddress).then(setAccount);
+    client
+      .getContract(contractAddress)
+      .then(setDetails)
+      .catch(error => {
+        console.error(error);
+        setDetails(undefined);
+      });
+    client
+      .getAccount(contractAddress)
+      .then(setAccount)
+      .catch(error => {
+        console.error(error);
+        setAccount(undefined);
+      });
 
     const tags = [
       {
@@ -69,7 +81,13 @@ export function ContractPage(): JSX.Element {
                   <Link to="/codes">Codes</Link>
                 </li>
                 <li className="breadcrumb-item">
-                  {details ? <CodeLink codeId={details.codeId} /> : <span>Loading …</span>}
+                  {details === "loading" ? (
+                    <span>Loading …</span>
+                  ) : details ? (
+                    <CodeLink codeId={details.codeId} />
+                  ) : (
+                    <span>Error</span>
+                  )}
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
                   {pageTitle}
@@ -83,11 +101,19 @@ export function ContractPage(): JSX.Element {
             <h1>{pageTitle}</h1>
             <ul className="list-group list-group-horizontal mb-3">
               <li className="list-group-item" title="Bank tokens owned by this contract">
-                Balance: {printableBalance(account?.balance || [])}
+                Balance: {account === "loading" ? "Loading …" : printableBalance(account?.balance || [])}
               </li>
             </ul>
           </div>
-          <div className="col">{details ? <InitializationInfo contract={details} /> : <p>Loading …</p>}</div>
+          <div className="col">
+            {details === "loading" ? (
+              <p>Loading …</p>
+            ) : details ? (
+              <InitializationInfo contract={details} />
+            ) : (
+              <p>An Error occurred when loading contract</p>
+            )}
+          </div>
         </div>
         <div className="row white-row white-row-last">
           <div className="col">
