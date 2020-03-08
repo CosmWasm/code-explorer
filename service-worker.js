@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "https://confio.github.io/code-explorer/precache-manifest.0e7b4b19f3ac23ef009ee9586cddd220.js"
+  "https://confio.github.io/code-explorer/precache-manifest.cf55f00a91e78d5afbff3717e8405795.js"
 );
 
 self.addEventListener('message', (event) => {
