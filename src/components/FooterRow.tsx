@@ -2,6 +2,7 @@ import React from "react";
 
 import { ClientContext } from "../contexts/ClientContext";
 import { settings } from "../settings";
+import { EndpointSelector } from "./EndpointSelector";
 
 interface Props {}
 
@@ -26,28 +27,11 @@ export function FooterRow(): JSX.Element {
         <hr style={separatorStyle} />
         <div style={whiteText} className="dropdown text-center font-weight-light mb-3">
           Endpoint{" "}
-          <button
-            className="btn btn-secondary btn-sm dropdown-toggle"
-            type="button"
-            id="dropdownMenuButton"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            {clientContext.nodeUrl}
-          </button>
-          <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            {settings.backend.nodeUrls.map(url => (
-              <button
-                key={url}
-                className={`dropdown-item` + (url === clientContext.nodeUrl ? " active" : "")}
-                type="button"
-                onClick={() => clientContext.resetClient(url)}
-              >
-                {url}
-              </button>
-            ))}
-          </div>{" "}
+          <EndpointSelector
+            currentUrl={clientContext.nodeUrl}
+            urls={settings.backend.nodeUrls}
+            urlChanged={newUrl => clientContext.resetClient(newUrl)}
+          />{" "}
           | Chain ID: {chainId || "Loading …"} |{" "}
           <a href="https://github.com/confio/code-explorer" style={whiteText}>
             Fork me on GitHub
