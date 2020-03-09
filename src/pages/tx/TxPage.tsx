@@ -1,19 +1,20 @@
 import "./TxPage.css";
 
-import { CosmWasmClient, IndexedTx, types } from "@cosmwasm/sdk";
+import { IndexedTx, types } from "@cosmwasm/sdk";
 import React from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 
 import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
-import { settings } from "../../settings";
+import { ClientContext } from "../../contexts/ClientContext";
 import { ellideMiddle } from "../../ui-utils";
 import { MsgExecuteContract } from "./msgs/MsgExecuteContract";
 import { MsgSend } from "./msgs/MsgSend";
 import { TxInfo } from "./TxInfo";
 
 export function TxPage(): JSX.Element {
+  const clientContext = React.useContext(ClientContext);
   const { txId: txIdParam } = useParams();
   const txId = txIdParam || "";
 
@@ -22,12 +23,11 @@ export function TxPage(): JSX.Element {
   const [details, setDetails] = React.useState<IndexedTx | undefined | "loading">("loading");
 
   React.useEffect(() => {
-    const client = new CosmWasmClient(settings.backend.nodeUrl);
-    client.searchTx({ id: txId }).then(results => {
+    clientContext.client.searchTx({ id: txId }).then(results => {
       const firstResult = results.find(() => true);
       setDetails(firstResult);
     });
-  }, [txId]);
+  }, [clientContext.client, txId]);
 
   return (
     <div className="page">
@@ -100,7 +100,7 @@ export function TxPage(): JSX.Element {
           </div>
         </div>
 
-        <FooterRow backend={settings.backend} />
+        <FooterRow />
       </div>
     </div>
   );

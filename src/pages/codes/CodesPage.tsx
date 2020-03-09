@@ -2,7 +2,6 @@ import React from "react";
 
 import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
-import { settings } from "../../settings";
 import { Codes } from "./Codes";
 
 export function CodesPage(): JSX.Element {
@@ -26,7 +25,7 @@ export function CodesPage(): JSX.Element {
             <Codes />
           </div>
         </div>
-        <FooterRow backend={settings.backend} />
+        <FooterRow />
       </div>
     </div>
   );

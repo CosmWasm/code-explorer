@@ -1,17 +1,16 @@
 import "./Codes.css";
 
-import { CosmWasmClient } from "@cosmwasm/sdk";
 import React from "react";
 
-import { settings } from "../../settings";
+import { ClientContext } from "../../contexts/ClientContext";
 import { Code, CodeData } from "./Code";
 
 export function Codes(): JSX.Element {
+  const clientContext = React.useContext(ClientContext);
   const [codes, setCodes] = React.useState<readonly CodeData[] | "loading">("loading");
 
   React.useEffect(() => {
-    const client = new CosmWasmClient(settings.backend.nodeUrl);
-    client.getCodes().then(codeInfos => {
+    clientContext.client.getCodes().then(codeInfos => {
       const processed = codeInfos
         .map(
           (response): CodeData => ({
@@ -25,7 +24,7 @@ export function Codes(): JSX.Element {
         .reverse();
       setCodes(processed);
     });
-  }, []);
+  }, [clientContext.client]);
 
   return (
     <div className="d-flex flex-wrap mb-3">

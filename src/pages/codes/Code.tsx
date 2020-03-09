@@ -1,10 +1,9 @@
 import "./Code.css";
 
-import { CosmWasmClient } from "@cosmwasm/sdk";
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { settings } from "../../settings";
+import { ClientContext } from "../../contexts/ClientContext";
 import { ellideMiddle } from "../../ui-utils";
 
 export interface CodeData {
@@ -24,16 +23,16 @@ interface InstantiationInfo {
 }
 
 export function Code({ data }: Props): JSX.Element {
+  const clientContext = React.useContext(ClientContext);
   const [instantiationInfo, setInstantiationInfo] = React.useState<InstantiationInfo | undefined>();
 
   React.useEffect(() => {
-    const client = new CosmWasmClient(settings.backend.nodeUrl);
-    client.getContracts(data.codeId).then(contracts => {
+    clientContext.client.getContracts(data.codeId).then(contracts => {
       setInstantiationInfo({
         instantiations: contracts.length,
       });
     });
-  }, [data.codeId]);
+  }, [clientContext.client, data.codeId]);
 
   return (
     <div className="p-2 flex-grow-1">

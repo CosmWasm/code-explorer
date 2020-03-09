@@ -1,16 +1,17 @@
 import "./CodePage.css";
 
-import { CodeDetails, Contract, CosmWasmClient } from "@cosmwasm/sdk";
+import { CodeDetails, Contract } from "@cosmwasm/sdk";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
-import { settings } from "../../settings";
+import { ClientContext } from "../../contexts/ClientContext";
 import { CodeInfo } from "./CodeInfo";
 import InstanceRow from "./InstanceRow";
 
 export function CodePage(): JSX.Element {
+  const clientContext = React.useContext(ClientContext);
   const { codeId: codeIdParam } = useParams();
   const codeId = parseInt(codeIdParam || "0", 10);
 
@@ -18,10 +19,9 @@ export function CodePage(): JSX.Element {
   const [contracts, setContracts] = React.useState<readonly Contract[]>([]);
 
   React.useEffect(() => {
-    const client = new CosmWasmClient(settings.backend.nodeUrl);
-    client.getContracts(codeId).then(setContracts);
-    client.getCodeDetails(codeId).then(setDetails);
-  }, [codeId]);
+    clientContext.client.getContracts(codeId).then(setContracts);
+    clientContext.client.getCodeDetails(codeId).then(setDetails);
+  }, [clientContext.client, codeId]);
 
   const pageTitle = <span>Code #{codeId}</span>;
 
@@ -76,7 +76,7 @@ export function CodePage(): JSX.Element {
             </table>
           </div>
         </div>
-        <FooterRow backend={settings.backend} />
+        <FooterRow />
       </div>
     </div>
   );

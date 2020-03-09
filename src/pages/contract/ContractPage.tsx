@@ -1,18 +1,19 @@
 import "./ContractPage.css";
 
-import { Account, ContractDetails, CosmWasmClient, types } from "@cosmwasm/sdk";
+import { Account, ContractDetails, types } from "@cosmwasm/sdk";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { CodeLink } from "../../components/CodeLink";
 import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
-import { settings } from "../../settings";
+import { ClientContext } from "../../contexts/ClientContext";
 import { ellideMiddle, printableBalance } from "../../ui-utils";
 import { Execution, ExecutionsTable } from "./ExecutionsTable";
 import { InitializationInfo } from "./InitializationInfo";
 
 export function ContractPage(): JSX.Element {
+  const clientContext = React.useContext(ClientContext);
   const { contractAddress: contractAddressParam } = useParams();
   const contractAddress = contractAddressParam || "";
 
@@ -21,15 +22,14 @@ export function ContractPage(): JSX.Element {
   const [executions, setExecutions] = React.useState<readonly Execution[] | "error" | "loading">("loading");
 
   React.useEffect(() => {
-    const client = new CosmWasmClient(settings.backend.nodeUrl);
-    client
+    clientContext.client
       .getContract(contractAddress)
       .then(setDetails)
       .catch(error => {
         console.error(error);
         setDetails("error");
       });
-    client
+    clientContext.client
       .getAccount(contractAddress)
       .then(setAccount)
       .catch(error => {
@@ -47,7 +47,7 @@ export function ContractPage(): JSX.Element {
         value: "execute",
       },
     ];
-    client
+    clientContext.client
       .searchTx({ tags: tags })
       .then(execTxs => {
         const out = new Array<Execution>();
@@ -71,7 +71,7 @@ export function ContractPage(): JSX.Element {
         console.error(error);
         setExecutions("error");
       });
-  }, [contractAddress]);
+  }, [contractAddress, clientContext.client]);
 
   const pageTitle = <span title={contractAddress}>Contract {ellideMiddle(contractAddress, 15)}</span>;
 
@@ -141,7 +141,7 @@ export function ContractPage(): JSX.Element {
           </div>
         </div>
 
-        <FooterRow backend={settings.backend} />
+        <FooterRow />
       </div>
     </div>
   );

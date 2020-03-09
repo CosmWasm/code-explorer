@@ -1,9 +1,9 @@
-import { Contract, CosmWasmClient } from "@cosmwasm/sdk";
+import { Contract } from "@cosmwasm/sdk";
 import React from "react";
 
 import { AccountLink } from "../../components/AccountLink";
 import { ContractLink } from "../../components/ContractLink";
-import { settings } from "../../settings";
+import { ClientContext } from "../../contexts/ClientContext";
 
 interface Props {
   readonly position: number;
@@ -11,10 +11,10 @@ interface Props {
 }
 
 function InstanceRow({ position, contract }: Props): JSX.Element {
+  const clientContext = React.useContext(ClientContext);
   const [executionCount, setExecutionCount] = React.useState<number | undefined>();
 
   React.useEffect(() => {
-    const client = new CosmWasmClient(settings.backend.nodeUrl);
     const tags = [
       {
         key: "message.contract_address",
@@ -25,8 +25,8 @@ function InstanceRow({ position, contract }: Props): JSX.Element {
         value: "execute",
       },
     ];
-    client.searchTx({ tags: tags }).then(execTxs => setExecutionCount(execTxs.length));
-  }, [contract.address]);
+    clientContext.client.searchTx({ tags: tags }).then(execTxs => setExecutionCount(execTxs.length));
+  }, [clientContext.client, contract.address]);
 
   return (
     <tr>

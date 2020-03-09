@@ -1,14 +1,15 @@
-import { Account, CosmWasmClient, types } from "@cosmwasm/sdk";
+import { Account, types } from "@cosmwasm/sdk";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
-import { settings } from "../../settings";
+import { ClientContext } from "../../contexts/ClientContext";
 import { ellideMiddle, printableBalance } from "../../ui-utils";
 import { Transfer, TransfersTable } from "./TransfersTable";
 
 export function AccountPage(): JSX.Element {
+  const clientContext = React.useContext(ClientContext);
   const { address: addressParam } = useParams();
   const address = addressParam || "";
 
@@ -16,9 +17,8 @@ export function AccountPage(): JSX.Element {
   const [transfers, setTransfers] = React.useState<readonly Transfer[]>([]);
 
   React.useEffect(() => {
-    const client = new CosmWasmClient(settings.backend.nodeUrl);
-    client.getAccount(address).then(setAccount);
-    client.searchTx({ sentFromOrTo: address }).then(execTxs => {
+    clientContext.client.getAccount(address).then(setAccount);
+    clientContext.client.searchTx({ sentFromOrTo: address }).then(execTxs => {
       const out = new Array<Transfer>();
       for (const tx of execTxs) {
         for (const [index, msg] of tx.tx.value.msg.entries()) {
@@ -36,7 +36,7 @@ export function AccountPage(): JSX.Element {
       }
       setTransfers(out);
     });
-  }, [address]);
+  }, [address, clientContext.client]);
 
   const pageTitle = <span title={address}>Account {ellideMiddle(address, 15)}</span>;
 
@@ -78,7 +78,7 @@ export function AccountPage(): JSX.Element {
           </div>
         </div>
 
-        <FooterRow backend={settings.backend} />
+        <FooterRow />
       </div>
     </div>
   );

@@ -1,11 +1,8 @@
-import { CosmWasmClient } from "@cosmwasm/sdk";
 import React from "react";
 
-import { BackendSettings } from "../settings";
+import { ClientContext } from "../contexts/ClientContext";
 
-interface Props {
-  readonly backend: BackendSettings;
-}
+interface Props {}
 
 const separatorStyle: React.CSSProperties = {
   borderColor: "rgba(255, 255, 255, 0.8)",
@@ -13,20 +10,21 @@ const separatorStyle: React.CSSProperties = {
 const whiteText = { color: "#f0f0f0" };
 
 /** Place me as a row in a container */
-export function FooterRow({ backend }: Props): JSX.Element {
+export function FooterRow(): JSX.Element {
+  const clientContext = React.useContext(ClientContext);
+
   const [chainId, setChainId] = React.useState<string | undefined>();
 
   React.useEffect(() => {
-    const client = new CosmWasmClient(backend.nodeUrl);
-    client.chainId().then(setChainId);
-  }, [backend.nodeUrl]);
+    clientContext.client.chainId().then(setChainId);
+  }, [clientContext.client]);
 
   return (
     <div className="row">
       <div className="col">
         <hr style={separatorStyle} />
         <p style={whiteText} className="text-center font-weight-light">
-          Connected to endpoint {backend.nodeUrl} ({chainId || "Loading …"}) |{" "}
+          Connected to endpoint {clientContext.nodeUrl} ({chainId || "Loading …"}) |{" "}
           <a href="https://github.com/confio/code-explorer" style={whiteText}>
             Fork me on GitHub
           </a>
