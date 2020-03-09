@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "762958957a8b5effef9d211d13f01441",
+    "revision": "b59edf53938aa8c903123560261f546f",
     "url": "https://confio.github.io/code-explorer/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "https://confio.github.io/code-explorer/static/css/2.3380a8d2.chunk.css"
   },
   {
-    "revision": "8aa209fab25524dc09f7",
+    "revision": "c8fdcd0ad05511d4562e",
     "url": "https://confio.github.io/code-explorer/static/css/main.fad41145.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "https://confio.github.io/code-explorer/static/js/2.70cad48f.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "8aa209fab25524dc09f7",
-    "url": "https://confio.github.io/code-explorer/static/js/main.b52fb0db.chunk.js"
+    "revision": "c8fdcd0ad05511d4562e",
+    "url": "https://confio.github.io/code-explorer/static/js/main.3648fa35.chunk.js"
   },
   {
     "revision": "af29622fde88a8293489",
