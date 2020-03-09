@@ -32,7 +32,9 @@ export function Code({ data }: Props): JSX.Element {
         instantiations: contracts.length,
       });
     });
-  }, [clientContext.client, data.codeId]);
+    // Don't make clientContext.client a dependency. Whenever it changes, this component is recreated entirely
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data.codeId]);
 
   return (
     <div className="p-2 flex-grow-1">
