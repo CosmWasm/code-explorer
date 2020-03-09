@@ -38,14 +38,15 @@ export function Codes(): JSX.Element {
     });
   }, [clientContext]);
 
+  // Display codes vertically by on small devices and in a flex container on large and above
   return (
-    <div className="d-flex flex-wrap mb-3">
+    <div className="d-lg-flex flex-wrap">
       {codes === "loading" ? (
         <p>Loading …</p>
       ) : codes.length === 0 ? (
         <p>No code uploaded yet</p>
       ) : (
-        codes.map(code => <Code data={code.data} key={codeKey(code)} />)
+        codes.map((code, index) => <Code data={code.data} index={index} key={codeKey(code)} />)
       )}
     </div>
   );

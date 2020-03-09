@@ -16,13 +16,14 @@ export interface CodeData {
 
 interface Props {
   readonly data: CodeData;
+  readonly index: number;
 }
 
 interface InstantiationInfo {
   readonly instantiations: number;
 }
 
-export function Code({ data }: Props): JSX.Element {
+export function Code({ data, index }: Props): JSX.Element {
   const clientContext = React.useContext(ClientContext);
   const [instantiationInfo, setInstantiationInfo] = React.useState<InstantiationInfo | undefined>();
 
@@ -37,13 +38,13 @@ export function Code({ data }: Props): JSX.Element {
   }, [data.codeId]);
 
   return (
-    <div className="p-2 flex-grow-1">
+    <div className={"flex-element-two-two mb-3" + (index % 2 ? " pl-lg-2" : " pr-lg-2")}>
       <Link to={`/codes/${data.codeId}`} className="code-content">
         <div className="id">#{data.codeId}</div>
         <div className="details">
-          Creator: {ellideMiddle(data.creator, 20)}
+          Creator: {ellideMiddle(data.creator, 30)}
           <br />
-          Source: {ellideMiddle(data.source, 45) || "–"}
+          Source: {ellideMiddle(data.source, 42) || "–"}
           <br />
           Builder: {data.builder || "–"}
           <br />

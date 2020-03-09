@@ -31,13 +31,13 @@ code {
 }
 
 .white-row-first {
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  padding-top: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding-top: 1rem;
 }
 
 .white-row-last {
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-  padding-bottom: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding-bottom: 0;
 }

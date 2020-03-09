@@ -80,22 +80,18 @@ export function TxPage(): JSX.Element {
             </p>
             {details === "loading" ? (
               <p>Loading …</p>
+            ) : details === undefined ? (
+              <p>Transaction not found</p>
             ) : (
-              <div>
-                {details ? (
-                  details.tx.value.msg.map((msg, index) => (
-                    <div className="card" key={`${details.hash}_${index}`}>
-                      <div className="card-header">Type: {msg.type}</div>
-                      <ul className="list-group list-group-flush">
-                        {types.isMsgExecuteContract(msg) && <MsgExecuteContract msg={msg} />}
-                        {types.isMsgSend(msg) && <MsgSend msg={msg} />}
-                      </ul>
-                    </div>
-                  ))
-                ) : (
-                  <p>Transaction not found</p>
-                )}
-              </div>
+              details.tx.value.msg.map((msg, index) => (
+                <div className="card mb-3" key={`${details.hash}_${index}`}>
+                  <div className="card-header">Type: {msg.type}</div>
+                  <ul className="list-group list-group-flush">
+                    {types.isMsgExecuteContract(msg) && <MsgExecuteContract msg={msg} />}
+                    {types.isMsgSend(msg) && <MsgSend msg={msg} />}
+                  </ul>
+                </div>
+              ))
             )}
           </div>
         </div>

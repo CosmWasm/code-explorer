@@ -1,9 +1,17 @@
+/* See https://stackoverflow.com/a/51775832/2013738 */
+.flex-element-two-two {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 50%;
+}
+
 a.code-content {
   padding: 10px;
   border-radius: 5px;
   background-color: rgba(255, 255, 255, 0.8);
   color: #222;
-  display: inline-block;
+  display: block;
+  height: 100%;
 }
 
 a.code-content:hover {
