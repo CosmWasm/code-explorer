@@ -12,7 +12,7 @@ import { settings } from "../settings";
 import { FlexibleRouter } from "./FlexibleRouter";
 
 export function App(): JSX.Element {
-  const [nodeUrl, setNodeUrl] = React.useState<string>(settings.backend.nodeUrl);
+  const [nodeUrl, setNodeUrl] = React.useState<string>(settings.backend.nodeUrls[0]);
   const [client, setClient] = React.useState<CosmWasmClient>(new CosmWasmClient(nodeUrl));
 
   const contextValue: ClientContextValue = {

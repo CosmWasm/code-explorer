@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
+export type NonEmptyArray<ElementType> = { readonly 0: ElementType } & readonly ElementType[];
+
 export interface BackendSettings {
-  readonly nodeUrl: string;
+  readonly nodeUrls: NonEmptyArray<string>;
 }
 
 export interface DeploymentSettings {
@@ -16,11 +18,11 @@ export interface Settings {
 }
 
 const demonetSettings: BackendSettings = {
-  nodeUrl: "https://lcd.demo-07.cosmwasm.com",
+  nodeUrls: ["https://lcd.demo-07.cosmwasm.com"],
 };
 
 const devnetSettings: BackendSettings = {
-  nodeUrl: "http://localhost:1317",
+  nodeUrls: ["http://localhost:1317"],
 };
 
 const developmentServer: DeploymentSettings = {
