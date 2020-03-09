@@ -41,7 +41,7 @@ export function Code({ data }: Props): JSX.Element {
       <Link to={`/codes/${data.codeId}`} className="code-content">
         <div className="id">#{data.codeId}</div>
         <div className="details">
-          Creator: {data.creator}
+          Creator: {ellideMiddle(data.creator, 20)}
           <br />
           Source: {ellideMiddle(data.source, 45) || "–"}
           <br />
