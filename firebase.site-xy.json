@@ -12,7 +12,7 @@
     "headers": [
       {
         "source": "**",
-        "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+        "headers": [{ "key": "Cache-Control", "value": "max-age=300" }]
       },
       {
         "source": "static/**",
