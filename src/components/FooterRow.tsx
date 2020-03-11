@@ -42,7 +42,7 @@ export function FooterRow(): JSX.Element {
     <Fragment>
       Chain ID: {chainId === "loading" ? "Loading …" : chainId === "error" ? "Error" : chainId}
     </Fragment>,
-    <a href="https://github.com/confio/code-explorer" style={whiteText}>
+    <a href="https://github.com/CosmWasm/code-explorer" style={whiteText}>
       Fork me on GitHub
     </a>,
   ];
