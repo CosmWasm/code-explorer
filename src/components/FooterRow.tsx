@@ -15,10 +15,13 @@ const whiteText = { color: "#f0f0f0" };
 export function FooterRow(): JSX.Element {
   const clientContext = React.useContext(ClientContext);
 
-  const [chainId, setChainId] = React.useState<string | undefined>();
+  const [chainId, setChainId] = React.useState<string | "error" | "loading">("loading");
 
   React.useEffect(() => {
-    clientContext.client.getChainId().then(setChainId);
+    clientContext.client
+      .getChainId()
+      .then(setChainId)
+      .catch(() => setChainId("error"));
   }, [clientContext.client]);
 
   return (
@@ -32,7 +35,7 @@ export function FooterRow(): JSX.Element {
             urls={settings.backend.nodeUrls}
             urlChanged={newUrl => clientContext.resetClient(newUrl)}
           />{" "}
-          | Chain ID: {chainId || "Loading …"} |{" "}
+          | Chain ID: {chainId === "loading" ? "Loading …" : chainId === "error" ? "Error" : chainId} |{" "}
           <a href="https://github.com/confio/code-explorer" style={whiteText}>
             Fork me on GitHub
           </a>
