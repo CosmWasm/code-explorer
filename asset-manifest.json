@@ -1,25 +1,25 @@
 {
   "files": {
     "main.css": "https://confio.github.io/code-explorer/static/css/main.fad41145.chunk.css",
-    "main.js": "https://confio.github.io/code-explorer/static/js/main.3648fa35.chunk.js",
-    "main.js.map": "https://confio.github.io/code-explorer/static/js/main.3648fa35.chunk.js.map",
+    "main.js": "https://confio.github.io/code-explorer/static/js/main.7397a613.chunk.js",
+    "main.js.map": "https://confio.github.io/code-explorer/static/js/main.7397a613.chunk.js.map",
     "runtime-main.js": "https://confio.github.io/code-explorer/static/js/runtime-main.9e959b63.js",
     "runtime-main.js.map": "https://confio.github.io/code-explorer/static/js/runtime-main.9e959b63.js.map",
     "static/css/2.3380a8d2.chunk.css": "https://confio.github.io/code-explorer/static/css/2.3380a8d2.chunk.css",
-    "static/js/2.8017e486.chunk.js": "https://confio.github.io/code-explorer/static/js/2.8017e486.chunk.js",
-    "static/js/2.8017e486.chunk.js.map": "https://confio.github.io/code-explorer/static/js/2.8017e486.chunk.js.map",
+    "static/js/2.9ec96cfb.chunk.js": "https://confio.github.io/code-explorer/static/js/2.9ec96cfb.chunk.js",
+    "static/js/2.9ec96cfb.chunk.js.map": "https://confio.github.io/code-explorer/static/js/2.9ec96cfb.chunk.js.map",
     "index.html": "https://confio.github.io/code-explorer/index.html",
-    "precache-manifest.6999da7cf4db232b49bf63e3572f9cdd.js": "https://confio.github.io/code-explorer/precache-manifest.6999da7cf4db232b49bf63e3572f9cdd.js",
+    "precache-manifest.98bb62e2d289a0624191988c5cb84f59.js": "https://confio.github.io/code-explorer/precache-manifest.98bb62e2d289a0624191988c5cb84f59.js",
     "service-worker.js": "https://confio.github.io/code-explorer/service-worker.js",
     "static/css/2.3380a8d2.chunk.css.map": "https://confio.github.io/code-explorer/static/css/2.3380a8d2.chunk.css.map",
     "static/css/main.fad41145.chunk.css.map": "https://confio.github.io/code-explorer/static/css/main.fad41145.chunk.css.map",
-    "static/js/2.8017e486.chunk.js.LICENSE.txt": "https://confio.github.io/code-explorer/static/js/2.8017e486.chunk.js.LICENSE.txt"
+    "static/js/2.9ec96cfb.chunk.js.LICENSE.txt": "https://confio.github.io/code-explorer/static/js/2.9ec96cfb.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.9e959b63.js",
     "static/css/2.3380a8d2.chunk.css",
-    "static/js/2.8017e486.chunk.js",
+    "static/js/2.9ec96cfb.chunk.js",
     "static/css/main.fad41145.chunk.css",
-    "static/js/main.3648fa35.chunk.js"
+    "static/js/main.7397a613.chunk.js"
   ]
 }
