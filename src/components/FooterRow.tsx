@@ -18,7 +18,7 @@ export function FooterRow(): JSX.Element {
   const [chainId, setChainId] = React.useState<string | undefined>();
 
   React.useEffect(() => {
-    clientContext.client.chainId().then(setChainId);
+    clientContext.client.getChainId().then(setChainId);
   }, [clientContext.client]);
 
   return (
