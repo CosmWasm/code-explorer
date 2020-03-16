@@ -1,0 +1,22 @@
+export type NonEmptyArray<ElementType> = { readonly 0: ElementType } & readonly ElementType[];
+
+export interface BackendSettings {
+  readonly nodeUrls: NonEmptyArray<string>;
+}
+
+const demonetSettings: BackendSettings = {
+  nodeUrls: ["https://lcd.demo-07.cosmwasm.com"],
+};
+
+const devnetSettings: BackendSettings = {
+  nodeUrls: ["http://localhost:1317"],
+};
+
+const knownBackends: { [index: string]: BackendSettings } = {
+  devnet: devnetSettings,
+  demonet: demonetSettings,
+};
+
+export function getCurrentBackend(): BackendSettings {
+  return knownBackends[process.env.REACT_APP_BACKEND || "devnet"];
+}

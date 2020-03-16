@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 
-import { NonEmptyArray } from "../settings";
+import { NonEmptyArray } from "../settings/backend";
 
 interface Props {
   readonly currentUrl: string;
