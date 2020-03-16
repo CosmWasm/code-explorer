@@ -1,4 +1,9 @@
-on: [push, pull_request]
+on:
+  # Push to long living branches or PRs
+  push:
+    branches:
+      - master
+  pull_request:
 
 jobs:
   lint:
