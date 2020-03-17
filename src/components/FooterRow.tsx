@@ -49,8 +49,7 @@ export function FooterRow(): JSX.Element {
             currentUrl={clientContext.nodeUrl}
             urls={settings.backend.nodeUrls}
             urlChanged={newUrl => clientContext.resetClient(newUrl)}
-          />
-          <Separator />
+          />{" "}
           <button
             type="button"
             className="btn btn-sm btn-secondary"
