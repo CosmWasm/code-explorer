@@ -1,11 +1,12 @@
 import React from "react";
 
 import { ClientContext } from "../contexts/ClientContext";
+import { ErrorState, isErrorState, isLoadingState, LoadingState } from "../ui-utils/states";
 
 interface Props {
   readonly htmlId: string;
-  readonly chainId: string | "error" | "loading";
-  readonly height: number | "error" | "loading";
+  readonly chainId: string | ErrorState | LoadingState;
+  readonly height: number | ErrorState | LoadingState;
 }
 
 export function NodeInfoModal({ htmlId, chainId, height }: Props): JSX.Element {
@@ -33,9 +34,9 @@ export function NodeInfoModal({ htmlId, chainId, height }: Props): JSX.Element {
           <div className="modal-body">
             Endpoint: {clientContext.nodeUrl}
             <br />
-            Chain ID: {chainId === "loading" ? "Loading …" : chainId === "error" ? "Error" : chainId}
+            Chain ID: {isLoadingState(chainId) ? "Loading …" : isErrorState(chainId) ? "Error" : chainId}
             <br />
-            Height: {height === "loading" ? "Loading …" : height === "error" ? "Error" : height}
+            Height: {isLoadingState(height) ? "Loading …" : isErrorState(height) ? "Error" : height}
           </div>
         </div>
       </div>

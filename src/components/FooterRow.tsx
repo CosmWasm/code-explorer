@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 
 import { ClientContext } from "../contexts/ClientContext";
 import { settings } from "../settings";
+import { ErrorState, errorState, LoadingState, loadingState } from "../ui-utils/states";
 import { EndpointSelector } from "./EndpointSelector";
 import { NodeInfoModal } from "./NodeInfoModal";
 
@@ -20,21 +21,21 @@ function Separator(): JSX.Element {
 export function FooterRow(): JSX.Element {
   const clientContext = React.useContext(ClientContext);
 
-  const [chainId, setChainId] = React.useState<string | "error" | "loading">("loading");
-  const [height, setHeight] = React.useState<number | "error" | "loading">("loading");
+  const [chainId, setChainId] = React.useState<string | ErrorState | LoadingState>(loadingState);
+  const [height, setHeight] = React.useState<number | ErrorState | LoadingState>(loadingState);
 
   const updateHeight = React.useCallback(() => {
     clientContext.client
       .getHeight()
       .then(setHeight)
-      .catch(() => setChainId("error"));
+      .catch(() => setHeight(errorState));
   }, [clientContext.client]);
 
   React.useEffect(() => {
     clientContext.client
       .getChainId()
       .then(setChainId)
-      .catch(() => setChainId("error"));
+      .catch(() => setChainId(errorState));
     updateHeight();
   }, [clientContext.client, updateHeight]);
 
