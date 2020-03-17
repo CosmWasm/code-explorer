@@ -7,6 +7,14 @@ import { Link, useParams } from "react-router-dom";
 import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
 import { ClientContext } from "../../contexts/ClientContext";
+import {
+  ErrorState,
+  errorState,
+  isErrorState,
+  isLoadingState,
+  LoadingState,
+  loadingState,
+} from "../../ui-utils/states";
 import { CodeInfo } from "./CodeInfo";
 import InstanceRow from "./InstanceRow";
 
@@ -15,12 +23,20 @@ export function CodePage(): JSX.Element {
   const { codeId: codeIdParam } = useParams();
   const codeId = parseInt(codeIdParam || "0", 10);
 
-  const [details, setDetails] = React.useState<CodeDetails | undefined>();
-  const [contracts, setContracts] = React.useState<readonly Contract[]>([]);
+  const [details, setDetails] = React.useState<CodeDetails | ErrorState | LoadingState>(loadingState);
+  const [contracts, setContracts] = React.useState<readonly Contract[] | ErrorState | LoadingState>(
+    loadingState,
+  );
 
   React.useEffect(() => {
-    clientContext.client.getContracts(codeId).then(setContracts);
-    clientContext.client.getCodeDetails(codeId).then(setDetails);
+    clientContext.client
+      .getContracts(codeId)
+      .then(setContracts)
+      .catch(() => setContracts(errorState));
+    clientContext.client
+      .getCodeDetails(codeId)
+      .then(setDetails)
+      .catch(() => setDetails(errorState));
   }, [clientContext.client, codeId]);
 
   const pageTitle = <span>Code #{codeId}</span>;
@@ -49,31 +65,50 @@ export function CodePage(): JSX.Element {
             <ul className="list-group list-group-horizontal mb-3">
               <li className="list-group-item">Type: Wasm</li>
               <li className="list-group-item">
-                Size: {details ? Math.round(details.data.length / 1024) + " KiB" : "Loading …"}
+                Size:{" "}
+                {isLoadingState(details)
+                  ? "Loading …"
+                  : isErrorState(details)
+                  ? "Error"
+                  : Math.round(details.data.length / 1024) + " KiB"}
               </li>
             </ul>
           </div>
-          <div className="col">{details ? <CodeInfo code={details} /> : <span>Loading …</span>}</div>
+          <div className="col">
+            {isLoadingState(details) ? (
+              <span>Loading …</span>
+            ) : isErrorState(details) ? (
+              <span>Error</span>
+            ) : (
+              <CodeInfo code={details} />
+            )}
+          </div>
         </div>
         <div className="row white-row white-row-last">
           <div className="col">
             <h2>Instances</h2>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Label</th>
-                  <th scope="col">Contract</th>
-                  <th scope="col">Creator</th>
-                  <th scope="col">Executions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {contracts.map((contract, index) => (
-                  <InstanceRow position={index + 1} contract={contract} key={contract.address} />
-                ))}
-              </tbody>
-            </table>
+            {isLoadingState(contracts) ? (
+              <p>Loading …</p>
+            ) : isErrorState(contracts) ? (
+              <p>Error loading instances</p>
+            ) : (
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Label</th>
+                    <th scope="col">Contract</th>
+                    <th scope="col">Creator</th>
+                    <th scope="col">Executions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {contracts.map((contract, index) => (
+                    <InstanceRow position={index + 1} contract={contract} key={contract.address} />
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
         </div>
         <FooterRow />

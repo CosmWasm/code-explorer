@@ -4,6 +4,14 @@ import React from "react";
 import { AccountLink } from "../../components/AccountLink";
 import { ContractLink } from "../../components/ContractLink";
 import { ClientContext } from "../../contexts/ClientContext";
+import {
+  ErrorState,
+  errorState,
+  isErrorState,
+  isLoadingState,
+  LoadingState,
+  loadingState,
+} from "../../ui-utils/states";
 
 interface Props {
   readonly position: number;
@@ -12,7 +20,9 @@ interface Props {
 
 function InstanceRow({ position, contract }: Props): JSX.Element {
   const clientContext = React.useContext(ClientContext);
-  const [executionCount, setExecutionCount] = React.useState<number | undefined>();
+  const [executionCount, setExecutionCount] = React.useState<number | ErrorState | LoadingState>(
+    loadingState,
+  );
 
   React.useEffect(() => {
     const tags = [
@@ -25,7 +35,10 @@ function InstanceRow({ position, contract }: Props): JSX.Element {
         value: "execute",
       },
     ];
-    clientContext.client.searchTx({ tags: tags }).then(execTxs => setExecutionCount(execTxs.length));
+    clientContext.client
+      .searchTx({ tags: tags })
+      .then(execTxs => setExecutionCount(execTxs.length))
+      .catch(() => setExecutionCount(errorState));
   }, [clientContext.client, contract.address]);
 
   return (
@@ -38,7 +51,13 @@ function InstanceRow({ position, contract }: Props): JSX.Element {
       <td>
         <AccountLink address={contract.creator} />
       </td>
-      <td>{executionCount === undefined ? "Loading …" : executionCount}</td>
+      <td>
+        {isLoadingState(executionCount)
+          ? "Loading …"
+          : isErrorState(executionCount)
+          ? "Error"
+          : executionCount}
+      </td>
     </tr>
   );
 }
