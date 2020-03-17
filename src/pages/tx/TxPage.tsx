@@ -1,3 +1,5 @@
+import "./TxPage.css";
+
 import { IndexedTx, types } from "@cosmwasm/sdk";
 import React from "react";
 import { useParams } from "react-router";
@@ -18,7 +20,6 @@ import {
 import { MsgExecuteContract } from "./msgs/MsgExecuteContract";
 import { MsgSend } from "./msgs/MsgSend";
 import { TxInfo } from "./TxInfo";
-import "./TxPage.css";
 
 export function TxPage(): JSX.Element {
   const clientContext = React.useContext(ClientContext);

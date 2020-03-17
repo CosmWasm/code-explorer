@@ -1,3 +1,5 @@
+import "./CodePage.css";
+
 import { CodeDetails, Contract } from "@cosmwasm/sdk";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
@@ -14,7 +16,6 @@ import {
   loadingState,
 } from "../../ui-utils/states";
 import { CodeInfo } from "./CodeInfo";
-import "./CodePage.css";
 import InstanceRow from "./InstanceRow";
 
 export function CodePage(): JSX.Element {

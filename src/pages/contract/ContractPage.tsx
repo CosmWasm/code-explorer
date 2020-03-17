@@ -1,3 +1,5 @@
+import "./ContractPage.css";
+
 import { Account, ContractDetails, types } from "@cosmwasm/sdk";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
@@ -15,7 +17,6 @@ import {
   LoadingState,
   loadingState,
 } from "../../ui-utils/states";
-import "./ContractPage.css";
 import { Execution, ExecutionsTable } from "./ExecutionsTable";
 import { InitializationInfo } from "./InitializationInfo";
 
