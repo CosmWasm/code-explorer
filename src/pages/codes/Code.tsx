@@ -1,5 +1,3 @@
-import "./Code.css";
-
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -13,6 +11,7 @@ import {
   LoadingState,
   loadingState,
 } from "../../ui-utils/states";
+import "./Code.css";
 
 export interface CodeData {
   readonly codeId: number;

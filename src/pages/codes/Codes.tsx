@@ -1,5 +1,3 @@
-import "./Codes.css";
-
 import React from "react";
 
 import { ClientContext } from "../../contexts/ClientContext";
@@ -12,6 +10,7 @@ import {
   loadingState,
 } from "../../ui-utils/states";
 import { Code, CodeData } from "./Code";
+import "./Codes.css";
 
 interface LoadedCode {
   readonly source: string;
