@@ -50,7 +50,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "shell-quote": "^1.7.2",
-    "typescript": "~3.7.2"
+    "typescript": "~3.8"
   },
   "devDependencies": {
     "@types/react-router-dom": "^5.1.3",
