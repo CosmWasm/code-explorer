@@ -1,17 +1,32 @@
-import { CodeDetails } from "@cosmwasm/sdk";
+import { CodeDetails, IndexedTx } from "@cosmwasm/sdk";
 import React from "react";
 
 import { AccountLink } from "../../components/AccountLink";
+import { TransactionLink } from "../../components/TransactionLink";
+import { ErrorState, isErrorState, isLoadingState, LoadingState } from "../../ui-utils/states";
 import VerifyContract from "./VerifyContract";
 
 interface Props {
   readonly code: CodeDetails;
+  readonly uploadTx: IndexedTx | undefined | ErrorState | LoadingState;
 }
 
-export function CodeInfo({ code }: Props): JSX.Element {
+export function CodeInfo({ code, uploadTx }: Props): JSX.Element {
   return (
     <div className="card mb-3">
       <ul className="list-group list-group-flush">
+        <li className="list-group-item">
+          Upload transaction:{" "}
+          {isLoadingState(uploadTx) ? (
+            "Loading …"
+          ) : isErrorState(uploadTx) ? (
+            "Error"
+          ) : uploadTx === undefined ? (
+            "–"
+          ) : (
+            <TransactionLink transactionId={uploadTx.hash} />
+          )}
+        </li>
         <li className="list-group-item">
           Creator: <AccountLink address={code.creator} maxLength={null} />
         </li>

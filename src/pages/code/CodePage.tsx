@@ -1,6 +1,6 @@
 import "./CodePage.css";
 
-import { CodeDetails, Contract } from "@cosmwasm/sdk";
+import { CodeDetails, Contract, IndexedTx } from "@cosmwasm/sdk";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -28,6 +28,9 @@ export function CodePage(): JSX.Element {
   const [contracts, setContracts] = React.useState<readonly Contract[] | ErrorState | LoadingState>(
     loadingState,
   );
+  const [uploadTx, setUploadTx] = React.useState<IndexedTx | undefined | ErrorState | LoadingState>(
+    loadingState,
+  );
 
   React.useEffect(() => {
     clientContext.client
@@ -38,6 +41,28 @@ export function CodePage(): JSX.Element {
       .getCodeDetails(codeId)
       .then(setDetails)
       .catch(() => setDetails(errorState));
+
+    const storeCodeTags = [
+      {
+        key: "message.module",
+        value: "wasm",
+      },
+      {
+        key: "message.action",
+        value: "store-code",
+      },
+      {
+        key: "message.code_id",
+        value: codeId.toString(),
+      },
+    ];
+    clientContext.client
+      .searchTx({ tags: storeCodeTags })
+      .then(results => {
+        const first = results.find(() => true);
+        setUploadTx(first);
+      })
+      .catch(() => setUploadTx(errorState));
   }, [clientContext.client, codeId]);
 
   const pageTitle = <span>Code #{codeId}</span>;
@@ -81,7 +106,7 @@ export function CodePage(): JSX.Element {
             ) : isErrorState(details) ? (
               <span>Error</span>
             ) : (
-              <CodeInfo code={details} />
+              <CodeInfo code={details} uploadTx={uploadTx} />
             )}
           </div>
         </div>
