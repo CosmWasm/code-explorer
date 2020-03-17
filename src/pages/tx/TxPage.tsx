@@ -9,6 +9,14 @@ import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
 import { ClientContext } from "../../contexts/ClientContext";
 import { ellideMiddle } from "../../ui-utils";
+import {
+  ErrorState,
+  errorState,
+  isErrorState,
+  isLoadingState,
+  LoadingState,
+  loadingState,
+} from "../../ui-utils/states";
 import { MsgExecuteContract } from "./msgs/MsgExecuteContract";
 import { MsgSend } from "./msgs/MsgSend";
 import { TxInfo } from "./TxInfo";
@@ -20,13 +28,18 @@ export function TxPage(): JSX.Element {
 
   const pageTitle = <span title={txId}>Tx {ellideMiddle(txId, 20)}</span>;
 
-  const [details, setDetails] = React.useState<IndexedTx | undefined | "loading">("loading");
+  const [details, setDetails] = React.useState<IndexedTx | undefined | ErrorState | LoadingState>(
+    loadingState,
+  );
 
   React.useEffect(() => {
-    clientContext.client.searchTx({ id: txId }).then(results => {
-      const firstResult = results.find(() => true);
-      setDetails(firstResult);
-    });
+    clientContext.client
+      .searchTx({ id: txId })
+      .then(results => {
+        const firstResult = results.find(() => true);
+        setDetails(firstResult);
+      })
+      .catch(() => setDetails(errorState));
   }, [clientContext.client, txId]);
 
   return (
@@ -53,16 +66,28 @@ export function TxPage(): JSX.Element {
             <h1>{pageTitle}</h1>
             <ul className="list-group list-group-horizontal mb-3">
               <li className="list-group-item">
-                Height: {details === "loading" ? "Loading..." : details?.height || "–"}
+                Height:{" "}
+                {isLoadingState(details)
+                  ? "Loading..."
+                  : isErrorState(details)
+                  ? "Error"
+                  : details?.height || "–"}
               </li>
               <li className="list-group-item">
-                Time: {details === "loading" ? "Loading..." : details?.timestamp || "–"}
+                Time:{" "}
+                {isLoadingState(details)
+                  ? "Loading..."
+                  : isErrorState(details)
+                  ? "Error"
+                  : details?.timestamp || "–"}
               </li>
             </ul>
           </div>
           <div className="col">
-            {details === "loading" ? (
+            {isLoadingState(details) ? (
               <span>Loading …</span>
+            ) : isErrorState(details) ? (
+              <span>Error</span>
             ) : details ? (
               <TxInfo tx={details.tx} />
             ) : (
@@ -78,8 +103,10 @@ export function TxPage(): JSX.Element {
               A Cosmos SDK transaction is composed of one or more messages, that represent actions to be
               executed.
             </p>
-            {details === "loading" ? (
+            {isLoadingState(details) ? (
               <p>Loading …</p>
+            ) : isErrorState(details) ? (
+              <p>Error</p>
             ) : details === undefined ? (
               <p>Transaction not found</p>
             ) : (
