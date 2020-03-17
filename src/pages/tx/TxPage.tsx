@@ -19,6 +19,7 @@ import {
 } from "../../ui-utils/states";
 import { MsgExecuteContract } from "./msgs/MsgExecuteContract";
 import { MsgSend } from "./msgs/MsgSend";
+import { MsgStoreCode } from "./msgs/MsgStoreCode";
 import { TxInfo } from "./TxInfo";
 
 export function TxPage(): JSX.Element {
@@ -114,6 +115,7 @@ export function TxPage(): JSX.Element {
                 <div className="card mb-3" key={`${details.hash}_${index}`}>
                   <div className="card-header">Type: {msg.type}</div>
                   <ul className="list-group list-group-flush">
+                    {types.isMsgStoreCode(msg) && <MsgStoreCode msg={msg} />}
                     {types.isMsgExecuteContract(msg) && <MsgExecuteContract msg={msg} />}
                     {types.isMsgSend(msg) && <MsgSend msg={msg} />}
                   </ul>
