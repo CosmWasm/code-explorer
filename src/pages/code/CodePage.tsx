@@ -17,6 +17,7 @@ import {
 } from "../../ui-utils/states";
 import { CodeInfo } from "./CodeInfo";
 import InstanceRow from "./InstanceRow";
+import { InstancesEmptyState } from "./InstancesEmptyState";
 
 export function CodePage(): JSX.Element {
   const clientContext = React.useContext(ClientContext);
@@ -91,6 +92,8 @@ export function CodePage(): JSX.Element {
               <p>Loading …</p>
             ) : isErrorState(contracts) ? (
               <p>Error loading instances</p>
+            ) : contracts.length === 0 ? (
+              <InstancesEmptyState />
             ) : (
               <table className="table">
                 <thead>
