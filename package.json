@@ -9,6 +9,7 @@
   "scripts": {
     "start": "react-scripts start",
     "start-demonet": "REACT_APP_BACKEND=demonet yarn start",
+    "start-regen": "REACT_APP_BACKEND=regen yarn start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "lint": "eslint -c .eslintrc.js --max-warnings 0 'src/**/*.ts{,x}'",
