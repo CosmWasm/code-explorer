@@ -11,6 +11,15 @@ export function ellideMiddle(str: string, maxOutLen: number): string {
   return str.slice(0, frontLen) + ellide + str.slice(str.length - tailLen, str.length);
 }
 
+export function ellideRight(str: string, maxOutLen: number): string {
+  if (str.length <= maxOutLen) {
+    return str;
+  }
+  const ellide = "…";
+  const frontLen = maxOutLen - ellide.length;
+  return str.slice(0, frontLen) + ellide;
+}
+
 // NARROW NO-BREAK SPACE (U+202F)
 const thinSpace = "\u202F";
 
