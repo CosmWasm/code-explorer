@@ -3,6 +3,14 @@ import "./Codes.css";
 import React from "react";
 
 import { ClientContext } from "../../contexts/ClientContext";
+import {
+  ErrorState,
+  errorState,
+  isErrorState,
+  isLoadingState,
+  LoadingState,
+  loadingState,
+} from "../../ui-utils/states";
 import { Code, CodeData } from "./Code";
 
 interface LoadedCode {
@@ -16,33 +24,38 @@ function codeKey(code: LoadedCode): string {
 
 export function Codes(): JSX.Element {
   const clientContext = React.useContext(ClientContext);
-  const [codes, setCodes] = React.useState<readonly LoadedCode[] | "loading">("loading");
+  const [codes, setCodes] = React.useState<readonly LoadedCode[] | ErrorState | LoadingState>(loadingState);
 
   React.useEffect(() => {
-    clientContext.client.getCodes().then(codeInfos => {
-      const processed = codeInfos
-        .map(
-          (response): LoadedCode => ({
-            source: clientContext.nodeUrl,
-            data: {
-              codeId: response.id,
-              checksum: response.checksum,
-              creator: response.creator,
-              source: response.source || "",
-              builder: response.builder || "",
-            },
-          }),
-        )
-        .reverse();
-      setCodes(processed);
-    });
+    clientContext.client
+      .getCodes()
+      .then(codeInfos => {
+        const processed = codeInfos
+          .map(
+            (response): LoadedCode => ({
+              source: clientContext.nodeUrl,
+              data: {
+                codeId: response.id,
+                checksum: response.checksum,
+                creator: response.creator,
+                source: response.source || "",
+                builder: response.builder || "",
+              },
+            }),
+          )
+          .reverse();
+        setCodes(processed);
+      })
+      .catch(() => setCodes(errorState));
   }, [clientContext]);
 
   // Display codes vertically by on small devices and in a flex container on large and above
   return (
     <div className="d-lg-flex flex-wrap">
-      {codes === "loading" ? (
+      {isLoadingState(codes) ? (
         <p>Loading …</p>
+      ) : isErrorState(codes) ? (
+        <p>Error loading codes</p>
       ) : codes.length === 0 ? (
         <p>No code uploaded yet</p>
       ) : (
