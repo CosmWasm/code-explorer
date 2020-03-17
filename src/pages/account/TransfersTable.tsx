@@ -1,9 +1,9 @@
 import { types } from "@cosmwasm/sdk";
 import React from "react";
-import { Link } from "react-router-dom";
 
 import { AccountLink } from "../../components/AccountLink";
-import { ellideMiddle, printableBalance } from "../../ui-utils";
+import { TransactionLink } from "../../components/TransactionLink";
+import { printableBalance } from "../../ui-utils";
 
 export interface Transfer {
   readonly key: string;
@@ -35,9 +35,7 @@ export function TransfersTable({ transfers: executions }: Props): JSX.Element {
             <th scope="row">{index + 1}</th>
             <td>{execution.height}</td>
             <td>
-              <Link to={`/transactions/${execution.transactionId}`} title={execution.transactionId}>
-                {ellideMiddle(execution.transactionId, 20)}
-              </Link>
+              <TransactionLink transactionId={execution.transactionId} />
             </td>
             <td>
               <AccountLink address={execution.msg.value.from_address} />
