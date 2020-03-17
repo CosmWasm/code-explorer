@@ -9,6 +9,14 @@ import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
 import { ClientContext } from "../../contexts/ClientContext";
 import { ellideMiddle, printableBalance } from "../../ui-utils";
+import {
+  ErrorState,
+  errorState,
+  isErrorState,
+  isLoadingState,
+  LoadingState,
+  loadingState,
+} from "../../ui-utils/states";
 import { Execution, ExecutionsTable } from "./ExecutionsTable";
 import { InitializationInfo } from "./InitializationInfo";
 
@@ -17,9 +25,11 @@ export function ContractPage(): JSX.Element {
   const { contractAddress: contractAddressParam } = useParams();
   const contractAddress = contractAddressParam || "";
 
-  const [details, setDetails] = React.useState<ContractDetails | "error" | "loading">("loading");
-  const [account, setAccount] = React.useState<Account | undefined | "error" | "loading">("loading");
-  const [executions, setExecutions] = React.useState<readonly Execution[] | "error" | "loading">("loading");
+  const [details, setDetails] = React.useState<ContractDetails | ErrorState | LoadingState>(loadingState);
+  const [account, setAccount] = React.useState<Account | undefined | ErrorState | LoadingState>(loadingState);
+  const [executions, setExecutions] = React.useState<readonly Execution[] | ErrorState | LoadingState>(
+    loadingState,
+  );
 
   React.useEffect(() => {
     clientContext.client
@@ -27,14 +37,14 @@ export function ContractPage(): JSX.Element {
       .then(setDetails)
       .catch(error => {
         console.error(error);
-        setDetails("error");
+        setDetails(errorState);
       });
     clientContext.client
       .getAccount(contractAddress)
       .then(setAccount)
       .catch(error => {
         console.error(error);
-        setAccount("error");
+        setAccount(errorState);
       });
 
     const tags = [
@@ -69,7 +79,7 @@ export function ContractPage(): JSX.Element {
       })
       .catch(error => {
         console.error(error);
-        setExecutions("error");
+        setExecutions(errorState);
       });
   }, [contractAddress, clientContext.client]);
 
@@ -87,9 +97,9 @@ export function ContractPage(): JSX.Element {
                   <Link to="/codes">Codes</Link>
                 </li>
                 <li className="breadcrumb-item">
-                  {details === "loading" ? (
+                  {isLoadingState(details) ? (
                     <span>Loading …</span>
-                  ) : details === "error" ? (
+                  ) : isErrorState(details) ? (
                     <span>Error</span>
                   ) : (
                     <CodeLink codeId={details.codeId} />
@@ -108,18 +118,18 @@ export function ContractPage(): JSX.Element {
             <ul className="list-group list-group-horizontal mb-3">
               <li className="list-group-item" title="Bank tokens owned by this contract">
                 Balance:{" "}
-                {account === "loading"
+                {isLoadingState(account)
                   ? "Loading …"
-                  : account === "error"
+                  : isErrorState(account)
                   ? "Error"
                   : printableBalance(account?.balance || [])}
               </li>
             </ul>
           </div>
           <div className="col">
-            {details === "loading" ? (
+            {isLoadingState(details) ? (
               <p>Loading …</p>
-            ) : details === "error" ? (
+            ) : isErrorState(details) ? (
               <p>An Error occurred when loading contract</p>
             ) : (
               <InitializationInfo contract={details} />
@@ -129,9 +139,9 @@ export function ContractPage(): JSX.Element {
         <div className="row white-row white-row-last">
           <div className="col">
             <h2>Executions</h2>
-            {executions === "loading" ? (
+            {isLoadingState(executions) ? (
               <p>Loading …</p>
-            ) : executions === "error" ? (
+            ) : isErrorState(executions) ? (
               <p>An Error occurred when loading transactions</p>
             ) : executions.length !== 0 ? (
               <ExecutionsTable executions={executions} />
