@@ -12,9 +12,14 @@ const devnetSettings: BackendSettings = {
   nodeUrls: ["http://localhost:1317"],
 };
 
+const regenSettings: BackendSettings = {
+  nodeUrls: ["https://regen-lcd.vitwit.com", "https://regen-relay.01node.com"],
+};
+
 const knownBackends: { [index: string]: BackendSettings } = {
   devnet: devnetSettings,
   demonet: demonetSettings,
+  regen: regenSettings,
 };
 
 export function getCurrentBackend(): BackendSettings {
