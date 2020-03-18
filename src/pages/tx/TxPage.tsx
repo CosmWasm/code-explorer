@@ -86,13 +86,13 @@ export function TxPage(): JSX.Element {
           </div>
           <div className="col">
             {isLoadingState(details) ? (
-              <span>Loading …</span>
+              <p>Loading …</p>
             ) : isErrorState(details) ? (
-              <span>Error</span>
-            ) : details ? (
-              <TxInfo tx={details.tx} />
-            ) : (
+              <p>Error</p>
+            ) : details === undefined ? (
               <p>Transaction not found</p>
+            ) : (
+              <TxInfo tx={details.tx} />
             )}
           </div>
         </div>
