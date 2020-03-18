@@ -17,6 +17,7 @@ import {
   LoadingState,
   loadingState,
 } from "../../ui-utils/states";
+import { ExecutionInfo } from "./ExecutionInfo";
 import { MsgExecuteContract } from "./msgs/MsgExecuteContract";
 import { MsgSend } from "./msgs/MsgSend";
 import { MsgStoreCode } from "./msgs/MsgStoreCode";
@@ -65,24 +66,15 @@ export function TxPage(): JSX.Element {
         <div className="row white-row">
           <div className="col">
             <h1>{pageTitle}</h1>
-            <ul className="list-group list-group-horizontal mb-3">
-              <li className="list-group-item">
-                Height:{" "}
-                {isLoadingState(details)
-                  ? "Loading..."
-                  : isErrorState(details)
-                  ? "Error"
-                  : details?.height || "–"}
-              </li>
-              <li className="list-group-item">
-                Time:{" "}
-                {isLoadingState(details)
-                  ? "Loading..."
-                  : isErrorState(details)
-                  ? "Error"
-                  : details?.timestamp || "–"}
-              </li>
-            </ul>
+            {isLoadingState(details) ? (
+              <p>Loading...</p>
+            ) : isErrorState(details) ? (
+              <p>Error</p>
+            ) : details === undefined ? (
+              <p>Transaction not found</p>
+            ) : (
+              <ExecutionInfo tx={details} />
+            )}
           </div>
           <div className="col">
             {isLoadingState(details) ? (
