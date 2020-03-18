@@ -1,10 +1,12 @@
 import "./MsgStoreCode.css";
 
 import { types } from "@cosmwasm/sdk";
+import { Encoding } from "@iov/encoding";
 import React, { Fragment } from "react";
 
 import { AccountLink } from "../../../components/AccountLink";
 import { ellideRight } from "../../../ui-utils";
+import { getFileType } from "./magic";
 
 interface Props {
   readonly msg: types.MsgStoreCode;
@@ -12,6 +14,11 @@ interface Props {
 
 export function MsgStoreCode({ msg }: Props): JSX.Element {
   const [showAllCode, setShowAllCode] = React.useState<boolean>(false);
+
+  const dataInfo = React.useMemo(() => {
+    const data = Encoding.fromBase64(msg.value.wasm_byte_code);
+    return `${getFileType(data) || "unknown"}; ${data.length} bytes`;
+  }, [msg.value.wasm_byte_code]);
 
   return (
     <Fragment>
@@ -21,11 +28,10 @@ export function MsgStoreCode({ msg }: Props): JSX.Element {
       <li className="list-group-item">Source: {msg.value.source || "–"}</li>
       <li className="list-group-item">Builder: {msg.value.builder || "–"}</li>
       <li className="list-group-item">
-        Data:&nbsp;
+        Data: {dataInfo}{" "}
         {!showAllCode ? (
           <Fragment>
-            <code>{ellideRight(msg.value.wasm_byte_code, 400)}</code>{" "}
-            {`(${msg.value.wasm_byte_code.length} bytes)`}{" "}
+            <code>{ellideRight(msg.value.wasm_byte_code, 300)}</code>{" "}
             <button className="btn btn-sm btn-outline-primary" onClick={() => setShowAllCode(true)}>
               Show all
             </button>
