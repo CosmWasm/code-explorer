@@ -1,6 +1,6 @@
 import "./ContractPage.css";
 
-import { Account, ContractDetails, types } from "@cosmwasm/sdk";
+import { Account, ContractDetails, IndexedTx, types } from "@cosmwasm/sdk";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -27,6 +27,9 @@ export function ContractPage(): JSX.Element {
 
   const [details, setDetails] = React.useState<ContractDetails | ErrorState | LoadingState>(loadingState);
   const [account, setAccount] = React.useState<Account | undefined | ErrorState | LoadingState>(loadingState);
+  const [instantiationTx, setInstantiationTx] = React.useState<
+    IndexedTx | undefined | ErrorState | LoadingState
+  >(loadingState);
   const [executions, setExecutions] = React.useState<readonly Execution[] | ErrorState | LoadingState>(
     loadingState,
   );
@@ -81,6 +84,28 @@ export function ContractPage(): JSX.Element {
         console.error(error);
         setExecutions(errorState);
       });
+
+    const instantiateTags = [
+      {
+        key: "message.module",
+        value: "wasm",
+      },
+      {
+        key: "message.action",
+        value: "instantiate",
+      },
+      {
+        key: "message.contract_address",
+        value: contractAddress,
+      },
+    ];
+    clientContext.client
+      .searchTx({ tags: instantiateTags })
+      .then(results => {
+        const first = results.find(() => true);
+        setInstantiationTx(first);
+      })
+      .catch(() => setInstantiationTx(errorState));
   }, [contractAddress, clientContext.client]);
 
   const pageTitle = <span title={contractAddress}>Contract {ellideMiddle(contractAddress, 15)}</span>;
@@ -132,7 +157,7 @@ export function ContractPage(): JSX.Element {
             ) : isErrorState(details) ? (
               <p>An Error occurred when loading contract</p>
             ) : (
-              <InitializationInfo contract={details} />
+              <InitializationInfo contract={details} instantiationTx={instantiationTx} />
             )}
           </div>
         </div>
