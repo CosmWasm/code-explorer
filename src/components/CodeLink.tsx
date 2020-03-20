@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 
 interface Props {
   readonly codeId: number;
+  readonly text?: string;
 }
 
-export function CodeLink({ codeId }: Props): JSX.Element {
-  return <Link to={`/codes/${codeId}`}>Code #{codeId}</Link>;
+export function CodeLink({ codeId, text }: Props): JSX.Element {
+  return <Link to={`/codes/${codeId}`}>{text || `Code #${codeId}`}</Link>;
 }

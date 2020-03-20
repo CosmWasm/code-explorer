@@ -19,6 +19,7 @@ import {
 } from "../../ui-utils/states";
 import { ExecutionInfo } from "./ExecutionInfo";
 import { MsgExecuteContract } from "./msgs/MsgExecuteContract";
+import { MsgInstantiateContract } from "./msgs/MsgInstantiateContract";
 import { MsgSend } from "./msgs/MsgSend";
 import { MsgStoreCode } from "./msgs/MsgStoreCode";
 import { TxInfo } from "./TxInfo";
@@ -108,6 +109,7 @@ export function TxPage(): JSX.Element {
                   <div className="card-header">Type: {msg.type}</div>
                   <ul className="list-group list-group-flush">
                     {types.isMsgStoreCode(msg) && <MsgStoreCode msg={msg} />}
+                    {types.isMsgInstantiateContract(msg) && <MsgInstantiateContract msg={msg} />}
                     {types.isMsgExecuteContract(msg) && <MsgExecuteContract msg={msg} />}
                     {types.isMsgSend(msg) && <MsgSend msg={msg} />}
                   </ul>
