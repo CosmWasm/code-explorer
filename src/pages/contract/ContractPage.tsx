@@ -9,6 +9,7 @@ import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
 import { ClientContext } from "../../contexts/ClientContext";
 import { ellideMiddle, printableBalance } from "../../ui-utils";
+import { makeTags } from "../../ui-utils/sdkhelpers";
 import {
   ErrorState,
   errorState,
@@ -50,18 +51,8 @@ export function ContractPage(): JSX.Element {
         setAccount(errorState);
       });
 
-    const tags = [
-      {
-        key: "message.contract_address",
-        value: contractAddress,
-      },
-      {
-        key: "message.action",
-        value: "execute",
-      },
-    ];
     clientContext.client
-      .searchTx({ tags: tags })
+      .searchTx({ tags: makeTags(`message.contract_address=${contractAddress}&message.action=execute`) })
       .then(execTxs => {
         const out = new Array<Execution>();
         for (const tx of execTxs) {
@@ -85,22 +76,12 @@ export function ContractPage(): JSX.Element {
         setExecutions(errorState);
       });
 
-    const instantiateTags = [
-      {
-        key: "message.module",
-        value: "wasm",
-      },
-      {
-        key: "message.action",
-        value: "instantiate",
-      },
-      {
-        key: "message.contract_address",
-        value: contractAddress,
-      },
-    ];
     clientContext.client
-      .searchTx({ tags: instantiateTags })
+      .searchTx({
+        tags: makeTags(
+          `message.module=wasm&message.action=instantiate&message.contract_address=${contractAddress}`,
+        ),
+      })
       .then(results => {
         const first = results.find(() => true);
         setInstantiationTx(first);

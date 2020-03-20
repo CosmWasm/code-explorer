@@ -7,6 +7,7 @@ import { Link, useParams } from "react-router-dom";
 import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
 import { ClientContext } from "../../contexts/ClientContext";
+import { makeTags } from "../../ui-utils/sdkhelpers";
 import {
   ErrorState,
   errorState,
@@ -42,22 +43,8 @@ export function CodePage(): JSX.Element {
       .then(setDetails)
       .catch(() => setDetails(errorState));
 
-    const storeCodeTags = [
-      {
-        key: "message.module",
-        value: "wasm",
-      },
-      {
-        key: "message.action",
-        value: "store-code",
-      },
-      {
-        key: "message.code_id",
-        value: codeId.toString(),
-      },
-    ];
     clientContext.client
-      .searchTx({ tags: storeCodeTags })
+      .searchTx({ tags: makeTags(`message.module=wasm&message.action=store-code&message.code_id=${codeId}`) })
       .then(results => {
         const first = results.find(() => true);
         setUploadTx(first);
