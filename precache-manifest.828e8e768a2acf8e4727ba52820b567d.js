@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "69ed99bb34063f5cb40888481a3fadf7",
+    "revision": "82aab6ab13c46e06f65da363cca9301f",
     "url": "https://cosmwasm.github.io/code-explorer/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "https://cosmwasm.github.io/code-explorer/static/css/2.3380a8d2.chunk.css"
   },
   {
-    "revision": "99ae6d00ea75b2aeb529",
+    "revision": "054d70355d0472eb8864",
     "url": "https://cosmwasm.github.io/code-explorer/static/css/main.d0f9fac1.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "https://cosmwasm.github.io/code-explorer/static/js/2.3b8fa7d7.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "99ae6d00ea75b2aeb529",
-    "url": "https://cosmwasm.github.io/code-explorer/static/js/main.bd4f50fb.chunk.js"
+    "revision": "054d70355d0472eb8864",
+    "url": "https://cosmwasm.github.io/code-explorer/static/js/main.9f50fb54.chunk.js"
   },
   {
     "revision": "e85a61dc8af59228b539",
