@@ -18,7 +18,7 @@ export function App(): JSX.Element {
   const contextValue: ClientContextValue = {
     nodeUrl: nodeUrl,
     client: client,
-    resetClient: newUrl => {
+    resetClient: (newUrl) => {
       setNodeUrl(newUrl);
       setClient(new CosmWasmClient(newUrl));
     },

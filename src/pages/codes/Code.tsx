@@ -40,7 +40,7 @@ export function Code({ data, index }: Props): JSX.Element {
   React.useEffect(() => {
     clientContext.client
       .getContracts(data.codeId)
-      .then(contracts => {
+      .then((contracts) => {
         setInstantiationInfo({
           instantiations: contracts.length,
         });

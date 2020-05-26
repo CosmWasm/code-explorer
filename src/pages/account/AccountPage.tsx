@@ -33,7 +33,7 @@ export function AccountPage(): JSX.Element {
       .catch(() => setAccount(errorState));
     clientContext.client
       .searchTx({ sentFromOrTo: address })
-      .then(execTxs => {
+      .then((execTxs) => {
         const out = new Array<Transfer>();
         for (const tx of execTxs) {
           for (const [index, msg] of tx.tx.value.msg.entries()) {

@@ -38,7 +38,7 @@ export function TxPage(): JSX.Element {
   React.useEffect(() => {
     clientContext.client
       .searchTx({ id: txId })
-      .then(results => {
+      .then((results) => {
         const firstResult = results.find(() => true);
         setDetails(firstResult);
       })

@@ -45,7 +45,7 @@ export function CodePage(): JSX.Element {
 
     clientContext.client
       .searchTx({ tags: makeTags(`message.module=wasm&message.action=store-code&message.code_id=${codeId}`) })
-      .then(results => {
+      .then((results) => {
         const first = results.find(() => true);
         setUploadTx(first);
       })

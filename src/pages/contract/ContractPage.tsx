@@ -39,21 +39,21 @@ export function ContractPage(): JSX.Element {
     clientContext.client
       .getContract(contractAddress)
       .then(setDetails)
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         setDetails(errorState);
       });
     clientContext.client
       .getAccount(contractAddress)
       .then(setAccount)
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         setAccount(errorState);
       });
 
     clientContext.client
       .searchTx({ tags: makeTags(`message.contract_address=${contractAddress}&message.action=execute`) })
-      .then(execTxs => {
+      .then((execTxs) => {
         const out = new Array<Execution>();
         for (const tx of execTxs) {
           for (const [index, msg] of tx.tx.value.msg.entries()) {
@@ -71,7 +71,7 @@ export function ContractPage(): JSX.Element {
         }
         setExecutions(out);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         setExecutions(errorState);
       });
@@ -82,7 +82,7 @@ export function ContractPage(): JSX.Element {
           `message.module=wasm&message.action=instantiate&message.contract_address=${contractAddress}`,
         ),
       })
-      .then(results => {
+      .then((results) => {
         const first = results.find(() => true);
         setInstantiationTx(first);
       })

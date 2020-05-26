@@ -29,7 +29,7 @@ export function Codes(): JSX.Element {
   React.useEffect(() => {
     clientContext.client
       .getCodes()
-      .then(codeInfos => {
+      .then((codeInfos) => {
         const processed = codeInfos
           .map(
             (response): LoadedCode => ({
