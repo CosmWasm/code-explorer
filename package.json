@@ -31,7 +31,7 @@
     ]
   },
   "dependencies": {
-    "@cosmwasm/sdk": "^0.7.6",
+    "@cosmwasm/sdk": "^0.8.0",
     "@iov/encoding": "^2.1.0",
     "@iov/utils": "^2.0.2",
     "@types/jest": "^24.0.0",

@@ -1,4 +1,4 @@
-import { types } from "@cosmwasm/sdk";
+import { Coin } from "@cosmwasm/sdk";
 import { Decimal } from "@iov/encoding";
 
 export function ellideMiddle(str: string, maxOutLen: number): string {
@@ -23,7 +23,7 @@ export function ellideRight(str: string, maxOutLen: number): string {
 // NARROW NO-BREAK SPACE (U+202F)
 const thinSpace = "\u202F";
 
-function printableCoin(coin: types.Coin): string {
+function printableCoin(coin: Coin): string {
   if (coin.denom.startsWith("u")) {
     const ticker = coin.denom.slice(1).toUpperCase();
     return Decimal.fromAtomics(coin.amount, 6).toString() + thinSpace + ticker;
@@ -32,7 +32,7 @@ function printableCoin(coin: types.Coin): string {
   }
 }
 
-export function printableBalance(balance: readonly types.Coin[]): string {
+export function printableBalance(balance: readonly Coin[]): string {
   if (balance.length === 0) return "–";
   return balance.map(printableCoin).join(", ");
 }
