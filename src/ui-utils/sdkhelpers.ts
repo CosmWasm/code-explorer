@@ -4,7 +4,7 @@ export interface Tag {
 }
 
 export function makeTags(oneLiner: string): Tag[] {
-  return oneLiner.split("&").map(pair => {
+  return oneLiner.split("&").map((pair) => {
     if (pair.indexOf("=") === -1) throw new Error("Parsing error: Equal sign missing");
     const parts = pair.split("=");
     if (parts.length > 2) {

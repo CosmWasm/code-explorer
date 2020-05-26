@@ -25,7 +25,7 @@ export function EndpointSelector({ urls, currentUrl, urlChanged }: Props): JSX.E
           {currentUrl}
         </button>
         <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          {urls.map(url => (
+          {urls.map((url) => (
             <button
               key={url}
               className={`dropdown-item` + (url === currentUrl ? " active" : "")}

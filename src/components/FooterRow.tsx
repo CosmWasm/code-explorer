@@ -49,7 +49,7 @@ export function FooterRow(): JSX.Element {
           <EndpointSelector
             currentUrl={clientContext.nodeUrl}
             urls={settings.backend.nodeUrls}
-            urlChanged={newUrl => clientContext.resetClient(newUrl)}
+            urlChanged={(newUrl) => clientContext.resetClient(newUrl)}
           />{" "}
           <button
             type="button"
