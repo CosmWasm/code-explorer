@@ -2,7 +2,7 @@
 
 ## Use hosted
 
-The explorer is deployed at https://confio.github.io/code-explorer and is configured
+The explorer is deployed at https://cosmwasm.github.io/code-explorer and is configured
 for Demonet.
 
 ## Run locally
