@@ -1,5 +1,5 @@
+import { Decimal } from "@cosmjs/math";
 import { Coin } from "@cosmjs/sdk38";
-import { Decimal } from "@iov/encoding";
 
 export function ellideMiddle(str: string, maxOutLen: number): string {
   if (str.length <= maxOutLen) {

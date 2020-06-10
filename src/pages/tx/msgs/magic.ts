@@ -1,4 +1,4 @@
-import { Encoding } from "@iov/encoding";
+import { fromHex } from "@cosmjs/encoding";
 
 function arrayEqual(a: Uint8Array, b: Uint8Array): boolean {
   if (a.length !== b.length) return false;
@@ -11,8 +11,8 @@ function arrayStartsWith(a: Uint8Array, prefix: Uint8Array): boolean {
 }
 
 const magic = {
-  gzip: Encoding.fromHex("1F8B"),
-  wasm: Encoding.fromHex("0061736d"),
+  gzip: fromHex("1F8B"),
+  wasm: fromHex("0061736d"),
 };
 
 export type SupportedTypes = "gzip" | "wasm";

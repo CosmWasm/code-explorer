@@ -1,5 +1,5 @@
+import { fromRfc3339 } from "@cosmjs/encoding";
 import { IndexedTx } from "@cosmjs/sdk38";
-import { Encoding } from "@iov/encoding";
 import React from "react";
 
 const checkMark = "✔"; // U+2714 HEAVY CHECK MARK
@@ -10,7 +10,7 @@ interface Props {
 }
 
 export function ExecutionInfo({ tx }: Props): JSX.Element {
-  const time = Encoding.fromRfc3339(tx.timestamp);
+  const time = fromRfc3339(tx.timestamp);
   const success = tx.code === 0;
 
   return (
