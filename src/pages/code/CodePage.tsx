@@ -1,6 +1,7 @@
 import "./CodePage.css";
 
-import { CodeDetails, Contract, IndexedTx } from "@cosmwasm/sdk";
+import { CodeDetails, Contract } from "@cosmjs/cosmwasm";
+import { IndexedTx } from "@cosmjs/sdk38";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 

@@ -1,6 +1,7 @@
 import "./TxPage.css";
 
-import { IndexedTx, types } from "@cosmwasm/sdk";
+import { isMsgExecuteContract, isMsgInstantiateContract, isMsgStoreCode } from "@cosmjs/cosmwasm";
+import { IndexedTx, isMsgSend } from "@cosmjs/sdk38";
 import React from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
@@ -108,10 +109,10 @@ export function TxPage(): JSX.Element {
                 <div className="card mb-3" key={`${details.hash}_${index}`}>
                   <div className="card-header">Type: {msg.type}</div>
                   <ul className="list-group list-group-flush">
-                    {types.isMsgStoreCode(msg) && <MsgStoreCode msg={msg} />}
-                    {types.isMsgInstantiateContract(msg) && <MsgInstantiateContract msg={msg} />}
-                    {types.isMsgExecuteContract(msg) && <MsgExecuteContract msg={msg} />}
-                    {types.isMsgSend(msg) && <MsgSend msg={msg} />}
+                    {isMsgStoreCode(msg) && <MsgStoreCode msg={msg} />}
+                    {isMsgInstantiateContract(msg) && <MsgInstantiateContract msg={msg} />}
+                    {isMsgExecuteContract(msg) && <MsgExecuteContract msg={msg} />}
+                    {isMsgSend(msg) && <MsgSend msg={msg} />}
                   </ul>
                 </div>
               ))

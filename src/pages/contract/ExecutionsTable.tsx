@@ -1,4 +1,4 @@
-import { types } from "@cosmwasm/sdk";
+import { MsgExecuteContract } from "@cosmjs/cosmwasm";
 import React from "react";
 
 import { AccountLink } from "../../components/AccountLink";
@@ -8,7 +8,7 @@ export interface Execution {
   readonly key: string;
   readonly height: number;
   readonly transactionId: string;
-  readonly msg: types.MsgExecuteContract;
+  readonly msg: MsgExecuteContract;
 }
 
 interface Props {

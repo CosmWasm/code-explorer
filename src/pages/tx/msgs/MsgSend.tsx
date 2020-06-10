@@ -1,11 +1,11 @@
-import { types } from "@cosmwasm/sdk";
+import { MsgSend as IMsgSend } from "@cosmjs/sdk38";
 import React, { Fragment } from "react";
 
 import { AccountLink } from "../../../components/AccountLink";
 import { printableBalance } from "../../../ui-utils";
 
 interface Props {
-  readonly msg: types.MsgSend;
+  readonly msg: IMsgSend;
 }
 
 export function MsgSend({ msg }: Props): JSX.Element {

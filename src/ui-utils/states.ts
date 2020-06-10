@@ -1,4 +1,4 @@
-import { isNonNullObject } from "@iov/encoding";
+import { isNonNullObject } from "@cosmjs/utils";
 
 const runtimeCodes = {
   error: "_\u2588_ErrorState_\u2588_" as const,

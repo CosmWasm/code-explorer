@@ -1,7 +1,7 @@
 import "./MsgStoreCode.css";
 
-import { types } from "@cosmwasm/sdk";
-import { Encoding } from "@iov/encoding";
+import { MsgStoreCode as IMsgStoreCode } from "@cosmjs/cosmwasm";
+import { fromBase64 } from "@cosmjs/encoding";
 import React, { Fragment } from "react";
 
 import { AccountLink } from "../../../components/AccountLink";
@@ -9,14 +9,14 @@ import { ellideRight } from "../../../ui-utils";
 import { getFileType } from "./magic";
 
 interface Props {
-  readonly msg: types.MsgStoreCode;
+  readonly msg: IMsgStoreCode;
 }
 
 export function MsgStoreCode({ msg }: Props): JSX.Element {
   const [showAllCode, setShowAllCode] = React.useState<boolean>(false);
 
   const dataInfo = React.useMemo(() => {
-    const data = Encoding.fromBase64(msg.value.wasm_byte_code);
+    const data = fromBase64(msg.value.wasm_byte_code);
     return `${getFileType(data) || "unknown"}; ${data.length} bytes`;
   }, [msg.value.wasm_byte_code]);
 

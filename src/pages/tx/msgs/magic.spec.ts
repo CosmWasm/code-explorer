@@ -1,8 +1,6 @@
-import { Encoding } from "@iov/encoding";
+import { fromHex } from "@cosmjs/encoding";
 
 import { getFileType } from "./magic";
-
-const { fromHex } = Encoding;
 
 describe("getFileType", () => {
   it("works", () => {

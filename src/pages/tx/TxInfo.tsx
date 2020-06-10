@@ -1,10 +1,10 @@
-import { types } from "@cosmwasm/sdk";
+import { CosmosSdkTx } from "@cosmjs/sdk38";
 import React from "react";
 
 import { printableBalance } from "../../ui-utils";
 
 interface Props {
-  readonly tx: types.CosmosSdkTx;
+  readonly tx: CosmosSdkTx;
 }
 
 export function TxInfo({ tx }: Props): JSX.Element {
