@@ -1,4 +1,4 @@
-import { Account, types } from "@cosmwasm/sdk";
+import { Account, isMsgSend } from "@cosmjs/sdk38";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -37,7 +37,7 @@ export function AccountPage(): JSX.Element {
         const out = new Array<Transfer>();
         for (const tx of execTxs) {
           for (const [index, msg] of tx.tx.value.msg.entries()) {
-            if (types.isMsgSend(msg)) {
+            if (isMsgSend(msg)) {
               out.push({
                 key: `${tx.hash}_${index}`,
                 height: tx.height,

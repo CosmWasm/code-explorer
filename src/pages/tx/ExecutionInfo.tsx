@@ -1,4 +1,4 @@
-import { IndexedTx } from "@cosmwasm/sdk";
+import { IndexedTx } from "@cosmjs/sdk38";
 import { Encoding } from "@iov/encoding";
 import React from "react";
 

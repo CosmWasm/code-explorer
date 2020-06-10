@@ -1,4 +1,4 @@
-import { CosmWasmClient } from "@cosmwasm/sdk";
+import { CosmWasmClient } from "@cosmjs/cosmwasm";
 import React from "react";
 
 export interface ClientContextValue {

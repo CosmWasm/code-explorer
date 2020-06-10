@@ -1,4 +1,4 @@
-import { types } from "@cosmwasm/sdk";
+import { MsgInstantiateContract as IMsgInstantiateContract } from "@cosmjs/cosmwasm";
 import React, { Fragment } from "react";
 
 import { AccountLink } from "../../../components/AccountLink";
@@ -6,7 +6,7 @@ import { CodeLink } from "../../../components/CodeLink";
 import { printableBalance } from "../../../ui-utils";
 
 interface Props {
-  readonly msg: types.MsgInstantiateContract;
+  readonly msg: IMsgInstantiateContract;
 }
 
 export function MsgInstantiateContract({ msg }: Props): JSX.Element {

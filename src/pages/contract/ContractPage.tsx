@@ -1,6 +1,7 @@
 import "./ContractPage.css";
 
-import { Account, ContractDetails, IndexedTx, types } from "@cosmwasm/sdk";
+import { ContractDetails, isMsgExecuteContract } from "@cosmjs/cosmwasm";
+import { Account, IndexedTx } from "@cosmjs/sdk38";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -57,7 +58,7 @@ export function ContractPage(): JSX.Element {
         const out = new Array<Execution>();
         for (const tx of execTxs) {
           for (const [index, msg] of tx.tx.value.msg.entries()) {
-            if (types.isMsgExecuteContract(msg)) {
+            if (isMsgExecuteContract(msg)) {
               out.push({
                 key: `${tx.hash}_${index}`,
                 height: tx.height,

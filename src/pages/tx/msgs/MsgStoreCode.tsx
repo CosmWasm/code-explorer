@@ -1,6 +1,6 @@
 import "./MsgStoreCode.css";
 
-import { types } from "@cosmwasm/sdk";
+import { MsgStoreCode as IMsgStoreCode } from "@cosmjs/cosmwasm";
 import { Encoding } from "@iov/encoding";
 import React, { Fragment } from "react";
 
@@ -9,7 +9,7 @@ import { ellideRight } from "../../../ui-utils";
 import { getFileType } from "./magic";
 
 interface Props {
-  readonly msg: types.MsgStoreCode;
+  readonly msg: IMsgStoreCode;
 }
 
 export function MsgStoreCode({ msg }: Props): JSX.Element {

@@ -1,4 +1,4 @@
-import { types } from "@cosmwasm/sdk";
+import { MsgSend } from "@cosmjs/sdk38";
 import React from "react";
 
 import { AccountLink } from "../../components/AccountLink";
@@ -9,7 +9,7 @@ export interface Transfer {
   readonly key: string;
   readonly height: number;
   readonly transactionId: string;
-  readonly msg: types.MsgSend;
+  readonly msg: MsgSend;
 }
 
 interface Props {
