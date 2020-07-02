@@ -51,6 +51,7 @@ function InstanceRow({ position, contract }: Props): JSX.Element {
       <td>
         <AccountLink address={contract.creator} />
       </td>
+      <td>{contract.admin ? <AccountLink address={contract.admin} /> : "–"}</td>
       <td>
         {isLoadingState(executionCount)
           ? "Loading …"
