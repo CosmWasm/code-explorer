@@ -31,11 +31,11 @@
     ]
   },
   "dependencies": {
-    "@cosmjs/cosmwasm": "^0.20.1",
-    "@cosmjs/encoding": "^0.20.1",
-    "@cosmjs/math": "^0.20.1",
-    "@cosmjs/sdk38": "^0.20.1",
-    "@cosmjs/utils": "^0.20.1",
+    "@cosmjs/cosmwasm": "^0.21.1",
+    "@cosmjs/encoding": "^0.21.1",
+    "@cosmjs/math": "^0.21.1",
+    "@cosmjs/sdk38": "^0.21.1",
+    "@cosmjs/utils": "^0.21.1",
     "@types/jest": "^24.0.0",
     "@types/jquery": "^3.3.33",
     "@types/node": "^12.0.0",
