@@ -31,6 +31,9 @@ export function InitializationInfo({ contract, instantiationTx }: Props): JSX.El
           Creator: <AccountLink address={contract.creator} maxLength={null} />
         </li>
         <li className="list-group-item">
+          Admin: {contract.admin ? <AccountLink address={contract.admin} maxLength={null} /> : "–"}
+        </li>
+        <li className="list-group-item">
           <span title="The contract level initialization message">Init message</span>:{" "}
           <pre className="mb-0">{JSON.stringify(contract.initMsg, null, "  ")}</pre>
         </li>

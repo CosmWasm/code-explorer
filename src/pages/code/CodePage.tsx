@@ -115,6 +115,7 @@ export function CodePage(): JSX.Element {
                     <th scope="col">Label</th>
                     <th scope="col">Contract</th>
                     <th scope="col">Creator</th>
+                    <th scope="col">Admin</th>
                     <th scope="col">Executions</th>
                   </tr>
                 </thead>
