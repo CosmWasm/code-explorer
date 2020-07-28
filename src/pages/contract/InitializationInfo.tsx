@@ -1,5 +1,5 @@
-import { ContractDetails } from "@cosmjs/cosmwasm";
-import { IndexedTx } from "@cosmjs/sdk38";
+import { Contract } from "@cosmjs/cosmwasm";
+import { IndexedTx } from "@cosmjs/launchpad";
 import React from "react";
 
 import { AccountLink } from "../../components/AccountLink";
@@ -7,7 +7,7 @@ import { TransactionLink } from "../../components/TransactionLink";
 import { ErrorState, isErrorState, isLoadingState, LoadingState } from "../../ui-utils/states";
 
 interface Props {
-  readonly contract: ContractDetails;
+  readonly contract: Contract;
   readonly instantiationTx: IndexedTx | undefined | ErrorState | LoadingState;
 }
 
@@ -35,7 +35,7 @@ export function InitializationInfo({ contract, instantiationTx }: Props): JSX.El
         </li>
         <li className="list-group-item">
           <span title="The contract level initialization message">Init message</span>:{" "}
-          <pre className="mb-0">{JSON.stringify(contract.initMsg, null, "  ")}</pre>
+          <pre className="mb-0">{JSON.stringify({} /* TODO re-implement */, null, "  ")}</pre>
         </li>
       </ul>
     </div>

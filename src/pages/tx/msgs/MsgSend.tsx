@@ -1,4 +1,4 @@
-import { MsgSend as IMsgSend } from "@cosmjs/sdk38";
+import { MsgSend as IMsgSend } from "@cosmjs/launchpad";
 import React, { Fragment } from "react";
 
 import { AccountLink } from "../../../components/AccountLink";

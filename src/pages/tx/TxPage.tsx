@@ -1,7 +1,7 @@
 import "./TxPage.css";
 
 import { isMsgExecuteContract, isMsgInstantiateContract, isMsgStoreCode } from "@cosmjs/cosmwasm";
-import { IndexedTx, isMsgSend } from "@cosmjs/sdk38";
+import { IndexedTx, isMsgSend } from "@cosmjs/launchpad";
 import React from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";

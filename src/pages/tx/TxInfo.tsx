@@ -1,4 +1,4 @@
-import { CosmosSdkTx } from "@cosmjs/sdk38";
+import { CosmosSdkTx } from "@cosmjs/launchpad";
 import React from "react";
 
 import { printableBalance } from "../../ui-utils";

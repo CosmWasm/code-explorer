@@ -1,5 +1,5 @@
 import { fromRfc3339 } from "@cosmjs/encoding";
-import { IndexedTx } from "@cosmjs/sdk38";
+import { IndexedTx } from "@cosmjs/launchpad";
 import React from "react";
 
 const checkMark = "✔"; // U+2714 HEAVY CHECK MARK
