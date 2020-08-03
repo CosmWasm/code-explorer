@@ -1,7 +1,7 @@
 import "./ContractPage.css";
 
-import { ContractDetails, isMsgExecuteContract } from "@cosmjs/cosmwasm";
-import { Account, IndexedTx } from "@cosmjs/sdk38";
+import { Contract, isMsgExecuteContract } from "@cosmjs/cosmwasm";
+import { Account, IndexedTx } from "@cosmjs/launchpad";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -27,7 +27,7 @@ export function ContractPage(): JSX.Element {
   const { contractAddress: contractAddressParam } = useParams();
   const contractAddress = contractAddressParam || "";
 
-  const [details, setDetails] = React.useState<ContractDetails | ErrorState | LoadingState>(loadingState);
+  const [details, setDetails] = React.useState<Contract | ErrorState | LoadingState>(loadingState);
   const [account, setAccount] = React.useState<Account | undefined | ErrorState | LoadingState>(loadingState);
   const [instantiationTx, setInstantiationTx] = React.useState<
     IndexedTx | undefined | ErrorState | LoadingState

@@ -1,7 +1,7 @@
 import "./CodePage.css";
 
 import { CodeDetails, Contract } from "@cosmjs/cosmwasm";
-import { IndexedTx } from "@cosmjs/sdk38";
+import { IndexedTx } from "@cosmjs/launchpad";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 

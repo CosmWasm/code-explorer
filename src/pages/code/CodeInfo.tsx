@@ -1,5 +1,5 @@
 import { CodeDetails } from "@cosmjs/cosmwasm";
-import { IndexedTx } from "@cosmjs/sdk38";
+import { IndexedTx } from "@cosmjs/launchpad";
 import React from "react";
 
 import { AccountLink } from "../../components/AccountLink";

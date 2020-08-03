@@ -1,4 +1,4 @@
-import { Account, isMsgSend } from "@cosmjs/sdk38";
+import { Account, isMsgSend } from "@cosmjs/launchpad";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
