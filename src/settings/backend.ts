@@ -5,7 +5,7 @@ export interface BackendSettings {
 }
 
 const demonetSettings: BackendSettings = {
-  nodeUrls: ["https://lcd.demo-09.cosmwasm.com"],
+  nodeUrls: ["https://lcd.demo-10.cosmwasm.com"],
 };
 
 const devnetSettings: BackendSettings = {
