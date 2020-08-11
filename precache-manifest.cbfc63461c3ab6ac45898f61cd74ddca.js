@@ -1,18 +1,18 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "cdb93e4efbe9bfddf049c97cb4614615",
+    "revision": "9fc6168dbea01c39b5c2004461cda794",
     "url": "https://cosmwasm.github.io/code-explorer/index.html"
   },
   {
-    "revision": "3003a13aacc21c65a566",
-    "url": "https://cosmwasm.github.io/code-explorer/static/css/2.3380a8d2.chunk.css"
+    "revision": "c298dd729d19aefed2ef",
+    "url": "https://cosmwasm.github.io/code-explorer/static/css/2.52cf0872.chunk.css"
   },
   {
     "revision": "7d142c7a8913e438ae98",
     "url": "https://cosmwasm.github.io/code-explorer/static/css/main.d0f9fac1.chunk.css"
   },
   {
-    "revision": "3003a13aacc21c65a566",
+    "revision": "c298dd729d19aefed2ef",
     "url": "https://cosmwasm.github.io/code-explorer/static/js/2.0475a0b8.chunk.js"
   },
   {
