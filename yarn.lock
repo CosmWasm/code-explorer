@@ -1067,28 +1067,27 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@cosmjs/cosmwasm@^0.22.0":
-  version "0.22.0"
-  resolved "https://registry.yarnpkg.com/@cosmjs/cosmwasm/-/cosmwasm-0.22.0.tgz#825884264a92a3273d556073c313cb63584c9a82"
-  integrity sha512-szihlv/Y9+DMyjE7GfNn2Hh/IBWKP9ASZX7VmX/aHo8fXG6OddFHSgzwU6Nf2/iU79NY26hI3Kvol+6u3mj+cw==
+"@cosmjs/cosmwasm@^0.22.1":
+  version "0.22.1"
+  resolved "https://registry.yarnpkg.com/@cosmjs/cosmwasm/-/cosmwasm-0.22.1.tgz#38fcf73e5626844dd806eb9805b34a695b659d04"
+  integrity sha512-zYcojduoJA2Dclo9uBaf3Oh/O916GCXHGdB/y+u6aECazDpXm9GfeD/J8aIhQDcOokcW8sDmmdYKsSS3g//RCg==
   dependencies:
-    "@cosmjs/crypto" "^0.22.0"
-    "@cosmjs/encoding" "^0.22.0"
-    "@cosmjs/launchpad" "^0.22.0"
-    "@cosmjs/math" "^0.22.0"
-    "@cosmjs/utils" "^0.22.0"
+    "@cosmjs/crypto" "^0.22.1"
+    "@cosmjs/encoding" "^0.22.1"
+    "@cosmjs/launchpad" "^0.22.1"
+    "@cosmjs/math" "^0.22.1"
+    "@cosmjs/utils" "^0.22.1"
     axios "^0.19.0"
-    fast-deep-equal "^3.1.1"
     pako "^1.0.11"
 
-"@cosmjs/crypto@^0.22.0":
-  version "0.22.0"
-  resolved "https://registry.yarnpkg.com/@cosmjs/crypto/-/crypto-0.22.0.tgz#50e7190defc7eee67217ccf2800766c925dd4171"
-  integrity sha512-mSbq4O91kYEK7EMx8qMwZK+ymvdYH9gu4FPOMZ+4sHSHzeW5cepDTler3qT+YRnD2YHgHyKVvN3ttFcpXcjSFA==
+"@cosmjs/crypto@^0.22.1":
+  version "0.22.1"
+  resolved "https://registry.yarnpkg.com/@cosmjs/crypto/-/crypto-0.22.1.tgz#b5f2c43473a89ccb0aabd9aa76f3992db68a5907"
+  integrity sha512-ZWjrVNRpbmB15BCv4c+KeWHYq6sOyTW6FT9Nh3JShNufwrMo1EbqdjqQcI5EH/EcooyehiwqvCB9rJesZTsFpQ==
   dependencies:
-    "@cosmjs/encoding" "^0.22.0"
-    "@cosmjs/math" "^0.22.0"
-    "@cosmjs/utils" "^0.22.0"
+    "@cosmjs/encoding" "^0.22.1"
+    "@cosmjs/math" "^0.22.1"
+    "@cosmjs/utils" "^0.22.1"
     bip39 "^3.0.2"
     bn.js "^4.11.8"
     elliptic "^6.5.3"
@@ -1100,38 +1099,37 @@
     type-tagger "^1.0.0"
     unorm "^1.5.0"
 
-"@cosmjs/encoding@^0.22.0":
-  version "0.22.0"
-  resolved "https://registry.yarnpkg.com/@cosmjs/encoding/-/encoding-0.22.0.tgz#89febe5cf9bf6fbfe3eca51865130a694d3b4f04"
-  integrity sha512-ioz6AoBAezXcgZmCh+30VEO7ANFZv1yO+TbYSjvzk4A/EjVeI/qETUmxny7CLyZcJ+l4H84CbQ20WNhk4mvS7w==
+"@cosmjs/encoding@^0.22.1":
+  version "0.22.1"
+  resolved "https://registry.yarnpkg.com/@cosmjs/encoding/-/encoding-0.22.1.tgz#0edd4fa9046c5033a8ef5fe37b9ec5029e164413"
+  integrity sha512-iIGqtkbLFjjBj+UDyskrrSGXzAa2KK6Zc/6Pujl2Bt5gNPF+ljTBlQr1jkem15LPMxycDXGSgAt6JEUlF7X/BA==
   dependencies:
     base64-js "^1.3.0"
     bech32 "^1.1.4"
     readonly-date "^1.0.0"
 
-"@cosmjs/launchpad@^0.22.0":
-  version "0.22.0"
-  resolved "https://registry.yarnpkg.com/@cosmjs/launchpad/-/launchpad-0.22.0.tgz#e8db5699046b35a357b2304a6b3d07d5b6ba92f9"
-  integrity sha512-bwv/ppND0fh4j1dAG5DVl60C9EQcKyMvfyfrnWTgvUjCzIKu/gOx3HWYZn2QR7GGStsZI0mdl6ag0PVdBw2CHw==
+"@cosmjs/launchpad@^0.22.1":
+  version "0.22.1"
+  resolved "https://registry.yarnpkg.com/@cosmjs/launchpad/-/launchpad-0.22.1.tgz#c3ab68c8146add81635f1bc66e07d894278505fd"
+  integrity sha512-ZWpygxR+/50GO98MU/nt07K2xl/gXv9AbeESMXEAS2MoUqjvP0bHvzCtHJEhHQG1mKQAI2YYIc9uWir47fyaew==
   dependencies:
-    "@cosmjs/crypto" "^0.22.0"
-    "@cosmjs/encoding" "^0.22.0"
-    "@cosmjs/math" "^0.22.0"
-    "@cosmjs/utils" "^0.22.0"
+    "@cosmjs/crypto" "^0.22.1"
+    "@cosmjs/encoding" "^0.22.1"
+    "@cosmjs/math" "^0.22.1"
+    "@cosmjs/utils" "^0.22.1"
     axios "^0.19.0"
-    fast-deep-equal "^3.1.1"
 
-"@cosmjs/math@^0.22.0":
-  version "0.22.0"
-  resolved "https://registry.yarnpkg.com/@cosmjs/math/-/math-0.22.0.tgz#7811e2054f427967ce42229db3c60e7ac06e083e"
-  integrity sha512-rUoCzh+25dXFtw0YYPl1NeZuRv/4qvq92+ySAGtrze1ji0dT0vLPQdUhHTiTKdOwHEU1iB7YAeSI/+GzOup7/A==
+"@cosmjs/math@^0.22.1":
+  version "0.22.1"
+  resolved "https://registry.yarnpkg.com/@cosmjs/math/-/math-0.22.1.tgz#1bb12a6692715aec04d4fc48e83d69a128ead062"
+  integrity sha512-oHBP5nG1vzo+wfF/1C4TT1lJ+oV+0zh4OdtNxKvMTqKinceb4e1mJjvwnQ61bGlK2j646XrP1ROVmCudLo2iEA==
   dependencies:
     bn.js "^4.11.8"
 
-"@cosmjs/utils@^0.22.0":
-  version "0.22.0"
-  resolved "https://registry.yarnpkg.com/@cosmjs/utils/-/utils-0.22.0.tgz#c7f310ae5df4e52f799ad3295596074c34c15eed"
-  integrity sha512-occ8mCbBgLYh+p9bc15tDZ6UMs4YrCwUzGw84JnuBlQP010wY3qcOR4CmMgndL4RVWegwhP7ZG1Z9CewmIMSnA==
+"@cosmjs/utils@^0.22.1":
+  version "0.22.1"
+  resolved "https://registry.yarnpkg.com/@cosmjs/utils/-/utils-0.22.1.tgz#8d4d5afd9829543b712269ddf0ae15996e348a4e"
+  integrity sha512-9HovPmAa7bI4g/X+IPPLJe5AuG6Dko5bncnLvatKIDsiw3zZmC29VtTcnb8EApNXpwygQUS5qAhwUSGdstqPaQ==
 
 "@csstools/convert-colors@^1.4.0":
   version "1.4.0"
