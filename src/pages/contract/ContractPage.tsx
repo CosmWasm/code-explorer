@@ -93,7 +93,12 @@ export function ContractPage(): JSX.Element {
       })
       .catch(() => setInstantiationTx(errorState));
 
-    clientContext.client.getContractCodeHistory(contractAddress).then(setContractCodeHistory);
+    clientContext.client
+      .getContractCodeHistory(contractAddress)
+      .then(setContractCodeHistory)
+      .catch((error) => {
+        console.error(error);
+      });
   }, [contractAddress, clientContext.client]);
 
   const pageTitle = <span title={contractAddress}>Contract {ellideMiddle(contractAddress, 15)}</span>;
