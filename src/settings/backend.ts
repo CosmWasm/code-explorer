@@ -17,8 +17,8 @@ const regenSettings: BackendSettings = {
 };
 
 const knownBackends: { [index: string]: BackendSettings } = {
-  devnet: devnetSettings,
   coralnet: coralnetSettings,
+  devnet: devnetSettings,
   regen: regenSettings,
 };
 
