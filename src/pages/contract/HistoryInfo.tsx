@@ -14,8 +14,8 @@ export function HistoryInfo({ contractCodeHistory }: Props): JSX.Element {
         <li className="list-group-item">
           <span title="The contract level message history">History</span>
         </li>
-        {contractCodeHistory.map((entry) => (
-          <li className="list-group-item">
+        {contractCodeHistory.map((entry, index) => (
+          <li key={index} className="list-group-item">
             <span title="The message operation type">
               {entry.operation} - <CodeLink codeId={entry.codeId} />
             </span>
