@@ -1,6 +1,6 @@
 import "./ContractPage.css";
 
-import { Contract, isMsgExecuteContract } from "@cosmjs/cosmwasm";
+import { Contract, ContractCodeHistoryEntry, isMsgExecuteContract } from "@cosmjs/cosmwasm";
 import { Account, IndexedTx } from "@cosmjs/launchpad";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
@@ -20,6 +20,7 @@ import {
   loadingState,
 } from "../../ui-utils/states";
 import { Execution, ExecutionsTable } from "./ExecutionsTable";
+import { HistoryInfo } from "./HistoryInfo";
 import { InitializationInfo } from "./InitializationInfo";
 
 export function ContractPage(): JSX.Element {
@@ -32,6 +33,9 @@ export function ContractPage(): JSX.Element {
   const [instantiationTx, setInstantiationTx] = React.useState<
     IndexedTx | undefined | ErrorState | LoadingState
   >(loadingState);
+  const [contractCodeHistory, setContractCodeHistory] = React.useState<readonly ContractCodeHistoryEntry[]>(
+    [],
+  );
   const [executions, setExecutions] = React.useState<readonly Execution[] | ErrorState | LoadingState>(
     loadingState,
   );
@@ -88,6 +92,13 @@ export function ContractPage(): JSX.Element {
         setInstantiationTx(first);
       })
       .catch(() => setInstantiationTx(errorState));
+
+    clientContext.client
+      .getContractCodeHistory(contractAddress)
+      .then(setContractCodeHistory)
+      .catch((error) => {
+        console.error(error);
+      });
   }, [contractAddress, clientContext.client]);
 
   const pageTitle = <span title={contractAddress}>Contract {ellideMiddle(contractAddress, 15)}</span>;
@@ -139,7 +150,10 @@ export function ContractPage(): JSX.Element {
             ) : isErrorState(details) ? (
               <p>An Error occurred when loading contract</p>
             ) : (
-              <InitializationInfo contract={details} instantiationTx={instantiationTx} />
+              <>
+                <InitializationInfo contract={details} instantiationTx={instantiationTx} />
+                <HistoryInfo contractCodeHistory={contractCodeHistory} />
+              </>
             )}
           </div>
         </div>
