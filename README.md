@@ -3,7 +3,7 @@
 ## Use hosted
 
 The explorer is deployed at https://cosmwasm.github.io/code-explorer and is configured
-for Demonet.
+for Coralnet.
 
 ## Run locally
 

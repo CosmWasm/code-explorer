@@ -4,8 +4,8 @@ export interface BackendSettings {
   readonly nodeUrls: NonEmptyArray<string>;
 }
 
-const demonetSettings: BackendSettings = {
-  nodeUrls: ["https://lcd.demo-10.cosmwasm.com"],
+const coralnetSettings: BackendSettings = {
+  nodeUrls: ["https://lcd.coralnet.cosmwasm.com"],
 };
 
 const devnetSettings: BackendSettings = {
@@ -18,7 +18,7 @@ const regenSettings: BackendSettings = {
 
 const knownBackends: { [index: string]: BackendSettings } = {
   devnet: devnetSettings,
-  demonet: demonetSettings,
+  coralnet: coralnetSettings,
   regen: regenSettings,
 };
 
