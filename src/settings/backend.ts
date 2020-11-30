@@ -8,6 +8,10 @@ const coralnetSettings: BackendSettings = {
   nodeUrls: ["https://lcd.coralnet.cosmwasm.com"],
 };
 
+const heldernetSettings: BackendSettings = {
+  nodeUrls: ["https://lcd.heldernet.cosmwasm.com"],
+};
+
 const devnetSettings: BackendSettings = {
   nodeUrls: ["http://localhost:1317"],
 };
@@ -18,6 +22,7 @@ const regenSettings: BackendSettings = {
 
 const knownBackends: { [index: string]: BackendSettings } = {
   coralnet: coralnetSettings,
+  heldernet: heldernetSettings,
   devnet: devnetSettings,
   regen: regenSettings,
 };

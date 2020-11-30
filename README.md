@@ -3,7 +3,7 @@
 ## Use hosted
 
 The explorer is deployed at https://cosmwasm.github.io/code-explorer and is configured
-for Coralnet.
+for [Heldernet](https://gist.github.com/webmaster128/6385a7e1885211d9937ada2688ce34c3).
 
 ## Run locally
 
