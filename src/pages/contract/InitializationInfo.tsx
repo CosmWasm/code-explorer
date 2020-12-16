@@ -1,5 +1,4 @@
 import { Contract } from "@cosmjs/cosmwasm";
-import { IndexedTx } from "@cosmjs/launchpad";
 import React from "react";
 
 import { AccountLink } from "../../components/AccountLink";
@@ -8,23 +7,23 @@ import { ErrorState, isErrorState, isLoadingState, LoadingState } from "../../ui
 
 interface Props {
   readonly contract: Contract;
-  readonly instantiationTx: IndexedTx | undefined | ErrorState | LoadingState;
+  readonly instantiationTxHash: string | undefined | ErrorState | LoadingState;
 }
 
-export function InitializationInfo({ contract, instantiationTx }: Props): JSX.Element {
+export function InitializationInfo({ contract, instantiationTxHash }: Props): JSX.Element {
   return (
     <div className="card mb-3">
       <ul className="list-group list-group-flush">
         <li className="list-group-item">
           Instantiation transaction:{" "}
-          {isLoadingState(instantiationTx) ? (
+          {isLoadingState(instantiationTxHash) ? (
             "Loading …"
-          ) : isErrorState(instantiationTx) ? (
+          ) : isErrorState(instantiationTxHash) ? (
             "Error"
-          ) : instantiationTx === undefined ? (
+          ) : instantiationTxHash === undefined ? (
             "–"
           ) : (
-            <TransactionLink transactionId={instantiationTx.hash} />
+            <TransactionLink transactionId={instantiationTxHash} />
           )}
         </li>
         <li className="list-group-item">
