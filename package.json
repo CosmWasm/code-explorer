@@ -34,9 +34,12 @@
   },
   "dependencies": {
     "@cosmjs/cosmwasm": "^0.23.0",
+    "@cosmjs/cosmwasm-stargate": "^0.24.0-alpha.11",
     "@cosmjs/encoding": "^0.23.0",
     "@cosmjs/launchpad": "^0.23.0",
     "@cosmjs/math": "^0.23.0",
+    "@cosmjs/proto-signing": "^0.24.0-alpha.11",
+    "@cosmjs/stargate": "^0.24.0-alpha.11",
     "@cosmjs/utils": "^0.23.0",
     "@types/jest": "^24.0.0",
     "@types/jquery": "^3.5",
