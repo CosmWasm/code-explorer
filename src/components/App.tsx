@@ -1,4 +1,4 @@
-import { CosmWasmClient } from "@cosmjs/cosmwasm";
+import { CosmWasmClient as LaunchpadClient } from "@cosmjs/cosmwasm";
 import React from "react";
 import { Redirect, Route, Switch } from "react-router";
 
@@ -13,14 +13,14 @@ import { FlexibleRouter } from "./FlexibleRouter";
 
 export function App(): JSX.Element {
   const [nodeUrl, setNodeUrl] = React.useState<string>(settings.backend.nodeUrls[0]);
-  const [client, setClient] = React.useState<CosmWasmClient>(new CosmWasmClient(nodeUrl));
+  const [launchpadClient, setLaunchpadClient] = React.useState<LaunchpadClient>(new LaunchpadClient(nodeUrl));
 
   const contextValue: ClientContextValue = {
     nodeUrl: nodeUrl,
-    client: client,
+    launchpadClient: launchpadClient,
     resetClient: (newUrl) => {
       setNodeUrl(newUrl);
-      setClient(new CosmWasmClient(newUrl));
+      setLaunchpadClient(new LaunchpadClient(newUrl));
     },
   };
 

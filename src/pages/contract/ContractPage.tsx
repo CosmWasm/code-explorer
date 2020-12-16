@@ -44,14 +44,14 @@ export function ContractPage(): JSX.Element {
   );
 
   React.useEffect(() => {
-    clientContext.client
+    clientContext.launchpadClient
       .getContract(contractAddress)
       .then(setDetails)
       .catch((error) => {
         console.error(error);
         setDetails(errorState);
       });
-    clientContext.client
+    clientContext.launchpadClient
       .getAccount(contractAddress)
       .then(setAccount)
       .catch((error) => {
@@ -59,7 +59,7 @@ export function ContractPage(): JSX.Element {
         setAccount(errorState);
       });
 
-    clientContext.client
+    clientContext.launchpadClient
       .searchTx({ tags: makeTags(`message.contract_address=${contractAddress}&message.action=execute`) })
       .then((execTxs) => {
         const out = new Array<Execution>();
@@ -84,7 +84,7 @@ export function ContractPage(): JSX.Element {
         setExecutions(errorState);
       });
 
-    clientContext.client
+    clientContext.launchpadClient
       .searchTx({
         tags: makeTags(
           `message.module=wasm&message.action=instantiate&message.contract_address=${contractAddress}`,
@@ -96,13 +96,13 @@ export function ContractPage(): JSX.Element {
       })
       .catch(() => setInstantiationTx(errorState));
 
-    clientContext.client
+    clientContext.launchpadClient
       .getContractCodeHistory(contractAddress)
       .then(setContractCodeHistory)
       .catch((error) => {
         console.error(error);
       });
-  }, [contractAddress, clientContext.client]);
+  }, [contractAddress, clientContext.launchpadClient]);
 
   const pageTitle = <span title={contractAddress}>Contract {ellideMiddle(contractAddress, 15)}</span>;
 

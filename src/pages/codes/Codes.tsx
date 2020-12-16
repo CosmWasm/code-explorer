@@ -27,7 +27,7 @@ export function Codes(): JSX.Element {
   const [codes, setCodes] = React.useState<readonly LoadedCode[] | ErrorState | LoadingState>(loadingState);
 
   React.useEffect(() => {
-    clientContext.client
+    clientContext.launchpadClient
       .getCodes()
       .then((codeInfos) => {
         const processed = codeInfos

@@ -35,11 +35,11 @@ function InstanceRow({ position, contract }: Props): JSX.Element {
         value: "execute",
       },
     ];
-    clientContext.client
+    clientContext.launchpadClient
       .searchTx({ tags: tags })
       .then((execTxs) => setExecutionCount(execTxs.length))
       .catch(() => setExecutionCount(errorState));
-  }, [clientContext.client, contract.address]);
+  }, [clientContext.launchpadClient, contract.address]);
 
   return (
     <tr>

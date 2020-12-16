@@ -37,14 +37,14 @@ export function TxPage(): JSX.Element {
   );
 
   React.useEffect(() => {
-    clientContext.client
+    clientContext.launchpadClient
       .searchTx({ id: txId })
       .then((results) => {
         const firstResult = results.find(() => true);
         setDetails(firstResult);
       })
       .catch(() => setDetails(errorState));
-  }, [clientContext.client, txId]);
+  }, [clientContext.launchpadClient, txId]);
 
   return (
     <div className="page">

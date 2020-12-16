@@ -33,7 +33,7 @@ export function QueryContract({ contractAddress }: Props): JSX.Element {
     if (!queryObject?.result) return;
 
     try {
-      const queryResponseResult: Record<string, any> = await clientContext.client.queryContractSmart(
+      const queryResponseResult: Record<string, any> = await clientContext.launchpadClient.queryContractSmart(
         contractAddress,
         queryObject.result,
       );

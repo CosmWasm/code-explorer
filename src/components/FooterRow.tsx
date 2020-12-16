@@ -25,19 +25,19 @@ export function FooterRow(): JSX.Element {
   const [height, setHeight] = React.useState<number | ErrorState | LoadingState>(loadingState);
 
   const updateHeight = React.useCallback(() => {
-    clientContext.client
+    clientContext.launchpadClient
       .getHeight()
       .then(setHeight)
       .catch(() => setHeight(errorState));
-  }, [clientContext.client]);
+  }, [clientContext.launchpadClient]);
 
   React.useEffect(() => {
-    clientContext.client
+    clientContext.launchpadClient
       .getChainId()
       .then(setChainId)
       .catch(() => setChainId(errorState));
     updateHeight();
-  }, [clientContext.client, updateHeight]);
+  }, [clientContext.launchpadClient, updateHeight]);
 
   return (
     <div className="row">

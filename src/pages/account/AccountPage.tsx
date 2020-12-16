@@ -27,11 +27,11 @@ export function AccountPage(): JSX.Element {
   );
 
   React.useEffect(() => {
-    clientContext.client
+    clientContext.launchpadClient
       .getAccount(address)
       .then(setAccount)
       .catch(() => setAccount(errorState));
-    clientContext.client
+    clientContext.launchpadClient
       .searchTx({ sentFromOrTo: address })
       .then((execTxs) => {
         const out = new Array<Transfer>();
@@ -52,7 +52,7 @@ export function AccountPage(): JSX.Element {
         setTransfers(out);
       })
       .catch(() => setAccount(errorState));
-  }, [address, clientContext.client]);
+  }, [address, clientContext.launchpadClient]);
 
   const pageTitle = <span title={address}>Account {ellideMiddle(address, 15)}</span>;
 

@@ -38,7 +38,7 @@ export function Code({ data, index }: Props): JSX.Element {
   >(loadingState);
 
   React.useEffect(() => {
-    clientContext.client
+    clientContext.launchpadClient
       .getContracts(data.codeId)
       .then((contracts) => {
         setInstantiationInfo({

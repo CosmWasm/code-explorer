@@ -35,23 +35,23 @@ export function CodePage(): JSX.Element {
   );
 
   React.useEffect(() => {
-    clientContext.client
+    clientContext.launchpadClient
       .getContracts(codeId)
       .then(setContracts)
       .catch(() => setContracts(errorState));
-    clientContext.client
+    clientContext.launchpadClient
       .getCodeDetails(codeId)
       .then(setDetails)
       .catch(() => setDetails(errorState));
 
-    clientContext.client
+    clientContext.launchpadClient
       .searchTx({ tags: makeTags(`message.module=wasm&message.action=store-code&message.code_id=${codeId}`) })
       .then((results) => {
         const first = results.find(() => true);
         setUploadTx(first);
       })
       .catch(() => setUploadTx(errorState));
-  }, [clientContext.client, codeId]);
+  }, [clientContext.launchpadClient, codeId]);
 
   const pageTitle = <span>Code #{codeId}</span>;
 
