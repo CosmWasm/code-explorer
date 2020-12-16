@@ -18,7 +18,7 @@ import { Transfer, TransfersTable } from "./TransfersTable";
 
 export function AccountPage(): JSX.Element {
   const clientContext = React.useContext(ClientContext);
-  const { address: addressParam } = useParams();
+  const { address: addressParam } = useParams<{ readonly address: string }>();
   const address = addressParam || "";
 
   const [account, setAccount] = React.useState<Account | undefined | ErrorState | LoadingState>(loadingState);

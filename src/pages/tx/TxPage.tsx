@@ -27,7 +27,7 @@ import { TxInfo } from "./TxInfo";
 
 export function TxPage(): JSX.Element {
   const clientContext = React.useContext(ClientContext);
-  const { txId: txIdParam } = useParams();
+  const { txId: txIdParam } = useParams<{ readonly txId: string }>();
   const txId = txIdParam || "";
 
   const pageTitle = <span title={txId}>Tx {ellideMiddle(txId, 20)}</span>;

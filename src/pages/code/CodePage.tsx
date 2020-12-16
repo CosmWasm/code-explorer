@@ -23,7 +23,7 @@ import { InstancesEmptyState } from "./InstancesEmptyState";
 
 export function CodePage(): JSX.Element {
   const clientContext = React.useContext(ClientContext);
-  const { codeId: codeIdParam } = useParams();
+  const { codeId: codeIdParam } = useParams<{ readonly codeId: string }>();
   const codeId = parseInt(codeIdParam || "0", 10);
 
   const [details, setDetails] = React.useState<CodeDetails | ErrorState | LoadingState>(loadingState);

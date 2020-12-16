@@ -28,7 +28,7 @@ export type Result<T> = { readonly result?: T; readonly error?: string };
 
 export function ContractPage(): JSX.Element {
   const clientContext = React.useContext(ClientContext);
-  const { contractAddress: contractAddressParam } = useParams();
+  const { contractAddress: contractAddressParam } = useParams<{ readonly contractAddress: string }>();
   const contractAddress = contractAddressParam || "";
 
   const [details, setDetails] = React.useState<Contract | ErrorState | LoadingState>(loadingState);
