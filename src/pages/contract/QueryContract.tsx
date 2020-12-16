@@ -63,8 +63,7 @@ export function QueryContract({ contractAddress }: Props): JSX.Element {
               body: { order: "1" },
               warningBox: { order: "2" },
             }}
-            // @ts-ignore jsObject has no types
-            onChange={({ jsObject }) => setQueryObject({ result: jsObject })}
+            onChange={({ jsObject }: any) => setQueryObject({ result: jsObject })}
           />
         </li>
         <li className="list-group-item">
