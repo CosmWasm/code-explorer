@@ -1,4 +1,5 @@
 import React from "react";
+import JSONInput from "react-json-editor-ajrm";
 
 import { ClientContext } from "../../contexts/ClientContext";
 import { Result } from "./ContractPage";
@@ -11,12 +12,11 @@ export function QueryContract({ contractAddress }: Props): JSX.Element {
   const clientContext = React.useContext(ClientContext);
 
   const [error, setError] = React.useState<string>();
-  const [queryInput, setQueryInput] = React.useState<string>();
   const [queryObject, setQueryObject] = React.useState<Result<Record<string, any>>>();
   const [queryResponse, setQueryResponse] = React.useState<Result<string>>();
 
   React.useEffect(() => {
-    if (queryInput && queryObject?.error) {
+    if (queryObject?.error) {
       setError(queryObject.error);
       return;
     }
@@ -27,18 +27,7 @@ export function QueryContract({ contractAddress }: Props): JSX.Element {
     }
 
     setError(undefined);
-  }, [queryInput, queryObject, queryResponse]);
-
-  React.useEffect(() => {
-    setQueryResponse({});
-
-    try {
-      const queryObjectResult = JSON.parse(queryInput || "");
-      setQueryObject({ result: queryObjectResult });
-    } catch (error) {
-      setQueryObject({ error: `Invalid JSON: ${error.message}` });
-    }
-  }, [queryInput, setQueryObject]);
+  }, [queryObject, queryResponse]);
 
   async function runQuery(): Promise<void> {
     if (!queryObject?.result) return;
@@ -61,25 +50,33 @@ export function QueryContract({ contractAddress }: Props): JSX.Element {
       <ul className="list-group list-group-flush">
         <li className="list-group-item d-flex align-items-baseline">
           <span title="The contract query input">Query contract:</span>
-          <input
-            className="ml-3 flex-grow-1"
-            value={queryInput}
-            onChange={(event) => setQueryInput(event.target.value)}
+        </li>
+        <li className="list-group-item d-flex align-items-baseline">
+          <JSONInput
+            width="100%"
+            height="200px"
+            placeholder={{ field: "value" }}
+            confirmGood={false}
+            /* Place error box below text box, so appearing error does not push text box down */
+            style={{
+              container: { display: "flex", flexDirection: "column" },
+              body: { order: "1" },
+              warningBox: { order: "2" },
+            }}
+            // @ts-ignore jsObject has no types
+            onChange={({ jsObject }) => setQueryObject({ result: jsObject })}
           />
         </li>
-        {queryObject?.result ? (
-          <>
-            <li className="list-group-item">
-              <span title="The contract formatted input">Formatted query:</span>
-              <pre className="mb-0">{JSON.stringify(queryObject.result, null, "  ")}</pre>
-            </li>
-            <li className="list-group-item">
-              <button className="btn btn-primary" onClick={runQuery} disabled={!!error}>
-                Run query
-              </button>
-            </li>
-          </>
-        ) : null}
+        <li className="list-group-item">
+          <button
+            className="btn btn-primary"
+            style={{ cursor: queryObject?.result ? "pointer" : "not-allowed" }}
+            onClick={runQuery}
+            disabled={!queryObject?.result}
+          >
+            Run query
+          </button>
+        </li>
         {queryResponse?.result ? (
           <li className="list-group-item">
             <span title="The query response">Response:</span>
