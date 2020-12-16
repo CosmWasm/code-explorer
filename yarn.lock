@@ -1008,6 +1008,13 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@babel/runtime@^7.0.0-rc.0":
+  version "7.12.5"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.12.5.tgz#410e7e487441e1b360c29be715d870d9b985882e"
+  integrity sha512-plcc+hbExy3McchJCEQG3knOsuh3HH+Prx1P6cLIkET/0dLuQDEnrT+s27Axgc9bqfsmNUNHfscgMUdBpC9xfg==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/template@^7.4.0", "@babel/template@^7.8.3":
   version "7.8.3"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.8.3.tgz#e02ad04fe262a657809327f578056ca15fd4d1b8"
@@ -10288,6 +10295,13 @@ react-is@^16.8.1, react-is@^16.8.4:
   version "16.12.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.12.0.tgz#2cc0fe0fba742d97fd527c42a13bec4eeb06241c"
   integrity sha512-rPCkf/mWBtKc97aLL9/txD8DZdemK0vkA3JMLShjlJB3Pj3s+lpf1KaBzMfQrAmhMQB0n1cU/SUGgKKBCe837Q==
+
+react-json-editor-ajrm@^2.5.13:
+  version "2.5.13"
+  resolved "https://registry.yarnpkg.com/react-json-editor-ajrm/-/react-json-editor-ajrm-2.5.13.tgz#d2496b6b0166ff9e6bb5dbb85ba3615d8f398151"
+  integrity sha512-uYRJFzY34w7coLxeWPFZGyQpWdBKK5e8R9jBZTJ5gAFp3WuGVG2DdGZ8oJKOVJy0hqkxS9DzJIzGmmxHHQ9afA==
+  dependencies:
+    "@babel/runtime" "^7.0.0-rc.0"
 
 react-router-dom@^5.1.2:
   version "5.1.2"
