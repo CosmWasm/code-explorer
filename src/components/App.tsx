@@ -1,4 +1,5 @@
-import { CosmWasmClient as LaunchpadClient } from "@cosmjs/cosmwasm";
+import { codec } from "@cosmjs/cosmwasm-stargate";
+import { Registry } from "@cosmjs/proto-signing";
 import React from "react";
 import { Redirect, Route, Switch } from "react-router";
 
@@ -9,18 +10,40 @@ import { CodesPage } from "../pages/codes/CodesPage";
 import { ContractPage } from "../pages/contract/ContractPage";
 import { TxPage } from "../pages/tx/TxPage";
 import { settings } from "../settings";
+import { LaunchpadClient, StargateClient } from "../ui-utils/clients";
+import {
+  msgExecuteContractTypeUrl,
+  msgInstantiateContractTypeUrl,
+  msgStoreCodeTypeUrl,
+} from "../ui-utils/txs";
 import { FlexibleRouter } from "./FlexibleRouter";
 
+const { MsgStoreCode, MsgInstantiateContract, MsgExecuteContract } = codec.cosmwasm.wasm.v1beta1;
+
 export function App(): JSX.Element {
-  const [nodeUrl, setNodeUrl] = React.useState<string>(settings.backend.nodeUrls[0]);
-  const [launchpadClient, setLaunchpadClient] = React.useState<LaunchpadClient>(new LaunchpadClient(nodeUrl));
+  const { nodeUrls, stargateEnabled } = settings.backend;
+  const [nodeUrl, setNodeUrl] = React.useState<string>(nodeUrls[0]);
+  const [client, setClient] = React.useState<LaunchpadClient | StargateClient | null>(
+    stargateEnabled ? null : new LaunchpadClient(nodeUrl),
+  );
+
+  if (stargateEnabled) {
+    StargateClient.connect(nodeUrl).then(setClient);
+  }
 
   const contextValue: ClientContextValue = {
     nodeUrl: nodeUrl,
-    launchpadClient: launchpadClient,
+    client: client,
+    typeRegistry: new Registry([
+      [msgStoreCodeTypeUrl, MsgStoreCode],
+      [msgInstantiateContractTypeUrl, MsgInstantiateContract],
+      [msgExecuteContractTypeUrl, MsgExecuteContract],
+    ]),
     resetClient: (newUrl) => {
       setNodeUrl(newUrl);
-      setLaunchpadClient(new LaunchpadClient(newUrl));
+      stargateEnabled
+        ? StargateClient.connect(nodeUrl).then(setClient)
+        : setClient(new LaunchpadClient(newUrl));
     },
   };
 
