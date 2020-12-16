@@ -71,7 +71,7 @@ export function QueryContract({ contractAddress }: Props): JSX.Element {
           <>
             <li className="list-group-item">
               <span title="The contract formatted input">Formatted query:</span>
-              <pre className="mt-2 mb-3">{JSON.stringify(queryObject.result, null, "  ")}</pre>
+              <pre className="mb-0">{JSON.stringify(queryObject.result, null, "  ")}</pre>
             </li>
             <li className="list-group-item">
               <button className="btn btn-primary" onClick={runQuery} disabled={!!error}>
