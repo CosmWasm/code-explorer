@@ -9,7 +9,7 @@ interface Props {
 }
 
 export function QueryContract({ contractAddress }: Props): JSX.Element {
-  const clientContext = React.useContext(ClientContext);
+  const { client } = React.useContext(ClientContext);
 
   const [error, setError] = React.useState<string>();
   const [queryObject, setQueryObject] = React.useState<Result<Record<string, any>>>();
@@ -30,10 +30,10 @@ export function QueryContract({ contractAddress }: Props): JSX.Element {
   }, [queryObject, queryResponse]);
 
   async function runQuery(): Promise<void> {
-    if (!queryObject?.result) return;
+    if (!client || !queryObject?.result) return;
 
     try {
-      const queryResponseResult: Record<string, any> = await clientContext.launchpadClient.queryContractSmart(
+      const queryResponseResult: Record<string, any> = await client.queryContractSmart(
         contractAddress,
         queryObject.result,
       );
@@ -70,7 +70,7 @@ export function QueryContract({ contractAddress }: Props): JSX.Element {
         <li className="list-group-item">
           <button
             className="btn btn-primary"
-            style={{ cursor: queryObject?.result ? "pointer" : "not-allowed" }}
+            style={{ cursor: client && queryObject?.result ? "pointer" : "not-allowed" }}
             onClick={runQuery}
             disabled={!queryObject?.result}
           >
