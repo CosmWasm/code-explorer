@@ -19,7 +19,7 @@ interface Props {
 }
 
 function InstanceRow({ position, contract }: Props): JSX.Element {
-  const clientContext = React.useContext(ClientContext);
+  const { client } = React.useContext(ClientContext);
   const [executionCount, setExecutionCount] = React.useState<number | ErrorState | LoadingState>(
     loadingState,
   );
@@ -35,11 +35,10 @@ function InstanceRow({ position, contract }: Props): JSX.Element {
         value: "execute",
       },
     ];
-    clientContext.launchpadClient
-      .searchTx({ tags: tags })
+    (client?.searchTx({ tags: tags }) as Promise<ReadonlyArray<{ readonly hash: string }>>)
       .then((execTxs) => setExecutionCount(execTxs.length))
       .catch(() => setExecutionCount(errorState));
-  }, [clientContext.launchpadClient, contract.address]);
+  }, [client, contract.address]);
 
   return (
     <tr>
