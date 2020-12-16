@@ -134,7 +134,7 @@ export function ContractPage(): JSX.Element {
           </div>
         </div>
         <div className="row white-row">
-          <div className="col">
+          <div className="col-12 col-md-6">
             <h1>{pageTitle}</h1>
             <ul className="list-group list-group-horizontal mb-3">
               <li className="list-group-item" title="Bank tokens owned by this contract">
@@ -147,7 +147,7 @@ export function ContractPage(): JSX.Element {
               </li>
             </ul>
           </div>
-          <div className="col">
+          <div className="col-12 col-md-6">
             {isLoadingState(details) ? (
               <p>Loading …</p>
             ) : isErrorState(details) ? (
