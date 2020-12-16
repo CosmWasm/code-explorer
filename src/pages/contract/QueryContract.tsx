@@ -82,7 +82,7 @@ export function QueryContract({ contractAddress }: Props): JSX.Element {
         ) : null}
         {queryResponse?.result ? (
           <li className="list-group-item">
-            <span title="The contract formatted input">Response:</span>
+            <span title="The query response">Response:</span>
             <pre className="mb-0">{queryResponse.result}</pre>
           </li>
         ) : null}
