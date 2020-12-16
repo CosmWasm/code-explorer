@@ -55,7 +55,8 @@ export function QueryContract({ contractAddress }: Props): JSX.Element {
           <JSONInput
             width="100%"
             height="200px"
-            placeholder={{ field: "value" }}
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            placeholder={{ get_balance: { address: "cosmos1zk4hr47hlch274x28j32dgnhuyewqjrwxn4mvm" } }}
             confirmGood={false}
             /* Place error box below text box, so appearing error does not push text box down */
             style={{
