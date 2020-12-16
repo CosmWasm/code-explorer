@@ -22,6 +22,9 @@ import {
 import { Execution, ExecutionsTable } from "./ExecutionsTable";
 import { HistoryInfo } from "./HistoryInfo";
 import { InitializationInfo } from "./InitializationInfo";
+import { QueryContract } from "./QueryContract";
+
+export type Result<T> = { readonly result?: T; readonly error?: string };
 
 export function ContractPage(): JSX.Element {
   const clientContext = React.useContext(ClientContext);
@@ -153,6 +156,7 @@ export function ContractPage(): JSX.Element {
               <>
                 <InitializationInfo contract={details} instantiationTx={instantiationTx} />
                 <HistoryInfo contractCodeHistory={contractCodeHistory} />
+                <QueryContract contractAddress={contractAddress} />
               </>
             )}
           </div>
