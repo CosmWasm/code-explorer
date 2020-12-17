@@ -36,7 +36,7 @@ export function CodeInfo({ code, uploadTx }: Props): JSX.Element {
         <li className="list-group-item">Builder: {code.builder || "–"}</li>
         <li className="list-group-item">
           <p className="text-muted">
-            Code verfication allows you to verify that uploaded code was compiled from the source it claims.{" "}
+            Code verification allows you to verify that uploaded code was compiled from the source it claims.{" "}
             <a href="https://github.com/CosmWasm/cosmwasm-verify" className="text-muted">
               Tell me more!
             </a>
