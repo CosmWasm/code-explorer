@@ -1,9 +1,11 @@
-import { MsgSend } from "@cosmjs/launchpad";
+import { codec } from "@cosmjs/stargate";
 import React from "react";
 
 import { AccountLink } from "../../components/AccountLink";
 import { TransactionLink } from "../../components/TransactionLink";
 import { printableBalance } from "../../ui-utils";
+
+type MsgSend = codec.cosmos.bank.v1beta1.MsgSend;
 
 export interface Transfer {
   readonly key: string;
@@ -38,12 +40,12 @@ export function TransfersTable({ transfers: executions }: Props): JSX.Element {
               <TransactionLink transactionId={execution.transactionId} />
             </td>
             <td>
-              <AccountLink address={execution.msg.value.from_address} />
+              <AccountLink address={execution.msg.fromAddress} />
             </td>
             <td>
-              <AccountLink address={execution.msg.value.to_address} />
+              <AccountLink address={execution.msg.toAddress} />
             </td>
-            <td>{printableBalance(execution.msg.value.amount)}</td>
+            <td>{printableBalance(execution.msg.amount)}</td>
           </tr>
         ))}
       </tbody>
