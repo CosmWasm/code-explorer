@@ -1113,36 +1113,12 @@
     pako "^2.0.2"
     protobufjs "~6.10.2"
 
-"@cosmjs/cosmwasm@^0.23.0":
-  version "0.23.1"
-  resolved "https://registry.yarnpkg.com/@cosmjs/cosmwasm/-/cosmwasm-0.23.1.tgz#bd6a57f3485dec1811091d13fa818e34b7e95079"
-  integrity sha512-k/Xc043osZ3Xiv+K2vIJ0pPcsdNwSf0zNN/KJ6gFsUBKb3rvnkQStJwdz1sG502WMj0sdvdjoQMozZtMYYls6g==
+"@cosmjs/cosmwasm@^0.24.0-alpha.11":
+  version "0.24.0-alpha.11"
+  resolved "https://registry.yarnpkg.com/@cosmjs/cosmwasm/-/cosmwasm-0.24.0-alpha.11.tgz#eb46091ba6f2692ac302492adea1ead0ae5c9ca8"
+  integrity sha512-nCjuK6dfp0fr35o5SpmBMgKyzpqfPywpCOQvalaCXmuw9Z7bkBzJ5cYOt+isZW6DrAarF1MBG2d1tgYQX7+S9Q==
   dependencies:
-    "@cosmjs/crypto" "^0.23.1"
-    "@cosmjs/encoding" "^0.23.1"
-    "@cosmjs/launchpad" "^0.23.1"
-    "@cosmjs/math" "^0.23.1"
-    "@cosmjs/utils" "^0.23.1"
-    pako "^1.0.11"
-
-"@cosmjs/crypto@^0.23.1":
-  version "0.23.1"
-  resolved "https://registry.yarnpkg.com/@cosmjs/crypto/-/crypto-0.23.1.tgz#1120b499fd191b39d2425ef9ad66b884f3309f92"
-  integrity sha512-7OfsiWgmXp/AlPVZzB1K97kxW4T4z9fgMsOPO505K7YPiHkgdHN2aDwR4/2KsTWaARhuVfF2hI0l5xpcs51BDA==
-  dependencies:
-    "@cosmjs/encoding" "^0.23.1"
-    "@cosmjs/math" "^0.23.1"
-    "@cosmjs/utils" "^0.23.1"
-    bip39 "^3.0.2"
-    bn.js "^4.11.8"
-    elliptic "^6.5.3"
-    js-sha3 "^0.8.0"
-    libsodium-wrappers "^0.7.6"
-    pbkdf2 "^3.1.1"
-    ripemd160 "^2.0.2"
-    sha.js "^2.4.11"
-    type-tagger "^1.0.0"
-    unorm "^1.5.0"
+    "@cosmjs/cosmwasm-launchpad" "^0.24.0-alpha.11"
 
 "@cosmjs/crypto@^0.24.0-alpha.11":
   version "0.24.0-alpha.11"
@@ -1163,15 +1139,6 @@
     type-tagger "^1.0.0"
     unorm "^1.5.0"
 
-"@cosmjs/encoding@^0.23.0", "@cosmjs/encoding@^0.23.1":
-  version "0.23.1"
-  resolved "https://registry.yarnpkg.com/@cosmjs/encoding/-/encoding-0.23.1.tgz#b51cd2813499cfdeeb0f9cc7d050a45eb8b27bf4"
-  integrity sha512-rP5O3vYo0k6W329J+u5uKqJNrhmR4QTngLgsDvP/qsRRBfEiirhk+TQC8gjUlgnzoiCKCtWsiOyFP1z9Me9HIw==
-  dependencies:
-    base64-js "^1.3.0"
-    bech32 "^1.1.4"
-    readonly-date "^1.0.0"
-
 "@cosmjs/encoding@^0.24.0-alpha.11":
   version "0.24.0-alpha.11"
   resolved "https://registry.yarnpkg.com/@cosmjs/encoding/-/encoding-0.24.0-alpha.11.tgz#5502052164ec16e50500544a9a8332cf5c205a00"
@@ -1189,17 +1156,6 @@
     "@cosmjs/stream" "^0.24.0-alpha.11"
     xstream "^11.14.0"
 
-"@cosmjs/launchpad@^0.23.0", "@cosmjs/launchpad@^0.23.1":
-  version "0.23.1"
-  resolved "https://registry.yarnpkg.com/@cosmjs/launchpad/-/launchpad-0.23.1.tgz#ba5d3502096e22441853e144837f3f19ca687d80"
-  integrity sha512-O6qIn1UZ1MlOuyCtXL4FYICS3aWbdg4jMSoc/S3PgFdOlKHMwX87pliZV5vpl99kqUQH9YreaYOy1NmuDxvebQ==
-  dependencies:
-    "@cosmjs/crypto" "^0.23.1"
-    "@cosmjs/encoding" "^0.23.1"
-    "@cosmjs/math" "^0.23.1"
-    "@cosmjs/utils" "^0.23.1"
-    axios "^0.19.0"
-
 "@cosmjs/launchpad@^0.24.0-alpha.11":
   version "0.24.0-alpha.11"
   resolved "https://registry.yarnpkg.com/@cosmjs/launchpad/-/launchpad-0.24.0-alpha.11.tgz#92d54bcd583e1de20262555b03b29d64b5a8c053"
@@ -1210,13 +1166,6 @@
     "@cosmjs/math" "^0.24.0-alpha.11"
     "@cosmjs/utils" "^0.24.0-alpha.11"
     axios "^0.19.0"
-
-"@cosmjs/math@^0.23.0", "@cosmjs/math@^0.23.1":
-  version "0.23.1"
-  resolved "https://registry.yarnpkg.com/@cosmjs/math/-/math-0.23.1.tgz#706f38742a9a1f6561cf2c4510f8e5ab001fc5e6"
-  integrity sha512-xjGGogFZXLdmRumE1Wr+GlPfKznIl5Qa6K6QyZr4IjBhfB6/ZzLUihliDJp2d8zbjBJgQt9RUwP/PaFQ/yGQNg==
-  dependencies:
-    bn.js "^4.11.8"
 
 "@cosmjs/math@^0.24.0-alpha.11":
   version "0.24.0-alpha.11"
@@ -1282,11 +1231,6 @@
     readonly-date "^1.0.0"
     type-tagger "^1.0.0"
     xstream "^11.14.0"
-
-"@cosmjs/utils@^0.23.0", "@cosmjs/utils@^0.23.1":
-  version "0.23.1"
-  resolved "https://registry.yarnpkg.com/@cosmjs/utils/-/utils-0.23.1.tgz#2bac46ef08a1441c193535e97e4c45e2696020bf"
-  integrity sha512-++kW4itjxR9QyKOyI6jv0mbm1P/XV+xrwjzfkZHAHFa1tBHUFf+CswzO2mU6lBiCXkU630SMrkC9FNi12EEtnw==
 
 "@cosmjs/utils@^0.24.0-alpha.11":
   version "0.24.0-alpha.11"
@@ -9150,15 +9094,15 @@ package-json@^4.0.0:
     registry-url "^3.0.3"
     semver "^5.1.0"
 
-pako@^1.0.11, pako@~1.0.5:
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.11.tgz#6c9599d340d54dfd3946380252a35705a6b992bf"
-  integrity sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==
-
 pako@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/pako/-/pako-2.0.2.tgz#8a72af7a93431ef22aa97e0d53b0acaa3c689220"
   integrity sha512-9e8DRI3+dRLomCmMBAH30B2ejh+blwXr7VmMEx/pVFZlSDA7oyI8uKMhKXr8IrZpoxBF2YlxUvhqRXzTT1i0NA==
+
+pako@~1.0.5:
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.11.tgz#6c9599d340d54dfd3946380252a35705a6b992bf"
+  integrity sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==
 
 parallel-transform@^1.1.0:
   version "1.2.0"
