@@ -1,7 +1,7 @@
 import "./TxPage.css";
 
-import { isMsgExecuteContract, isMsgInstantiateContract, isMsgStoreCode } from "@cosmjs/cosmwasm";
-import { IndexedTx, isMsgSend } from "@cosmjs/launchpad";
+import { Registry } from "@cosmjs/proto-signing";
+import { codec, IndexedTx } from "@cosmjs/stargate";
 import React from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
@@ -10,6 +10,7 @@ import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
 import { ClientContext } from "../../contexts/ClientContext";
 import { ellideMiddle } from "../../ui-utils";
+import { isLaunchpadClient, isStargateClient, LaunchpadClient, StargateClient } from "../../ui-utils/clients";
 import {
   ErrorState,
   errorState,
@@ -18,6 +19,13 @@ import {
   LoadingState,
   loadingState,
 } from "../../ui-utils/states";
+import {
+  isAnyMsgExecuteContract,
+  isAnyMsgInstantiateContract,
+  isAnyMsgSend,
+  isAnyMsgStoreCode,
+  launchpadTxToStargateTx,
+} from "../../ui-utils/txs";
 import { ExecutionInfo } from "./ExecutionInfo";
 import { MsgExecuteContract } from "./msgs/MsgExecuteContract";
 import { MsgInstantiateContract } from "./msgs/MsgInstantiateContract";
@@ -25,8 +33,46 @@ import { MsgSend } from "./msgs/MsgSend";
 import { MsgStoreCode } from "./msgs/MsgStoreCode";
 import { TxInfo } from "./TxInfo";
 
+const { Tx } = codec.cosmos.tx.v1beta1;
+
+const launchpadEffect = (
+  client: LaunchpadClient,
+  txId: string,
+  typeRegistry: Registry,
+  setDetails: (details: IndexedTx | undefined | ErrorState | LoadingState) => void,
+) => (): void => {
+  client
+    .getTx(txId)
+    .then((tx) => {
+      const indexedTx = tx
+        ? {
+            height: tx.height,
+            hash: tx.hash,
+            code: tx.code,
+            rawLog: tx.rawLog,
+            tx: launchpadTxToStargateTx(typeRegistry, tx.tx),
+          }
+        : undefined;
+      setDetails(indexedTx);
+    })
+    .catch(() => setDetails(errorState));
+};
+
+const stargateEffect = (
+  client: StargateClient,
+  txId: string,
+  setDetails: (details: IndexedTx | undefined | ErrorState | LoadingState) => void,
+) => (): void => {
+  client
+    .getTx(txId)
+    .then((tx) => {
+      setDetails(tx || undefined);
+    })
+    .catch(() => setDetails(errorState));
+};
+
 export function TxPage(): JSX.Element {
-  const clientContext = React.useContext(ClientContext);
+  const { client, typeRegistry } = React.useContext(ClientContext);
   const { txId: txIdParam } = useParams<{ readonly txId: string }>();
   const txId = txIdParam || "";
 
@@ -36,15 +82,14 @@ export function TxPage(): JSX.Element {
     loadingState,
   );
 
-  React.useEffect(() => {
-    clientContext.launchpadClient
-      .searchTx({ id: txId })
-      .then((results) => {
-        const firstResult = results.find(() => true);
-        setDetails(firstResult);
-      })
-      .catch(() => setDetails(errorState));
-  }, [clientContext.launchpadClient, txId]);
+  React.useEffect(
+    isStargateClient(client)
+      ? stargateEffect(client, txId, setDetails)
+      : isLaunchpadClient(client)
+      ? launchpadEffect(client, txId, typeRegistry, setDetails)
+      : () => {},
+    [client, txId, typeRegistry],
+  );
 
   return (
     <div className="page">
@@ -86,7 +131,7 @@ export function TxPage(): JSX.Element {
             ) : details === undefined ? (
               <p>Transaction not found</p>
             ) : (
-              <TxInfo tx={details.tx} />
+              <TxInfo tx={Tx.decode(details.tx)} />
             )}
           </div>
         </div>
@@ -105,14 +150,26 @@ export function TxPage(): JSX.Element {
             ) : details === undefined ? (
               <p>Transaction not found</p>
             ) : (
-              details.tx.value.msg.map((msg, index) => (
+              Tx.decode(details.tx).body?.messages?.map((msg, index) => (
                 <div className="card mb-3" key={`${details.hash}_${index}`}>
-                  <div className="card-header">Type: {msg.type}</div>
+                  <div className="card-header">Type: {msg.type_url}</div>
                   <ul className="list-group list-group-flush">
-                    {isMsgStoreCode(msg) && <MsgStoreCode msg={msg} />}
-                    {isMsgInstantiateContract(msg) && <MsgInstantiateContract msg={msg} />}
-                    {isMsgExecuteContract(msg) && <MsgExecuteContract msg={msg} />}
-                    {isMsgSend(msg) && <MsgSend msg={msg} />}
+                    {isAnyMsgSend(msg) && (
+                      <MsgSend msg={typeRegistry.decode({ typeUrl: msg.type_url, value: msg.value })} />
+                    )}
+                    {isAnyMsgStoreCode(msg) && (
+                      <MsgStoreCode msg={typeRegistry.decode({ typeUrl: msg.type_url, value: msg.value })} />
+                    )}
+                    {isAnyMsgInstantiateContract(msg) && (
+                      <MsgInstantiateContract
+                        msg={typeRegistry.decode({ typeUrl: msg.type_url, value: msg.value })}
+                      />
+                    )}
+                    {isAnyMsgExecuteContract(msg) && (
+                      <MsgExecuteContract
+                        msg={typeRegistry.decode({ typeUrl: msg.type_url, value: msg.value })}
+                      />
+                    )}
                   </ul>
                 </div>
               ))
