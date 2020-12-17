@@ -1,4 +1,6 @@
-import { Account, isMsgSend } from "@cosmjs/launchpad";
+import { Coin, IndexedTx as LaunchpadIndexedTx, isMsgSend, MsgSend } from "@cosmjs/launchpad";
+import { Registry } from "@cosmjs/proto-signing";
+import { codec, IndexedTx } from "@cosmjs/stargate";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -6,6 +8,7 @@ import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
 import { ClientContext } from "../../contexts/ClientContext";
 import { ellideMiddle, printableBalance } from "../../ui-utils";
+import { isLaunchpadClient, isStargateClient, LaunchpadClient, StargateClient } from "../../ui-utils/clients";
 import {
   ErrorState,
   errorState,
@@ -14,45 +17,109 @@ import {
   LoadingState,
   loadingState,
 } from "../../ui-utils/states";
+import { AnyMsgSend, isAnyMsgSend } from "../../ui-utils/txs";
 import { Transfer, TransfersTable } from "./TransfersTable";
 
+type ICoin = codec.cosmos.base.v1beta1.ICoin;
+
+const { Tx } = codec.cosmos.tx.v1beta1;
+
+function getTransferFromStargateMsgSend(typeRegistry: Registry, tx: IndexedTx) {
+  return (msg: AnyMsgSend, i: number) => {
+    const decodedMsg = typeRegistry.decode({ typeUrl: msg.type_url, value: msg.value });
+    return {
+      key: `${tx.hash}_${i}`,
+      height: tx.height,
+      transactionId: tx.hash,
+      msg: decodedMsg,
+    };
+  };
+}
+
+function getTransferFromLaunchpadMsgSend(tx: LaunchpadIndexedTx) {
+  return (msg: MsgSend, i: number): Transfer => ({
+    key: `${tx.hash}_${i}`,
+    height: tx.height,
+    transactionId: tx.hash,
+    msg: {
+      fromAddress: msg.value.from_address,
+      toAddress: msg.value.to_address,
+      amount: [...msg.value.amount],
+    },
+  });
+}
+
+const launchpadEffect = (
+  client: LaunchpadClient,
+  address: string,
+  setBalance: (balance: readonly ICoin[] | ErrorState | LoadingState) => void,
+  setTransfers: (transfers: readonly Transfer[] | ErrorState | LoadingState) => void,
+) => (): void => {
+  client
+    .getAccount(address)
+    .then((account) => setBalance(account?.balance ?? []))
+    .catch(() => setBalance(errorState));
+  client
+    .searchTx({ sentFromOrTo: address })
+    .then((txs) => {
+      const out = txs.reduce(
+        (transfers: readonly Transfer[], tx: LaunchpadIndexedTx): readonly Transfer[] => {
+          const txTransfers = tx.tx.value.msg.filter(isMsgSend).map(getTransferFromLaunchpadMsgSend(tx));
+          return [...transfers, ...txTransfers];
+        },
+        [],
+      );
+      setTransfers(out);
+    })
+    .catch(() => setBalance(errorState));
+};
+
+const stargateEffect = (
+  client: StargateClient,
+  address: string,
+  typeRegistry: Registry,
+  setBalance: (balance: readonly ICoin[] | ErrorState | LoadingState) => void,
+  setTransfers: (transfers: readonly Transfer[] | ErrorState | LoadingState) => void,
+) => (): void => {
+  Promise.all(["uwasm", "ustake"].map((denom) => client.getBalance(address, denom)))
+    .then((balances) => {
+      const filteredBalances = balances.filter((balance): balance is Coin => balance !== null);
+      setBalance(filteredBalances);
+    })
+    .catch(() => setBalance(errorState));
+  client
+    .searchTx({ sentFromOrTo: address })
+    .then((txs) => {
+      const out = txs.reduce((transfers: readonly Transfer[], tx: IndexedTx): readonly Transfer[] => {
+        const decodedTx = Tx.decode(tx.tx);
+        const txTransfers = (decodedTx?.body?.messages ?? [])
+          .filter(isAnyMsgSend)
+          .map(getTransferFromStargateMsgSend(typeRegistry, tx));
+        return [...transfers, ...txTransfers];
+      }, []);
+      setTransfers(out);
+    })
+    .catch(() => setTransfers(errorState));
+};
+
 export function AccountPage(): JSX.Element {
-  const clientContext = React.useContext(ClientContext);
+  const { client, typeRegistry } = React.useContext(ClientContext);
   const { address: addressParam } = useParams<{ readonly address: string }>();
   const address = addressParam || "";
 
-  const [account, setAccount] = React.useState<Account | undefined | ErrorState | LoadingState>(loadingState);
+  const [balance, setBalance] = React.useState<readonly ICoin[] | ErrorState | LoadingState>(loadingState);
   const [transfers, setTransfers] = React.useState<readonly Transfer[] | ErrorState | LoadingState>(
     loadingState,
   );
 
-  React.useEffect(() => {
-    clientContext.launchpadClient
-      .getAccount(address)
-      .then(setAccount)
-      .catch(() => setAccount(errorState));
-    clientContext.launchpadClient
-      .searchTx({ sentFromOrTo: address })
-      .then((execTxs) => {
-        const out = new Array<Transfer>();
-        for (const tx of execTxs) {
-          for (const [index, msg] of tx.tx.value.msg.entries()) {
-            if (isMsgSend(msg)) {
-              out.push({
-                key: `${tx.hash}_${index}`,
-                height: tx.height,
-                transactionId: tx.hash,
-                msg: msg,
-              });
-            } else {
-              // skip
-            }
-          }
-        }
-        setTransfers(out);
-      })
-      .catch(() => setAccount(errorState));
-  }, [address, clientContext.launchpadClient]);
+  React.useEffect(
+    isStargateClient(client)
+      ? stargateEffect(client, address, typeRegistry, setBalance, setTransfers)
+      : isLaunchpadClient(client)
+      ? launchpadEffect(client, address, setBalance, setTransfers)
+      : () => {},
+    [address, client, typeRegistry],
+  );
 
   const pageTitle = <span title={address}>Account {ellideMiddle(address, 15)}</span>;
 
@@ -81,11 +148,11 @@ export function AccountPage(): JSX.Element {
             <ul className="list-group list-group-horizontal mb-3">
               <li className="list-group-item" title="Bank tokens owned by this contract">
                 Balance:{" "}
-                {isLoadingState(account)
+                {isLoadingState(balance)
                   ? "Loading …"
-                  : isErrorState(account)
+                  : isErrorState(balance)
                   ? "Error"
-                  : printableBalance(account?.balance || [])}
+                  : printableBalance(balance)}
               </li>
             </ul>
           </div>
