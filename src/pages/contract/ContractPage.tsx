@@ -16,6 +16,7 @@ import { CodeLink } from "../../components/CodeLink";
 import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
 import { ClientContext } from "../../contexts/ClientContext";
+import { settings } from "../../settings";
 import { ellideMiddle, printableBalance } from "../../ui-utils";
 import { isLaunchpadClient, isStargateClient, LaunchpadClient, StargateClient } from "../../ui-utils/clients";
 import { makeTags } from "../../ui-utils/sdkhelpers";
@@ -166,7 +167,7 @@ const stargateEffect = (
   getAndSetDetails(client, contractAddress, setDetails);
   getAndSetInstantiationTxHash(client, contractAddress, setInstantiationTxHash);
 
-  Promise.all(["uwasm", "ustake"].map((denom) => client.getBalance(contractAddress, denom)))
+  Promise.all(settings.backend.denominations.map((denom) => client.getBalance(contractAddress, denom)))
     .then((balances) => {
       const filteredBalances = balances.filter((balance): balance is Coin => balance !== null);
       setBalance(filteredBalances);

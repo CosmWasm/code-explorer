@@ -7,6 +7,7 @@ import { Link, useParams } from "react-router-dom";
 import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
 import { ClientContext } from "../../contexts/ClientContext";
+import { settings } from "../../settings";
 import { ellideMiddle, printableBalance } from "../../ui-utils";
 import { isLaunchpadClient, isStargateClient, LaunchpadClient, StargateClient } from "../../ui-utils/clients";
 import {
@@ -81,7 +82,7 @@ const stargateEffect = (
   setBalance: (balance: readonly ICoin[] | ErrorState | LoadingState) => void,
   setTransfers: (transfers: readonly Transfer[] | ErrorState | LoadingState) => void,
 ) => (): void => {
-  Promise.all(["uwasm", "ustake"].map((denom) => client.getBalance(address, denom)))
+  Promise.all(settings.backend.denominations.map((denom) => client.getBalance(address, denom)))
     .then((balances) => {
       const filteredBalances = balances.filter((balance): balance is Coin => balance !== null);
       setBalance(filteredBalances);
