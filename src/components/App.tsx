@@ -18,34 +18,29 @@ import {
 } from "../ui-utils/txs";
 import { FlexibleRouter } from "./FlexibleRouter";
 
+const { nodeUrls, stargateEnabled } = settings.backend;
 const { MsgStoreCode, MsgInstantiateContract, MsgExecuteContract } = codec.cosmwasm.wasm.v1beta1;
+const typeRegistry = new Registry([
+  [msgStoreCodeTypeUrl, MsgStoreCode],
+  [msgInstantiateContractTypeUrl, MsgInstantiateContract],
+  [msgExecuteContractTypeUrl, MsgExecuteContract],
+]);
 
 export function App(): JSX.Element {
-  const { nodeUrls, stargateEnabled } = settings.backend;
-  const [nodeUrl, setNodeUrl] = React.useState<string>(nodeUrls[0]);
-  const [client, setClient] = React.useState<LaunchpadClient | StargateClient | null>(
-    stargateEnabled ? null : new LaunchpadClient(nodeUrl),
-  );
-
-  if (stargateEnabled) {
-    StargateClient.connect(nodeUrl).then(setClient);
-  }
-
-  const contextValue: ClientContextValue = {
+  const [nodeUrl, setNodeUrl] = React.useState(nodeUrls[0]);
+  const [contextValue, setContextValue] = React.useState<ClientContextValue>({
     nodeUrl: nodeUrl,
-    client: client,
-    typeRegistry: new Registry([
-      [msgStoreCodeTypeUrl, MsgStoreCode],
-      [msgInstantiateContractTypeUrl, MsgInstantiateContract],
-      [msgExecuteContractTypeUrl, MsgExecuteContract],
-    ]),
-    resetClient: (newUrl) => {
-      setNodeUrl(newUrl);
-      stargateEnabled
-        ? StargateClient.connect(nodeUrl).then(setClient)
-        : setClient(new LaunchpadClient(newUrl));
-    },
-  };
+    client: null,
+    typeRegistry: typeRegistry,
+    resetClient: setNodeUrl,
+  });
+
+  React.useEffect(() => {
+    (async function updateContextValue() {
+      const client = stargateEnabled ? await StargateClient.connect(nodeUrl) : new LaunchpadClient(nodeUrl);
+      setContextValue((prevContextValue) => ({ ...prevContextValue, nodeUrl: nodeUrl, client: client }));
+    })();
+  }, [nodeUrl]);
 
   return (
     <ClientContext.Provider value={contextValue}>
