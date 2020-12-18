@@ -49,7 +49,7 @@ export function Codes(): JSX.Element {
       .catch(() => setCodes(errorState));
   }, [client, nodeUrl]);
 
-  // Display codes vertically by on small devices and in a flex container on large and above
+  // Display codes vertically on small devices and in a flex container on large and above
   return (
     <div className="d-lg-flex flex-wrap">
       {isLoadingState(codes) ? (
