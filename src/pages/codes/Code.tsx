@@ -32,14 +32,14 @@ interface InstantiationInfo {
 }
 
 export function Code({ data, index }: Props): JSX.Element {
-  const clientContext = React.useContext(ClientContext);
+  const { client } = React.useContext(ClientContext);
   const [instantiationInfo, setInstantiationInfo] = React.useState<
     InstantiationInfo | ErrorState | LoadingState
   >(loadingState);
 
   React.useEffect(() => {
-    clientContext.client
-      .getContracts(data.codeId)
+    client
+      ?.getContracts(data.codeId)
       .then((contracts) => {
         setInstantiationInfo({
           instantiations: contracts.length,

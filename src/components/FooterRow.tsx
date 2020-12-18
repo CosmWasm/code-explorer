@@ -19,25 +19,25 @@ function Separator(): JSX.Element {
 
 /** Place me as a row in a container */
 export function FooterRow(): JSX.Element {
-  const clientContext = React.useContext(ClientContext);
+  const { client, nodeUrl, resetClient } = React.useContext(ClientContext);
 
   const [chainId, setChainId] = React.useState<string | ErrorState | LoadingState>(loadingState);
   const [height, setHeight] = React.useState<number | ErrorState | LoadingState>(loadingState);
 
   const updateHeight = React.useCallback(() => {
-    clientContext.client
-      .getHeight()
+    client
+      ?.getHeight()
       .then(setHeight)
       .catch(() => setHeight(errorState));
-  }, [clientContext.client]);
+  }, [client]);
 
   React.useEffect(() => {
-    clientContext.client
-      .getChainId()
+    client
+      ?.getChainId()
       .then(setChainId)
       .catch(() => setChainId(errorState));
     updateHeight();
-  }, [clientContext.client, updateHeight]);
+  }, [client, updateHeight]);
 
   return (
     <div className="row">
@@ -47,9 +47,9 @@ export function FooterRow(): JSX.Element {
         <div style={whiteText} className="dropdown text-center font-weight-light mb-3">
           Endpoint{" "}
           <EndpointSelector
-            currentUrl={clientContext.nodeUrl}
+            currentUrl={nodeUrl}
             urls={settings.backend.nodeUrls}
-            urlChanged={(newUrl) => clientContext.resetClient(newUrl)}
+            urlChanged={(newUrl) => resetClient(newUrl)}
           />{" "}
           <button
             type="button"

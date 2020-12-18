@@ -1,4 +1,5 @@
-import { CosmWasmClient } from "@cosmjs/cosmwasm";
+import { codec } from "@cosmjs/cosmwasm-stargate";
+import { Registry } from "@cosmjs/proto-signing";
 import React from "react";
 import { Redirect, Route, Switch } from "react-router";
 
@@ -9,20 +10,37 @@ import { CodesPage } from "../pages/codes/CodesPage";
 import { ContractPage } from "../pages/contract/ContractPage";
 import { TxPage } from "../pages/tx/TxPage";
 import { settings } from "../settings";
+import { LaunchpadClient, StargateClient } from "../ui-utils/clients";
+import {
+  msgExecuteContractTypeUrl,
+  msgInstantiateContractTypeUrl,
+  msgStoreCodeTypeUrl,
+} from "../ui-utils/txs";
 import { FlexibleRouter } from "./FlexibleRouter";
 
-export function App(): JSX.Element {
-  const [nodeUrl, setNodeUrl] = React.useState<string>(settings.backend.nodeUrls[0]);
-  const [client, setClient] = React.useState<CosmWasmClient>(new CosmWasmClient(nodeUrl));
+const { nodeUrls, stargateEnabled } = settings.backend;
+const { MsgStoreCode, MsgInstantiateContract, MsgExecuteContract } = codec.cosmwasm.wasm.v1beta1;
+const typeRegistry = new Registry([
+  [msgStoreCodeTypeUrl, MsgStoreCode],
+  [msgInstantiateContractTypeUrl, MsgInstantiateContract],
+  [msgExecuteContractTypeUrl, MsgExecuteContract],
+]);
 
-  const contextValue: ClientContextValue = {
+export function App(): JSX.Element {
+  const [nodeUrl, setNodeUrl] = React.useState(nodeUrls[0]);
+  const [contextValue, setContextValue] = React.useState<ClientContextValue>({
     nodeUrl: nodeUrl,
-    client: client,
-    resetClient: (newUrl) => {
-      setNodeUrl(newUrl);
-      setClient(new CosmWasmClient(newUrl));
-    },
-  };
+    client: null,
+    typeRegistry: typeRegistry,
+    resetClient: setNodeUrl,
+  });
+
+  React.useEffect(() => {
+    (async function updateContextValue() {
+      const client = stargateEnabled ? await StargateClient.connect(nodeUrl) : new LaunchpadClient(nodeUrl);
+      setContextValue((prevContextValue) => ({ ...prevContextValue, nodeUrl: nodeUrl, client: client }));
+    })();
+  }, [nodeUrl]);
 
   return (
     <ClientContext.Provider value={contextValue}>

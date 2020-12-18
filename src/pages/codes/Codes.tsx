@@ -23,17 +23,17 @@ function codeKey(code: LoadedCode): string {
 }
 
 export function Codes(): JSX.Element {
-  const clientContext = React.useContext(ClientContext);
+  const { client, nodeUrl } = React.useContext(ClientContext);
   const [codes, setCodes] = React.useState<readonly LoadedCode[] | ErrorState | LoadingState>(loadingState);
 
   React.useEffect(() => {
-    clientContext.client
-      .getCodes()
+    client
+      ?.getCodes()
       .then((codeInfos) => {
         const processed = codeInfos
           .map(
             (response): LoadedCode => ({
-              source: clientContext.nodeUrl,
+              source: nodeUrl,
               data: {
                 codeId: response.id,
                 checksum: response.checksum,
@@ -47,9 +47,9 @@ export function Codes(): JSX.Element {
         setCodes(processed);
       })
       .catch(() => setCodes(errorState));
-  }, [clientContext]);
+  }, [client, nodeUrl]);
 
-  // Display codes vertically by on small devices and in a flex container on large and above
+  // Display codes vertically on small devices and in a flex container on large and above
   return (
     <div className="d-lg-flex flex-wrap">
       {isLoadingState(codes) ? (

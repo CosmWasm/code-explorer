@@ -1,8 +1,10 @@
-import { MsgExecuteContract } from "@cosmjs/cosmwasm";
+import { codec } from "@cosmjs/cosmwasm-stargate";
 import React from "react";
 
 import { AccountLink } from "../../components/AccountLink";
 import { TransactionLink } from "../../components/TransactionLink";
+
+type MsgExecuteContract = codec.cosmwasm.wasm.v1beta1.MsgExecuteContract;
 
 export interface Execution {
   readonly key: string;
@@ -35,7 +37,7 @@ export function ExecutionsTable({ executions }: Props): JSX.Element {
               <TransactionLink transactionId={execution.transactionId} />
             </td>
             <td>
-              <AccountLink address={execution.msg.value.sender} />
+              <AccountLink address={execution.msg.sender} />
             </td>
           </tr>
         ))}

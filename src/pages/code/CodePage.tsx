@@ -1,7 +1,6 @@
 import "./CodePage.css";
 
 import { CodeDetails, Contract } from "@cosmjs/cosmwasm";
-import { IndexedTx } from "@cosmjs/launchpad";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -22,36 +21,34 @@ import InstanceRow from "./InstanceRow";
 import { InstancesEmptyState } from "./InstancesEmptyState";
 
 export function CodePage(): JSX.Element {
-  const clientContext = React.useContext(ClientContext);
-  const { codeId: codeIdParam } = useParams();
+  const { client } = React.useContext(ClientContext);
+  const { codeId: codeIdParam } = useParams<{ readonly codeId: string }>();
   const codeId = parseInt(codeIdParam || "0", 10);
 
   const [details, setDetails] = React.useState<CodeDetails | ErrorState | LoadingState>(loadingState);
   const [contracts, setContracts] = React.useState<readonly Contract[] | ErrorState | LoadingState>(
     loadingState,
   );
-  const [uploadTx, setUploadTx] = React.useState<IndexedTx | undefined | ErrorState | LoadingState>(
+  const [uploadTxHash, setUploadTxHash] = React.useState<string | undefined | ErrorState | LoadingState>(
     loadingState,
   );
 
   React.useEffect(() => {
-    clientContext.client
-      .getContracts(codeId)
+    client
+      ?.getContracts(codeId)
       .then(setContracts)
       .catch(() => setContracts(errorState));
-    clientContext.client
-      .getCodeDetails(codeId)
+    client
+      ?.getCodeDetails(codeId)
       .then(setDetails)
       .catch(() => setDetails(errorState));
-
-    clientContext.client
-      .searchTx({ tags: makeTags(`message.module=wasm&message.action=store-code&message.code_id=${codeId}`) })
-      .then((results) => {
-        const first = results.find(() => true);
-        setUploadTx(first);
-      })
-      .catch(() => setUploadTx(errorState));
-  }, [clientContext.client, codeId]);
+    (client?.searchTx({
+      tags: makeTags(`message.module=wasm&message.action=store-code&message.code_id=${codeId}`),
+    }) as Promise<ReadonlyArray<{ readonly hash: string }>>).then((results) => {
+      const first = results.find(() => true);
+      setUploadTxHash(first?.hash);
+    });
+  }, [client, codeId]);
 
   const pageTitle = <span>Code #{codeId}</span>;
 
@@ -94,7 +91,7 @@ export function CodePage(): JSX.Element {
             ) : isErrorState(details) ? (
               <span>Error</span>
             ) : (
-              <CodeInfo code={details} uploadTx={uploadTx} />
+              <CodeInfo code={details} uploadTxHash={uploadTxHash} />
             )}
           </div>
         </div>

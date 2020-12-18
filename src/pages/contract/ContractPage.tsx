@@ -1,7 +1,14 @@
 import "./ContractPage.css";
 
-import { Contract, ContractCodeHistoryEntry, isMsgExecuteContract } from "@cosmjs/cosmwasm";
-import { Account, IndexedTx } from "@cosmjs/launchpad";
+import {
+  Contract,
+  ContractCodeHistoryEntry,
+  isMsgExecuteContract,
+  MsgExecuteContract,
+} from "@cosmjs/cosmwasm";
+import { Coin, IndexedTx as LaunchpadIndexedTx } from "@cosmjs/launchpad";
+import { Registry } from "@cosmjs/proto-signing";
+import { codec, IndexedTx } from "@cosmjs/stargate";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -9,7 +16,9 @@ import { CodeLink } from "../../components/CodeLink";
 import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
 import { ClientContext } from "../../contexts/ClientContext";
+import { settings } from "../../settings";
 import { ellideMiddle, printableBalance } from "../../ui-utils";
+import { isLaunchpadClient, isStargateClient, LaunchpadClient, StargateClient } from "../../ui-utils/clients";
 import { makeTags } from "../../ui-utils/sdkhelpers";
 import {
   ErrorState,
@@ -24,17 +33,173 @@ import { HistoryInfo } from "./HistoryInfo";
 import { InitializationInfo } from "./InitializationInfo";
 import { QueryContract } from "./QueryContract";
 
+type ICoin = codec.cosmos.base.v1beta1.ICoin;
+type IAny = codec.google.protobuf.IAny;
+
+type IAnyMsgExecuteContract = {
+  readonly type_url: "/cosmwasm.wasm.v1beta1.MsgExecuteContract";
+  readonly value: Uint8Array;
+};
+
 export type Result<T> = { readonly result?: T; readonly error?: string };
 
+const { Tx } = codec.cosmos.tx.v1beta1;
+
+function isStargateMsgExecuteContract(msg: IAny): msg is IAnyMsgExecuteContract {
+  return msg.type_url === "/cosmwasm.wasm.v1beta1.MsgExecuteContract" && !!msg.value;
+}
+
+const getAndSetDetails = (
+  client: LaunchpadClient | StargateClient,
+  contractAddress: string,
+  setDetails: (details: Contract | ErrorState | LoadingState) => void,
+): void => {
+  client
+    .getContract(contractAddress)
+    .then(setDetails)
+    .catch(() => setDetails(errorState));
+};
+
+const getAndSetContractCodeHistory = (
+  client: LaunchpadClient | StargateClient,
+  contractAddress: string,
+  setContractCodeHistory: (contractCodeHistory: readonly ContractCodeHistoryEntry[]) => void,
+): void => {
+  client
+    .getContractCodeHistory(contractAddress)
+    .then(setContractCodeHistory)
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
+const getAndSetInstantiationTxHash = (
+  client: LaunchpadClient | StargateClient,
+  contractAddress: string,
+  setInstantiationTxHash: (instantiationTxHash: string | undefined | ErrorState | LoadingState) => void,
+): void => {
+  (client.searchTx({
+    tags: makeTags(
+      `message.module=wasm&message.action=instantiate&message.contract_address=${contractAddress}`,
+    ),
+  }) as Promise<ReadonlyArray<{ readonly hash: string }>>)
+    .then((results) => {
+      const first = results.find(() => true);
+      setInstantiationTxHash(first?.hash);
+    })
+    .catch(() => setInstantiationTxHash(errorState));
+};
+
+function getExecutionFromStargateMsgExecuteContract(typeRegistry: Registry, tx: IndexedTx) {
+  return (msg: IAnyMsgExecuteContract, i: number) => {
+    const decodedMsg = typeRegistry.decode({ typeUrl: msg.type_url, value: msg.value });
+    return {
+      key: `${tx.hash}_${i}`,
+      height: tx.height,
+      transactionId: tx.hash,
+      msg: decodedMsg,
+    };
+  };
+}
+
+function getExecutionFromLaunchpadMsgExecuteContract(tx: LaunchpadIndexedTx) {
+  return (msg: MsgExecuteContract, i: number): Execution => ({
+    key: `${tx.hash}_${i}`,
+    height: tx.height,
+    transactionId: tx.hash,
+    msg: {
+      sender: msg.value.sender,
+      contract: msg.value.contract,
+      msg: msg.value.msg,
+      sentFunds: [...msg.value.sent_funds],
+    },
+  });
+}
+
+const launchpadEffect = (
+  client: LaunchpadClient,
+  contractAddress: string,
+  setBalance: (balance: readonly ICoin[] | ErrorState | LoadingState) => void,
+  setContractCodeHistory: (contractCodeHistory: readonly ContractCodeHistoryEntry[]) => void,
+  setDetails: (details: Contract | ErrorState | LoadingState) => void,
+  setExecutions: (executions: readonly Execution[] | ErrorState | LoadingState) => void,
+  setInstantiationTxHash: (instantiationTxHash: string | undefined | ErrorState | LoadingState) => void,
+) => () => {
+  getAndSetContractCodeHistory(client, contractAddress, setContractCodeHistory);
+  getAndSetDetails(client, contractAddress, setDetails);
+  getAndSetInstantiationTxHash(client, contractAddress, setInstantiationTxHash);
+
+  client
+    .getAccount(contractAddress)
+    .then((account) => setBalance(account?.balance ?? []))
+    .catch(() => setBalance(errorState));
+
+  client
+    .searchTx({
+      tags: makeTags(`message.contract_address=${contractAddress}&message.action=execute`),
+    })
+    .then((txs) => {
+      const out = txs.reduce(
+        (executions: readonly Execution[], tx: LaunchpadIndexedTx): readonly Execution[] => {
+          const txExecutions = tx.tx.value.msg
+            .filter(isMsgExecuteContract)
+            .map(getExecutionFromLaunchpadMsgExecuteContract(tx));
+          return [...executions, ...txExecutions];
+        },
+        [],
+      );
+      setExecutions(out);
+    })
+    .catch(() => setExecutions(errorState));
+};
+
+const stargateEffect = (
+  client: StargateClient,
+  contractAddress: string,
+  typeRegistry: Registry,
+  setBalance: (balance: readonly ICoin[] | ErrorState | LoadingState) => void,
+  setContractCodeHistory: (contractCodeHistory: readonly ContractCodeHistoryEntry[]) => void,
+  setDetails: (details: Contract | ErrorState | LoadingState) => void,
+  setExecutions: (executions: readonly Execution[] | ErrorState | LoadingState) => void,
+  setInstantiationTxHash: (instantiationTxHash: string | undefined | ErrorState | LoadingState) => void,
+) => () => {
+  getAndSetContractCodeHistory(client, contractAddress, setContractCodeHistory);
+  getAndSetDetails(client, contractAddress, setDetails);
+  getAndSetInstantiationTxHash(client, contractAddress, setInstantiationTxHash);
+
+  Promise.all(settings.backend.denominations.map((denom) => client.getBalance(contractAddress, denom)))
+    .then((balances) => {
+      const filteredBalances = balances.filter((balance): balance is Coin => balance !== null);
+      setBalance(filteredBalances);
+    })
+    .catch(() => setBalance(errorState));
+
+  client
+    .searchTx({
+      tags: makeTags(`message.contract_address=${contractAddress}&message.action=execute`),
+    })
+    .then((txs) => {
+      const out = txs.reduce((executions: readonly Execution[], tx: IndexedTx): readonly Execution[] => {
+        const decodedTx = Tx.decode(tx.tx);
+        const txExecutions = (decodedTx?.body?.messages ?? [])
+          .filter(isStargateMsgExecuteContract)
+          .map(getExecutionFromStargateMsgExecuteContract(typeRegistry, tx));
+        return [...executions, ...txExecutions];
+      }, []);
+      setExecutions(out);
+    })
+    .catch(() => setExecutions(errorState));
+};
+
 export function ContractPage(): JSX.Element {
-  const clientContext = React.useContext(ClientContext);
-  const { contractAddress: contractAddressParam } = useParams();
+  const { client, typeRegistry } = React.useContext(ClientContext);
+  const { contractAddress: contractAddressParam } = useParams<{ readonly contractAddress: string }>();
   const contractAddress = contractAddressParam || "";
 
   const [details, setDetails] = React.useState<Contract | ErrorState | LoadingState>(loadingState);
-  const [account, setAccount] = React.useState<Account | undefined | ErrorState | LoadingState>(loadingState);
-  const [instantiationTx, setInstantiationTx] = React.useState<
-    IndexedTx | undefined | ErrorState | LoadingState
+  const [balance, setBalance] = React.useState<readonly ICoin[] | ErrorState | LoadingState>(loadingState);
+  const [instantiationTxHash, setInstantiationTxHash] = React.useState<
+    string | undefined | ErrorState | LoadingState
   >(loadingState);
   const [contractCodeHistory, setContractCodeHistory] = React.useState<readonly ContractCodeHistoryEntry[]>(
     [],
@@ -43,66 +208,31 @@ export function ContractPage(): JSX.Element {
     loadingState,
   );
 
-  React.useEffect(() => {
-    clientContext.client
-      .getContract(contractAddress)
-      .then(setDetails)
-      .catch((error) => {
-        console.error(error);
-        setDetails(errorState);
-      });
-    clientContext.client
-      .getAccount(contractAddress)
-      .then(setAccount)
-      .catch((error) => {
-        console.error(error);
-        setAccount(errorState);
-      });
-
-    clientContext.client
-      .searchTx({ tags: makeTags(`message.contract_address=${contractAddress}&message.action=execute`) })
-      .then((execTxs) => {
-        const out = new Array<Execution>();
-        for (const tx of execTxs) {
-          for (const [index, msg] of tx.tx.value.msg.entries()) {
-            if (isMsgExecuteContract(msg)) {
-              out.push({
-                key: `${tx.hash}_${index}`,
-                height: tx.height,
-                transactionId: tx.hash,
-                msg: msg,
-              });
-            } else {
-              // skip
-            }
-          }
-        }
-        setExecutions(out);
-      })
-      .catch((error) => {
-        console.error(error);
-        setExecutions(errorState);
-      });
-
-    clientContext.client
-      .searchTx({
-        tags: makeTags(
-          `message.module=wasm&message.action=instantiate&message.contract_address=${contractAddress}`,
-        ),
-      })
-      .then((results) => {
-        const first = results.find(() => true);
-        setInstantiationTx(first);
-      })
-      .catch(() => setInstantiationTx(errorState));
-
-    clientContext.client
-      .getContractCodeHistory(contractAddress)
-      .then(setContractCodeHistory)
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [contractAddress, clientContext.client]);
+  React.useEffect(
+    isStargateClient(client)
+      ? stargateEffect(
+          client,
+          contractAddress,
+          typeRegistry,
+          setBalance,
+          setContractCodeHistory,
+          setDetails,
+          setExecutions,
+          setInstantiationTxHash,
+        )
+      : isLaunchpadClient(client)
+      ? launchpadEffect(
+          client,
+          contractAddress,
+          setBalance,
+          setContractCodeHistory,
+          setDetails,
+          setExecutions,
+          setInstantiationTxHash,
+        )
+      : () => {},
+    [client, contractAddress, typeRegistry],
+  );
 
   const pageTitle = <span title={contractAddress}>Contract {ellideMiddle(contractAddress, 15)}</span>;
 
@@ -139,11 +269,11 @@ export function ContractPage(): JSX.Element {
             <ul className="list-group list-group-horizontal mb-3">
               <li className="list-group-item" title="Bank tokens owned by this contract">
                 Balance:{" "}
-                {isLoadingState(account)
+                {isLoadingState(balance)
                   ? "Loading …"
-                  : isErrorState(account)
+                  : isErrorState(balance)
                   ? "Error"
-                  : printableBalance(account?.balance || [])}
+                  : printableBalance(balance)}
               </li>
             </ul>
           </div>
@@ -154,7 +284,7 @@ export function ContractPage(): JSX.Element {
               <p>An Error occurred when loading contract</p>
             ) : (
               <>
-                <InitializationInfo contract={details} instantiationTx={instantiationTx} />
+                <InitializationInfo contract={details} instantiationTxHash={instantiationTxHash} />
                 <HistoryInfo contractCodeHistory={contractCodeHistory} />
                 <QueryContract contractAddress={contractAddress} />
               </>
