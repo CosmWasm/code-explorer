@@ -7,13 +7,13 @@ export interface BackendSettings {
 }
 
 const devnetStargateSettings: BackendSettings = {
-  nodeUrls: [`http://localhost:26659`],
+  nodeUrls: ["http://localhost:26659"],
   stargateEnabled: true,
   denominations: ["ucosm", "ustake"],
 };
 
 const devnetLaunchpadSettings: BackendSettings = {
-  nodeUrls: [`http://localhost:1317`],
+  nodeUrls: ["http://localhost:1317"],
   stargateEnabled: false,
   denominations: ["ucosm", "ustake"],
 };
@@ -45,7 +45,6 @@ const knownBackends: { [index: string]: BackendSettings } = {
 };
 
 export function getCurrentBackend(): BackendSettings {
-  return knownBackends[
-    process.env.REACT_APP_BACKEND || process.env.REACT_APP_STARGATE ? "devnetStargate" : "devnetLaunchpad"
-  ];
+  const id = process.env.REACT_APP_BACKEND || "devnetLaunchpad";
+  return knownBackends[id];
 }
