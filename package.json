@@ -8,7 +8,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "start": "react-scripts start",
-    "start-stargate": "REACT_APP_STARGATE=1 yarn start",
+    "start-stargate": "REACT_APP_BACKEND=devnetStargate yarn start",
     "start-coralnet": "REACT_APP_BACKEND=coralnet yarn start",
     "start-heldernet": "REACT_APP_BACKEND=heldernet yarn start",
     "start-regen": "REACT_APP_BACKEND=regen yarn start",
