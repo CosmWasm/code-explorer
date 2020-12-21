@@ -30,18 +30,11 @@ const heldernetSettings: BackendSettings = {
   denominations: ["ucosm", "ustake"],
 };
 
-const regenSettings: BackendSettings = {
-  nodeUrls: ["https://regen-lcd.vitwit.com", "https://regen-relay.01node.com"],
-  stargateEnabled: false,
-  denominations: ["ucosm", "ustake"],
-};
-
 const knownBackends: { [index: string]: BackendSettings } = {
   coralnet: coralnetSettings,
   heldernet: heldernetSettings,
   devnetLaunchpad: devnetLaunchpadSettings,
   devnetStargate: devnetStargateSettings,
-  regen: regenSettings,
 };
 
 export function getCurrentBackend(): BackendSettings {
