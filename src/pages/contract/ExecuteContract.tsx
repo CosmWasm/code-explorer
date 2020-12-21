@@ -3,14 +3,8 @@ import { Coin } from "@cosmjs/launchpad";
 import React from "react";
 import JSONInput from "react-json-editor-ajrm";
 
+import { ClientContext } from "../../contexts/ClientContext";
 import { settings } from "../../settings";
-import {
-  disableLedgerLogin,
-  getSigningClient,
-  loadLedgerWallet,
-  loadOrCreateWallet,
-  WalletLoader,
-} from "../../ui-utils/clients";
 import { jsonInputStyle } from "../../ui-utils/jsonInput";
 import { Result } from "./ContractPage";
 
@@ -19,6 +13,8 @@ interface Props {
 }
 
 export function ExecuteContract({ contractAddress }: Props): JSX.Element {
+  const { signingClient } = React.useContext(ClientContext);
+
   const [executing, setExecuting] = React.useState(false);
   const [error, setError] = React.useState<string>();
 
@@ -48,14 +44,13 @@ export function ExecuteContract({ contractAddress }: Props): JSX.Element {
     setError(undefined);
   }, [coinsObject, executeResponse, msgObject]);
 
-  async function executeContract(loadWallet: WalletLoader): Promise<void> {
-    if (!msgObject?.result) return;
+  async function executeContract(): Promise<void> {
+    if (!msgObject?.result || !signingClient) return;
 
     setExecuting(true);
 
     try {
-      const client = await getSigningClient(loadWallet);
-      const executeResponseResult: ExecuteResult = await client.execute(
+      const executeResponseResult: ExecuteResult = await signingClient.execute(
         contractAddress,
         msgObject.result,
         memo,
@@ -118,36 +113,13 @@ export function ExecuteContract({ contractAddress }: Props): JSX.Element {
             </button>
           ) : (
             <button
-              type="button"
-              className="btn btn-primary dropdown-toggle"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-              disabled={!msgObject?.result || settings.backend.stargateEnabled}
+              className="btn btn-primary"
+              onClick={executeContract}
+              disabled={!msgObject?.result || !signingClient}
             >
               Execute contract
             </button>
           )}
-          <div className="dropdown-menu">
-            <h6 className="dropdown-header">with</h6>
-            <button
-              className="dropdown-item"
-              onClick={() => {
-                executeContract(loadOrCreateWallet);
-              }}
-            >
-              Browser wallet
-            </button>
-            <button
-              className="dropdown-item"
-              onClick={() => {
-                executeContract(loadLedgerWallet);
-              }}
-              disabled={disableLedgerLogin()}
-            >
-              Ledger wallet
-            </button>
-          </div>
         </div>
         {executeResponse?.result ? (
           <li className="list-group-item">

@@ -1,3 +1,4 @@
+import { SigningCosmWasmClient } from "@cosmjs/cosmwasm";
 import { Registry } from "@cosmjs/proto-signing";
 import React from "react";
 
@@ -8,6 +9,8 @@ export interface ClientContextValue {
   readonly client: LaunchpadClient | StargateClient | null;
   readonly typeRegistry: Registry;
   readonly resetClient: (nodeUrl: string) => void;
+  readonly signingClient?: SigningCosmWasmClient;
+  readonly setSigningClient: (newSigningClient?: SigningCosmWasmClient) => void;
 }
 
 /**
@@ -20,6 +23,7 @@ const dummyContext: ClientContextValue = {
   client: null,
   typeRegistry: new Registry(),
   resetClient: () => {},
+  setSigningClient: () => {},
 };
 
 export const ClientContext = React.createContext<ClientContextValue>(dummyContext);

@@ -1,3 +1,4 @@
+import { SigningCosmWasmClient } from "@cosmjs/cosmwasm";
 import { codec } from "@cosmjs/cosmwasm-stargate";
 import { Registry } from "@cosmjs/proto-signing";
 import React from "react";
@@ -28,11 +29,14 @@ const typeRegistry = new Registry([
 
 export function App(): JSX.Element {
   const [nodeUrl, setNodeUrl] = React.useState(nodeUrls[0]);
+  const [signingClient, setSigningClient] = React.useState<SigningCosmWasmClient>();
   const [contextValue, setContextValue] = React.useState<ClientContextValue>({
     nodeUrl: nodeUrl,
     client: null,
     typeRegistry: typeRegistry,
     resetClient: setNodeUrl,
+    signingClient: signingClient,
+    setSigningClient: setSigningClient,
   });
 
   React.useEffect(() => {
@@ -41,6 +45,10 @@ export function App(): JSX.Element {
       setContextValue((prevContextValue) => ({ ...prevContextValue, nodeUrl: nodeUrl, client: client }));
     })();
   }, [nodeUrl]);
+
+  React.useEffect(() => {
+    setContextValue((prevContextValue) => ({ ...prevContextValue, signingClient: signingClient }));
+  }, [signingClient]);
 
   return (
     <ClientContext.Provider value={contextValue}>
