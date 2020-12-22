@@ -1,3 +1,5 @@
+import { GasPrice } from "@cosmjs/launchpad";
+
 export type NonEmptyArray<ElementType> = { readonly 0: ElementType } & readonly ElementType[];
 
 export interface BackendSettings {
@@ -5,6 +7,7 @@ export interface BackendSettings {
   readonly stargateEnabled: boolean;
   readonly denominations: readonly string[];
   readonly addressPrefix: string;
+  readonly gasPrice: GasPrice;
 }
 
 const devnetStargateSettings: BackendSettings = {
@@ -12,6 +15,7 @@ const devnetStargateSettings: BackendSettings = {
   stargateEnabled: true,
   denominations: ["ucosm", "ustake"],
   addressPrefix: "cosmos",
+  gasPrice: GasPrice.fromString("0.25ucosm"),
 };
 
 const devnetLaunchpadSettings: BackendSettings = {
@@ -19,6 +23,7 @@ const devnetLaunchpadSettings: BackendSettings = {
   stargateEnabled: false,
   denominations: ["ucosm", "ustake"],
   addressPrefix: "cosmos",
+  gasPrice: GasPrice.fromString("0.25ucosm"),
 };
 
 const coralnetSettings: BackendSettings = {
@@ -26,6 +31,7 @@ const coralnetSettings: BackendSettings = {
   stargateEnabled: false,
   denominations: ["ucosm", "ustake"],
   addressPrefix: "coral",
+  gasPrice: GasPrice.fromString("0.25ucosm"),
 };
 
 const heldernetSettings: BackendSettings = {
@@ -33,6 +39,7 @@ const heldernetSettings: BackendSettings = {
   stargateEnabled: false,
   denominations: ["ucosm", "ustake"],
   addressPrefix: "cosmos",
+  gasPrice: GasPrice.fromString("0.25ucosm"),
 };
 
 const knownBackends: { [index: string]: BackendSettings } = {
