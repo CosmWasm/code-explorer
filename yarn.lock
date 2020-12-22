@@ -1113,13 +1113,6 @@
     pako "^2.0.2"
     protobufjs "~6.10.2"
 
-"@cosmjs/cosmwasm@^0.24.0-alpha.11":
-  version "0.24.0-alpha.11"
-  resolved "https://registry.yarnpkg.com/@cosmjs/cosmwasm/-/cosmwasm-0.24.0-alpha.11.tgz#eb46091ba6f2692ac302492adea1ead0ae5c9ca8"
-  integrity sha512-nCjuK6dfp0fr35o5SpmBMgKyzpqfPywpCOQvalaCXmuw9Z7bkBzJ5cYOt+isZW6DrAarF1MBG2d1tgYQX7+S9Q==
-  dependencies:
-    "@cosmjs/cosmwasm-launchpad" "^0.24.0-alpha.11"
-
 "@cosmjs/crypto@^0.24.0-alpha.11":
   version "0.24.0-alpha.11"
   resolved "https://registry.yarnpkg.com/@cosmjs/crypto/-/crypto-0.24.0-alpha.11.tgz#e8a9bdf6b6fd73cb7afd31340f25fa321a723ee8"

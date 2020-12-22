@@ -2,7 +2,7 @@ import {
   isMsgExecuteContract as isLaunchpadMsgExecuteContract,
   isMsgInstantiateContract as isLaunchpadMsgInstantiateContract,
   isMsgStoreCode as isLaunchpadMsgStoreCode,
-} from "@cosmjs/cosmwasm";
+} from "@cosmjs/cosmwasm-launchpad";
 import { fromBase64 } from "@cosmjs/encoding";
 import { isMsgSend as isLaunchpadMsgSend, Msg, pubkeyType, WrappedStdTx } from "@cosmjs/launchpad";
 import { Registry } from "@cosmjs/proto-signing";

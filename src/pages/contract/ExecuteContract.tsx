@@ -1,4 +1,4 @@
-import { ExecuteResult } from "@cosmjs/cosmwasm";
+import { ExecuteResult } from "@cosmjs/cosmwasm-launchpad";
 import { Coin } from "@cosmjs/launchpad";
 import React from "react";
 import JSONInput from "react-json-editor-ajrm";

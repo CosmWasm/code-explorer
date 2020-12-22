@@ -1,4 +1,4 @@
-import { Contract } from "@cosmjs/cosmwasm";
+import { Contract } from "@cosmjs/cosmwasm-launchpad";
 import React from "react";
 
 import { AccountLink } from "../../components/AccountLink";
