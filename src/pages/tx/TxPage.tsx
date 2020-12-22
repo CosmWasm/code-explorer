@@ -152,23 +152,26 @@ export function TxPage(): JSX.Element {
             ) : (
               Tx.decode(details.tx).body?.messages?.map((msg, index) => (
                 <div className="card mb-3" key={`${details.hash}_${index}`}>
-                  <div className="card-header">Type: {msg.type_url}</div>
+                  <div className="card-header">
+                    Message {index + 1} (Type: {msg.type_url || <em>unset</em>})
+                  </div>
                   <ul className="list-group list-group-flush">
-                    {isAnyMsgSend(msg) && (
+                    {isAnyMsgSend(msg) ? (
                       <MsgSend msg={typeRegistry.decode({ typeUrl: msg.type_url, value: msg.value })} />
-                    )}
-                    {isAnyMsgStoreCode(msg) && (
+                    ) : isAnyMsgStoreCode(msg) ? (
                       <MsgStoreCode msg={typeRegistry.decode({ typeUrl: msg.type_url, value: msg.value })} />
-                    )}
-                    {isAnyMsgInstantiateContract(msg) && (
+                    ) : isAnyMsgInstantiateContract(msg) ? (
                       <MsgInstantiateContract
                         msg={typeRegistry.decode({ typeUrl: msg.type_url, value: msg.value })}
                       />
-                    )}
-                    {isAnyMsgExecuteContract(msg) && (
+                    ) : isAnyMsgExecuteContract(msg) ? (
                       <MsgExecuteContract
                         msg={typeRegistry.decode({ typeUrl: msg.type_url, value: msg.value })}
                       />
+                    ) : (
+                      <li className="list-group-item">
+                        <em>This message type cannot be displayed</em>
+                      </li>
                     )}
                   </ul>
                 </div>
