@@ -13,6 +13,26 @@ You need to install the code-explorer dependencies before choosing which network
 yarn install
 ```
 
+### Run against testnets
+
+You don't need to run a local network in order to connect to the testnets, you just need the right start script for each network.
+
+#### Heldernet
+
+```sh
+yarn start-heldernet
+```
+
+#### Coralnet
+
+```sh
+yarn start-coralnet
+```
+
+#### Musslenet
+
+Coming soon!
+
 ### Run against local networks
 
 Clone the CosmJS repo in order to run a local Launchpad or Stargate network:
@@ -42,26 +62,6 @@ The start script that makes the code-explorer connect to a local Stargate networ
 ```sh
 yarn start-stargate
 ```
-
-### Run against testnets
-
-You don't need to run a local network in order to connect to the testnets, you just need the right start script for each network.
-
-#### Heldernet
-
-```sh
-yarn start-heldernet
-```
-
-#### Coralnet
-
-```sh
-yarn start-coralnet
-```
-
-#### Musslenet
-
-Coming soon!
 
 ## Credits
 
