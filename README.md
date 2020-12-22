@@ -38,7 +38,7 @@ Coming soon!
 Clone the CosmJS repo in order to run a local Launchpad or Stargate network:
 
 ```sh
-git clone --depth 1 --branch v0.24.0-alpha.11 git@github.com:cosmos/cosmjs.git
+git clone --depth 1 --branch v0.24.0-alpha.11 https://github.com/cosmos/cosmjs.git
 ```
 
 Also make sure to comply with the [prerequisites](https://github.com/cosmos/cosmjs/blob/v0.24.0-alpha.11/HACKING.md#prerequisite).
