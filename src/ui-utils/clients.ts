@@ -5,7 +5,7 @@ import {
 } from "@cosmjs/cosmwasm-launchpad";
 import { CosmWasmClient as StargateClient } from "@cosmjs/cosmwasm-stargate";
 import { Bip39, Random } from "@cosmjs/crypto";
-import { GasLimits, GasPrice, makeCosmoshubPath, OfflineSigner, Secp256k1HdWallet } from "@cosmjs/launchpad";
+import { GasLimits, makeCosmoshubPath, OfflineSigner, Secp256k1HdWallet } from "@cosmjs/launchpad";
 import { LedgerSigner } from "@cosmjs/launchpad-ledger";
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
 
@@ -55,12 +55,10 @@ export async function loadLedgerWallet(addressPrefix: string): Promise<OfflineSi
 }
 
 export async function createClient(signer: OfflineSigner): Promise<SigningCosmWasmClient> {
-  const { denominations, nodeUrls } = settings.backend;
-  const feeToken = denominations[0];
+  const { gasPrice, nodeUrls } = settings.backend;
   const apiUrl = nodeUrls[0];
 
   const firstAddress = (await signer.getAccounts())[0].address;
-  const gasPrice = GasPrice.fromString(`${0.025}${feeToken}`);
   const gasLimits: GasLimits<CosmWasmFeeTable> = {
     upload: 1500000,
     init: 600000,
