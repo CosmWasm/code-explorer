@@ -5,6 +5,7 @@ import JSONInput from "react-json-editor-ajrm";
 
 import { ClientContext } from "../../contexts/ClientContext";
 import { settings } from "../../settings";
+import { isLaunchpadSigningClient, isStargateSigningClient } from "../../ui-utils/clients";
 import { jsonInputStyle } from "../../ui-utils/jsonInput";
 import { Result } from "./ContractPage";
 
@@ -19,7 +20,7 @@ interface Props {
 }
 
 export function ExecuteContract({ contractAddress }: Props): JSX.Element {
-  const { signingClient } = React.useContext(ClientContext);
+  const { userAddress, signingClient } = React.useContext(ClientContext);
 
   const [executing, setExecuting] = React.useState(false);
   const [error, setError] = React.useState<string>();
@@ -56,19 +57,31 @@ export function ExecuteContract({ contractAddress }: Props): JSX.Element {
   }, [coinsObject, executeResponse, msgObject]);
 
   async function executeContract(): Promise<void> {
-    if (!msgObject?.result || !signingClient) return;
+    if (!msgObject?.result || !userAddress || !signingClient) return;
 
     setExecuting(true);
 
     try {
-      const executeResponseResult: ExecuteResult = await signingClient.execute(
-        contractAddress,
-        msgObject.result,
-        memo,
-        coinsObject?.result,
-      );
+      if (isStargateSigningClient(signingClient)) {
+        const executeResponseResult: ExecuteResult = await signingClient.execute(
+          userAddress,
+          contractAddress,
+          msgObject.result,
+          memo,
+          coinsObject?.result,
+        );
+        setExecuteResponse({ result: executeResponseResult });
+      }
 
-      setExecuteResponse({ result: executeResponseResult });
+      if (isLaunchpadSigningClient(signingClient)) {
+        const executeResponseResult: ExecuteResult = await signingClient.execute(
+          contractAddress,
+          msgObject.result,
+          memo,
+          coinsObject?.result,
+        );
+        setExecuteResponse({ result: executeResponseResult });
+      }
     } catch (error) {
       setExecuteResponse({ error: `Execute error: ${error.message}` });
     }
