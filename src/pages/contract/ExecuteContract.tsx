@@ -8,6 +8,10 @@ import { settings } from "../../settings";
 import { jsonInputStyle } from "../../ui-utils/jsonInput";
 import { Result } from "./ContractPage";
 
+const executePlaceholder = {
+  transfer: { recipient: "cosmos1zk4hr47hlch274x28j32dgnhuyewqjrwxn4mvm", amount: "1" },
+};
+
 interface Props {
   readonly contractAddress: string;
 }
@@ -75,9 +79,7 @@ export function ExecuteContract({ contractAddress }: Props): JSX.Element {
           <JSONInput
             width="100%"
             height="200px"
-            placeholder={{
-              transfer: { recipient: "cosmos1zk4hr47hlch274x28j32dgnhuyewqjrwxn4mvm", amount: "1" },
-            }}
+            placeholder={executePlaceholder}
             confirmGood={false}
             style={jsonInputStyle}
             onChange={({ jsObject }: any) => setMsgObject({ result: jsObject })}
