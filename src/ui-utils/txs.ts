@@ -6,7 +6,7 @@ import {
 import { fromBase64 } from "@cosmjs/encoding";
 import { isMsgSend as isLaunchpadMsgSend, Msg, pubkeyType, WrappedStdTx } from "@cosmjs/launchpad";
 import { Registry } from "@cosmjs/proto-signing";
-import { codec } from "@cosmjs/stargate";
+import { AminoTypes, codec } from "@cosmjs/stargate";
 import Long from "long";
 
 type IAny = codec.google.protobuf.IAny;
@@ -46,24 +46,31 @@ export function isAnyMsgSend(msg: IAny): msg is AnyMsgSend {
 }
 
 export function isAnyMsgStoreCode(msg: IAny): msg is AnyMsgStoreCode {
-  return msg.type_url === "/cosmos.bank.v1beta1.MsgStoreCode" && !!msg.value;
+  return msg.type_url === msgStoreCodeTypeUrl && !!msg.value;
 }
 
 export function isAnyMsgInstantiateContract(msg: IAny): msg is AnyMsgInstantiateContract {
-  return msg.type_url === "/cosmos.bank.v1beta1.MsgInstantiateContract" && !!msg.value;
+  return msg.type_url === msgInstantiateContractTypeUrl && !!msg.value;
 }
 
 export function isAnyMsgExecuteContract(msg: IAny): msg is AnyMsgExecuteContract {
-  return msg.type_url === "/cosmos.bank.v1beta1.MsgExecuteContract" && !!msg.value;
+  return msg.type_url === msgExecuteContractTypeUrl && !!msg.value;
 }
+
+const aminoTypes = new AminoTypes({
+  [msgStoreCodeTypeUrl]: "wasm/MsgStoreCode",
+  [msgInstantiateContractTypeUrl]: "wasm/MsgInstantiateContract",
+  [msgExecuteContractTypeUrl]: "wasm/MsgExecuteContract",
+});
 
 /* eslint-disable @typescript-eslint/camelcase */
 function launchpadMsgToStargateMsg(typeRegistry: Registry, msg: Msg): IAny {
+  const typeUrl = aminoTypes.fromAmino(msg.type);
   if (isLaunchpadMsgSend(msg)) {
     return {
-      type_url: msgSendTypeUrl,
+      type_url: typeUrl,
       value: typeRegistry.encode({
-        typeUrl: msgSendTypeUrl,
+        typeUrl: typeUrl,
         value: {
           fromAddress: msg.value.from_address,
           toAddress: msg.value.to_address,
@@ -74,9 +81,9 @@ function launchpadMsgToStargateMsg(typeRegistry: Registry, msg: Msg): IAny {
   }
   if (isLaunchpadMsgStoreCode(msg)) {
     return {
-      type_url: msgStoreCodeTypeUrl,
+      type_url: typeUrl,
       value: typeRegistry.encode({
-        typeUrl: msgStoreCodeTypeUrl,
+        typeUrl: typeUrl,
         value: {
           sender: msg.value.sender,
           wasmByteCode: msg.value.wasm_byte_code,
@@ -89,9 +96,9 @@ function launchpadMsgToStargateMsg(typeRegistry: Registry, msg: Msg): IAny {
   }
   if (isLaunchpadMsgInstantiateContract(msg)) {
     return {
-      type_url: msgInstantiateContractTypeUrl,
+      type_url: typeUrl,
       value: typeRegistry.encode({
-        typeUrl: msgInstantiateContractTypeUrl,
+        typeUrl: typeUrl,
         value: {
           sender: msg.value.sender,
           codeId: msg.value.code_id,
@@ -123,13 +130,7 @@ function launchpadMsgToStargateMsg(typeRegistry: Registry, msg: Msg): IAny {
 export function launchpadTxToStargateTx(typeRegistry: Registry, tx: WrappedStdTx): Uint8Array {
   const stargateTx: ITx = {
     body: {
-      messages: tx.value.msg.map((msg) => {
-        const stargateMsg = launchpadMsgToStargateMsg(typeRegistry, msg);
-        return {
-          typeUrl: stargateMsg.type_url ?? "",
-          value: stargateMsg.value,
-        };
-      }),
+      messages: tx.value.msg.map((msg) => launchpadMsgToStargateMsg(typeRegistry, msg)),
       memo: tx.value.memo,
     },
     authInfo: {
