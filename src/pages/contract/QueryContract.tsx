@@ -5,6 +5,9 @@ import { ClientContext } from "../../contexts/ClientContext";
 import { jsonInputStyle } from "../../ui-utils/jsonInput";
 import { Result } from "./ContractPage";
 
+// eslint-disable-next-line @typescript-eslint/camelcase
+const queryPlaceholder = { get_balance: { address: "cosmos1zk4hr47hlch274x28j32dgnhuyewqjrwxn4mvm" } };
+
 interface Props {
   readonly contractAddress: string;
 }
@@ -15,6 +18,10 @@ export function QueryContract({ contractAddress }: Props): JSX.Element {
   const [error, setError] = React.useState<string>();
   const [queryObject, setQueryObject] = React.useState<Result<Record<string, any>>>();
   const [queryResponse, setQueryResponse] = React.useState<Result<string>>();
+
+  React.useEffect(() => {
+    setQueryObject({ result: queryPlaceholder });
+  }, []);
 
   React.useEffect(() => {
     if (queryObject?.error) {
@@ -56,8 +63,7 @@ export function QueryContract({ contractAddress }: Props): JSX.Element {
           <JSONInput
             width="100%"
             height="200px"
-            // eslint-disable-next-line @typescript-eslint/camelcase
-            placeholder={{ get_balance: { address: "cosmos1zk4hr47hlch274x28j32dgnhuyewqjrwxn4mvm" } }}
+            placeholder={queryPlaceholder}
             confirmGood={false}
             style={jsonInputStyle}
             onChange={({ jsObject }: any) => setQueryObject({ result: jsObject })}
