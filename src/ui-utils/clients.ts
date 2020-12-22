@@ -45,23 +45,19 @@ export function generateMnemonic(): string {
   return Bip39.encode(Random.getBytes(16)).toString();
 }
 
-export function loadOrCreateMnemonic(): string {
+export function loadOrCreateMnemonic(mnemonic?: string): string {
   const key = "burner-wallet";
-  const loaded = localStorage.getItem(key);
-  if (loaded) {
-    return loaded;
-  }
-  const generated = generateMnemonic();
+  const generated = mnemonic || generateMnemonic();
   localStorage.setItem(key, generated);
   return generated;
 }
 
-export type WalletLoader = (addressPrefix: string) => Promise<OfflineSigner>;
+export type WalletLoader = (addressPrefix: string, mnemonic?: string) => Promise<OfflineSigner>;
 
-export async function loadOrCreateWallet(addressPrefix: string): Promise<OfflineSigner> {
-  const mnemonic = loadOrCreateMnemonic();
+export async function loadOrCreateWallet(addressPrefix: string, mnemonic?: string): Promise<OfflineSigner> {
+  const loadedMnemonic = loadOrCreateMnemonic(mnemonic);
   const hdPath = makeCosmoshubPath(0);
-  const wallet = await Secp256k1HdWallet.fromMnemonic(mnemonic, hdPath, addressPrefix);
+  const wallet = await Secp256k1HdWallet.fromMnemonic(loadedMnemonic, hdPath, addressPrefix);
   return wallet;
 }
 
@@ -126,8 +122,9 @@ export async function createSigningClient(
 
 export async function getAddressAndSigningClient(
   loadWallet: WalletLoader,
+  mnemonic?: string,
 ): Promise<[string, LaunchpadSigningClient | StargateSigningClient]> {
-  const signer = await loadWallet(settings.backend.addressPrefix);
+  const signer = await loadWallet(settings.backend.addressPrefix, mnemonic);
   const userAddress = (await signer.getAccounts())[0].address;
   const signingClient = await createSigningClient(signer);
   return [userAddress, signingClient];
