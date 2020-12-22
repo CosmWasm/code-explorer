@@ -28,6 +28,7 @@ import {
   LoadingState,
   loadingState,
 } from "../../ui-utils/states";
+import { ExecuteContract } from "./ExecuteContract";
 import { Execution, ExecutionsTable } from "./ExecutionsTable";
 import { HistoryInfo } from "./HistoryInfo";
 import { InitializationInfo } from "./InitializationInfo";
@@ -287,6 +288,7 @@ export function ContractPage(): JSX.Element {
                 <InitializationInfo contract={details} instantiationTxHash={instantiationTxHash} />
                 <HistoryInfo contractCodeHistory={contractCodeHistory} />
                 <QueryContract contractAddress={contractAddress} />
+                <ExecuteContract contractAddress={contractAddress} />
               </>
             )}
           </div>

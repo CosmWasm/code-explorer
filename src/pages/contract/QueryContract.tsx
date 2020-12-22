@@ -2,6 +2,7 @@ import React from "react";
 import JSONInput from "react-json-editor-ajrm";
 
 import { ClientContext } from "../../contexts/ClientContext";
+import { jsonInputStyle } from "../../ui-utils/jsonInput";
 import { Result } from "./ContractPage";
 
 interface Props {
@@ -58,12 +59,7 @@ export function QueryContract({ contractAddress }: Props): JSX.Element {
             // eslint-disable-next-line @typescript-eslint/camelcase
             placeholder={{ get_balance: { address: "cosmos1zk4hr47hlch274x28j32dgnhuyewqjrwxn4mvm" } }}
             confirmGood={false}
-            /* Place error box below text box, so appearing error does not push text box down */
-            style={{
-              container: { display: "flex", flexDirection: "column" },
-              body: { order: "1" },
-              warningBox: { order: "2" },
-            }}
+            style={jsonInputStyle}
             onChange={({ jsObject }: any) => setQueryObject({ result: jsObject })}
           />
         </li>
