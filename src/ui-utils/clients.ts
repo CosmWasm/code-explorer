@@ -1,4 +1,8 @@
-import { CosmWasmClient as LaunchpadClient, CosmWasmFeeTable, SigningCosmWasmClient } from "@cosmjs/cosmwasm";
+import {
+  CosmWasmClient as LaunchpadClient,
+  CosmWasmFeeTable,
+  SigningCosmWasmClient,
+} from "@cosmjs/cosmwasm-launchpad";
 import { CosmWasmClient as StargateClient } from "@cosmjs/cosmwasm-stargate";
 import { Bip39, Random } from "@cosmjs/crypto";
 import { GasLimits, GasPrice, makeCosmoshubPath, OfflineSigner, Secp256k1HdWallet } from "@cosmjs/launchpad";

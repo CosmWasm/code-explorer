@@ -5,7 +5,7 @@ import {
   ContractCodeHistoryEntry,
   isMsgExecuteContract,
   MsgExecuteContract,
-} from "@cosmjs/cosmwasm";
+} from "@cosmjs/cosmwasm-launchpad";
 import { Coin, IndexedTx as LaunchpadIndexedTx } from "@cosmjs/launchpad";
 import { Registry } from "@cosmjs/proto-signing";
 import { codec, IndexedTx } from "@cosmjs/stargate";

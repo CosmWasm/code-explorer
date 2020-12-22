@@ -1,4 +1,4 @@
-import { SigningCosmWasmClient } from "@cosmjs/cosmwasm";
+import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-launchpad";
 import { codec } from "@cosmjs/cosmwasm-stargate";
 import { Registry } from "@cosmjs/proto-signing";
 import React from "react";

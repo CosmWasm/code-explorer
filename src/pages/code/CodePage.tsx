@@ -1,6 +1,6 @@
 import "./CodePage.css";
 
-import { CodeDetails, Contract } from "@cosmjs/cosmwasm";
+import { CodeDetails, Contract } from "@cosmjs/cosmwasm-launchpad";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
