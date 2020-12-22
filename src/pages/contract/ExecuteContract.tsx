@@ -12,6 +12,8 @@ const executePlaceholder = {
   transfer: { recipient: "cosmos1zk4hr47hlch274x28j32dgnhuyewqjrwxn4mvm", amount: "1" },
 };
 
+const coinsPlaceholder = [{ denom: settings.backend.denominations[0], amount: "1" }];
+
 interface Props {
   readonly contractAddress: string;
 }
@@ -28,6 +30,11 @@ export function ExecuteContract({ contractAddress }: Props): JSX.Element {
   const [coinsObject, setCoinsObject] = React.useState<Result<ReadonlyArray<Coin>>>();
 
   const [executeResponse, setExecuteResponse] = React.useState<Result<ExecuteResult>>();
+
+  React.useEffect(() => {
+    setMsgObject({ result: executePlaceholder });
+    setCoinsObject({ result: coinsPlaceholder });
+  }, []);
 
   React.useEffect(() => {
     if (msgObject?.error) {
@@ -92,8 +99,7 @@ export function ExecuteContract({ contractAddress }: Props): JSX.Element {
           <JSONInput
             width="100%"
             height="120px"
-            // eslint-disable-next-line @typescript-eslint/camelcase
-            placeholder={[{ denom: settings.backend.denominations[0], amount: "1" }]}
+            placeholder={coinsPlaceholder}
             confirmGood={false}
             style={jsonInputStyle}
             onChange={({ jsObject }: any) => setCoinsObject({ result: jsObject })}
