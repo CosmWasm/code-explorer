@@ -1,26 +1,26 @@
 {
   "files": {
     "main.css": "https://cosmwasm.github.io/code-explorer/static/css/main.d0f9fac1.chunk.css",
-    "main.js": "https://cosmwasm.github.io/code-explorer/static/js/main.b3e68433.chunk.js",
-    "main.js.map": "https://cosmwasm.github.io/code-explorer/static/js/main.b3e68433.chunk.js.map",
+    "main.js": "https://cosmwasm.github.io/code-explorer/static/js/main.f7c2e451.chunk.js",
+    "main.js.map": "https://cosmwasm.github.io/code-explorer/static/js/main.f7c2e451.chunk.js.map",
     "runtime-main.js": "https://cosmwasm.github.io/code-explorer/static/js/runtime-main.27439902.js",
     "runtime-main.js.map": "https://cosmwasm.github.io/code-explorer/static/js/runtime-main.27439902.js.map",
     "static/css/2.8ba42a9a.chunk.css": "https://cosmwasm.github.io/code-explorer/static/css/2.8ba42a9a.chunk.css",
-    "static/js/2.aedc5e3a.chunk.js": "https://cosmwasm.github.io/code-explorer/static/js/2.aedc5e3a.chunk.js",
-    "static/js/2.aedc5e3a.chunk.js.map": "https://cosmwasm.github.io/code-explorer/static/js/2.aedc5e3a.chunk.js.map",
+    "static/js/2.ace24f1f.chunk.js": "https://cosmwasm.github.io/code-explorer/static/js/2.ace24f1f.chunk.js",
+    "static/js/2.ace24f1f.chunk.js.map": "https://cosmwasm.github.io/code-explorer/static/js/2.ace24f1f.chunk.js.map",
     "index.html": "https://cosmwasm.github.io/code-explorer/index.html",
-    "precache-manifest.c37a620de6ff22a57b19da9481d25c51.js": "https://cosmwasm.github.io/code-explorer/precache-manifest.c37a620de6ff22a57b19da9481d25c51.js",
+    "precache-manifest.de4f5904de953c7cb32c39282b152d44.js": "https://cosmwasm.github.io/code-explorer/precache-manifest.de4f5904de953c7cb32c39282b152d44.js",
     "service-worker.js": "https://cosmwasm.github.io/code-explorer/service-worker.js",
     "static/css/2.8ba42a9a.chunk.css.map": "https://cosmwasm.github.io/code-explorer/static/css/2.8ba42a9a.chunk.css.map",
     "static/css/main.d0f9fac1.chunk.css.map": "https://cosmwasm.github.io/code-explorer/static/css/main.d0f9fac1.chunk.css.map",
-    "static/js/2.aedc5e3a.chunk.js.LICENSE.txt": "https://cosmwasm.github.io/code-explorer/static/js/2.aedc5e3a.chunk.js.LICENSE.txt",
+    "static/js/2.ace24f1f.chunk.js.LICENSE.txt": "https://cosmwasm.github.io/code-explorer/static/js/2.ace24f1f.chunk.js.LICENSE.txt",
     "static/media/index.css": "https://cosmwasm.github.io/code-explorer/static/media/background.7435b81a.jpg"
   },
   "entrypoints": [
     "static/js/runtime-main.27439902.js",
     "static/css/2.8ba42a9a.chunk.css",
-    "static/js/2.aedc5e3a.chunk.js",
+    "static/js/2.ace24f1f.chunk.js",
     "static/css/main.d0f9fac1.chunk.css",
-    "static/js/main.b3e68433.chunk.js"
+    "static/js/main.f7c2e451.chunk.js"
   ]
 }
