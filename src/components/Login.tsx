@@ -1,17 +1,17 @@
 import React from "react";
 
 import { ClientContext } from "../contexts/ClientContext";
-import { settings } from "../settings";
 import {
   disableLedgerLogin,
-  getSigningClient,
+  getAddressAndSigningClient,
   loadLedgerWallet,
   loadOrCreateWallet,
   WalletLoader,
 } from "../ui-utils/clients";
 
 export function Login(): JSX.Element {
-  const { signingClient, setSigningClient } = React.useContext(ClientContext);
+  const { userAddress, setUserAddress, setSigningClient } = React.useContext(ClientContext);
+  const [mnemonic, setMnemonic] = React.useState<string>();
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string>();
 
@@ -20,8 +20,9 @@ export function Login(): JSX.Element {
     setError(undefined);
 
     try {
-      const client = await getSigningClient(loadWallet);
-      setSigningClient(client);
+      const [userAddress, signingClient] = await getAddressAndSigningClient(loadWallet, mnemonic);
+      setUserAddress(userAddress);
+      setSigningClient(signingClient);
     } catch (error) {
       setError(error.message);
     }
@@ -31,6 +32,8 @@ export function Login(): JSX.Element {
 
   function logout(): void {
     setError(undefined);
+    setUserAddress(undefined);
+    setMnemonic(undefined);
     setSigningClient(undefined);
   }
 
@@ -42,13 +45,20 @@ export function Login(): JSX.Element {
       </button>
     ) : (
       <>
+        <div className="mr-3 p-2 rounded bg-white">
+          <span title="Mnemonic for burner wallet">Mnemonic:</span>
+          <input
+            className="ml-3 flex-grow-1"
+            value={mnemonic}
+            onChange={(event) => setMnemonic(event.target.value)}
+          />
+        </div>
         <button
           type="button"
           className="btn btn-primary dropdown-toggle"
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
-          disabled={settings.backend.stargateEnabled}
         >
           Login
         </button>
@@ -77,7 +87,7 @@ export function Login(): JSX.Element {
     );
   }
 
-  const isUserLoggedIn = signingClient?.senderAddress;
+  const isUserLoggedIn = !!userAddress;
 
   return (
     <div className="d-flex align-items-center justify-content-end">

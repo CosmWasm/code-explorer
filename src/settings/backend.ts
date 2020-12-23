@@ -14,7 +14,7 @@ const devnetStargateSettings: BackendSettings = {
   nodeUrls: ["http://localhost:26659"],
   stargateEnabled: true,
   denominations: ["ucosm", "ustake"],
-  addressPrefix: "cosmos",
+  addressPrefix: "wasm",
   gasPrice: GasPrice.fromString("0.25ucosm"),
 };
 

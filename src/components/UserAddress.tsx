@@ -3,12 +3,12 @@ import React from "react";
 import { ClientContext } from "../contexts/ClientContext";
 
 export function UserAddress(): JSX.Element {
-  const { signingClient } = React.useContext(ClientContext);
+  const { userAddress } = React.useContext(ClientContext);
 
-  return signingClient?.senderAddress ? (
+  return userAddress ? (
     <div className="mr-3 p-2 rounded bg-white">
       <span>My address: </span>
-      <span>{signingClient.senderAddress}</span>
+      <span>{userAddress}</span>
     </div>
   ) : (
     <></>

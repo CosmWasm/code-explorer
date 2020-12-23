@@ -1,4 +1,3 @@
-import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-launchpad";
 import { codec } from "@cosmjs/cosmwasm-stargate";
 import { Registry } from "@cosmjs/proto-signing";
 import React from "react";
@@ -11,7 +10,12 @@ import { CodesPage } from "../pages/codes/CodesPage";
 import { ContractPage } from "../pages/contract/ContractPage";
 import { TxPage } from "../pages/tx/TxPage";
 import { settings } from "../settings";
-import { LaunchpadClient, StargateClient } from "../ui-utils/clients";
+import {
+  LaunchpadClient,
+  LaunchpadSigningClient,
+  StargateClient,
+  StargateSigningClient,
+} from "../ui-utils/clients";
 import {
   msgExecuteContractTypeUrl,
   msgInstantiateContractTypeUrl,
@@ -29,12 +33,15 @@ const typeRegistry = new Registry([
 
 export function App(): JSX.Element {
   const [nodeUrl, setNodeUrl] = React.useState(nodeUrls[0]);
-  const [signingClient, setSigningClient] = React.useState<SigningCosmWasmClient>();
+  const [userAddress, setUserAddress] = React.useState<string>();
+  const [signingClient, setSigningClient] = React.useState<LaunchpadSigningClient | StargateSigningClient>();
   const [contextValue, setContextValue] = React.useState<ClientContextValue>({
     nodeUrl: nodeUrl,
     client: null,
     typeRegistry: typeRegistry,
     resetClient: setNodeUrl,
+    userAddress: userAddress,
+    setUserAddress: setUserAddress,
     signingClient: signingClient,
     setSigningClient: setSigningClient,
   });
@@ -49,6 +56,10 @@ export function App(): JSX.Element {
   React.useEffect(() => {
     setContextValue((prevContextValue) => ({ ...prevContextValue, signingClient: signingClient }));
   }, [signingClient]);
+
+  React.useEffect(() => {
+    setContextValue((prevContextValue) => ({ ...prevContextValue, userAddress: userAddress }));
+  }, [userAddress]);
 
   return (
     <ClientContext.Provider value={contextValue}>
