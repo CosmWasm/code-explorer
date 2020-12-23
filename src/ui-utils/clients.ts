@@ -47,9 +47,13 @@ export function generateMnemonic(): string {
 
 export function loadOrCreateMnemonic(mnemonic?: string): string {
   const key = "burner-wallet";
-  const generated = mnemonic || generateMnemonic();
-  localStorage.setItem(key, generated);
-  return generated;
+  const loaded = localStorage.getItem(key);
+  if (loaded && !mnemonic) {
+    return loaded;
+  }
+  const loadedMnemonic = mnemonic || generateMnemonic();
+  localStorage.setItem(key, loadedMnemonic);
+  return loadedMnemonic;
 }
 
 export type WalletLoader = (addressPrefix: string, mnemonic?: string) => Promise<OfflineSigner>;
