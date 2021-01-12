@@ -63,6 +63,17 @@ The start script that makes the code-explorer connect to a local Stargate networ
 yarn start-stargate
 ```
 
+## Build instructions
+
+You can build a code explorer and deploy it as static HTML/JS files.
+
+Requirements: yarn, Node.js 10+
+
+```
+yarn install
+PUBLIC_URL=https://code-explorer.musselnet.cosmwasm.com/ REACT_APP_BACKEND=musselnet yarn build
+```
+
 ## Credits
 
 Background image from https://unsplash.com/photos/QqCLSA3EQUg
