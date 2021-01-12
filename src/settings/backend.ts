@@ -42,7 +42,7 @@ const heldernetSettings: BackendSettings = {
   gasPrice: GasPrice.fromString("0.25ucosm"),
 };
 
-const knownBackends: { [index: string]: BackendSettings } = {
+const knownBackends: Partial<Record<string, BackendSettings>> = {
   coralnet: coralnetSettings,
   heldernet: heldernetSettings,
   devnetLaunchpad: devnetLaunchpadSettings,
@@ -51,5 +51,9 @@ const knownBackends: { [index: string]: BackendSettings } = {
 
 export function getCurrentBackend(): BackendSettings {
   const id = process.env.REACT_APP_BACKEND || "devnetLaunchpad";
-  return knownBackends[id];
+  const backend = knownBackends[id];
+  if (!backend) {
+    throw new Error(`No backend found for the given ID "${id}"`);
+  }
+  return backend;
 }
