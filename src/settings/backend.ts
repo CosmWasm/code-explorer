@@ -42,14 +42,27 @@ const heldernetSettings: BackendSettings = {
   gasPrice: GasPrice.fromString("0.25ucosm"),
 };
 
-const knownBackends: { [index: string]: BackendSettings } = {
+const musselnetSettings: BackendSettings = {
+  nodeUrls: ["https://rpc.musselnet.cosmwasm.com"],
+  stargateEnabled: true,
+  denominations: ["umayo", "ufrites"],
+  addressPrefix: "wasm",
+  gasPrice: GasPrice.fromString("0.25ucosm"),
+};
+
+const knownBackends: Partial<Record<string, BackendSettings>> = {
   coralnet: coralnetSettings,
   heldernet: heldernetSettings,
   devnetLaunchpad: devnetLaunchpadSettings,
   devnetStargate: devnetStargateSettings,
+  musselnet: musselnetSettings,
 };
 
 export function getCurrentBackend(): BackendSettings {
   const id = process.env.REACT_APP_BACKEND || "devnetLaunchpad";
-  return knownBackends[id];
+  const backend = knownBackends[id];
+  if (!backend) {
+    throw new Error(`No backend found for the given ID "${id}"`);
+  }
+  return backend;
 }

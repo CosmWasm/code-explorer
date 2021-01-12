@@ -1,12 +1,16 @@
 import React from "react";
 
 import { ClientContext } from "../contexts/ClientContext";
+import { settings } from "../settings";
 import {
-  disableLedgerLogin,
-  getAddressAndSigningClient,
+  getAddressAndLaunchpadSigningClient,
+  getAddressAndStargateSigningClient,
   loadLedgerWallet,
-  loadOrCreateWallet,
-  WalletLoader,
+  loadOrCreateWalletAmino,
+  loadOrCreateWalletDirect,
+  WalletLoaderAmino,
+  WalletLoaderDirect,
+  webUsbMissing,
 } from "../ui-utils/clients";
 
 export function Login(): JSX.Element {
@@ -15,12 +19,27 @@ export function Login(): JSX.Element {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string>();
 
-  async function login(loadWallet: WalletLoader): Promise<void> {
+  async function loginLaunchpad(loadWallet: WalletLoaderAmino): Promise<void> {
     setLoading(true);
     setError(undefined);
 
     try {
-      const [userAddress, signingClient] = await getAddressAndSigningClient(loadWallet, mnemonic);
+      const [userAddress, signingClient] = await getAddressAndLaunchpadSigningClient(loadWallet, mnemonic);
+      setUserAddress(userAddress);
+      setSigningClient(signingClient);
+    } catch (error) {
+      setError(error.message);
+    }
+
+    setLoading(false);
+  }
+
+  async function loginStargate(loadWallet: WalletLoaderDirect): Promise<void> {
+    setLoading(true);
+    setError(undefined);
+
+    try {
+      const [userAddress, signingClient] = await getAddressAndStargateSigningClient(loadWallet, mnemonic);
       setUserAddress(userAddress);
       setSigningClient(signingClient);
     } catch (error) {
@@ -64,13 +83,24 @@ export function Login(): JSX.Element {
         </button>
         <div className="dropdown-menu">
           <h6 className="dropdown-header">with</h6>
-          <button className="dropdown-item" onClick={() => login(loadOrCreateWallet)}>
+          <button
+            className="dropdown-item"
+            onClick={() =>
+              settings.backend.stargateEnabled
+                ? loginStargate(loadOrCreateWalletDirect)
+                : loginLaunchpad(loadOrCreateWalletAmino)
+            }
+          >
             Browser wallet
           </button>
           <button
             className="dropdown-item"
-            onClick={() => login(loadLedgerWallet)}
-            disabled={disableLedgerLogin()}
+            onClick={() => loginLaunchpad(loadLedgerWallet)}
+            disabled={
+              webUsbMissing() ||
+              settings.backend
+                .stargateEnabled /* Currently no CosmWasm+Stargate+Ledger is supported (https://github.com/cosmos/cosmjs/issues/594#issuecomment-758052785) */
+            }
           >
             Ledger wallet
           </button>
