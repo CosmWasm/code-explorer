@@ -42,11 +42,20 @@ const heldernetSettings: BackendSettings = {
   gasPrice: GasPrice.fromString("0.25ucosm"),
 };
 
+const musselnetSettings: BackendSettings = {
+  nodeUrls: ["https://rpc.musselnet.cosmwasm.com"],
+  stargateEnabled: true,
+  denominations: ["umayo", "ufrites"],
+  addressPrefix: "wasm",
+  gasPrice: GasPrice.fromString("0.25ucosm"),
+};
+
 const knownBackends: Partial<Record<string, BackendSettings>> = {
   coralnet: coralnetSettings,
   heldernet: heldernetSettings,
   devnetLaunchpad: devnetLaunchpadSettings,
   devnetStargate: devnetStargateSettings,
+  musselnet: musselnetSettings,
 };
 
 export function getCurrentBackend(): BackendSettings {
