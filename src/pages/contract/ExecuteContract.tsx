@@ -145,7 +145,7 @@ export function ExecuteContract({ contractAddress }: Props): JSX.Element {
         {executeResponse?.result ? (
           <li className="list-group-item">
             <span title="The contract formatted input">Response:</span>
-            <pre className="mb-0">{executeResponse.result}</pre>
+            <pre className="mb-0">{JSON.stringify(executeResponse.result, undefined, "  ")}</pre>
           </li>
         ) : null}
         {error ? (
