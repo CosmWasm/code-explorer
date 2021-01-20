@@ -34,7 +34,7 @@ export function Login(): JSX.Element {
     setLoading(false);
   }
 
-  async function loginStargate(loadWallet: WalletLoaderDirect): Promise<void> {
+  async function loginStargate(loadWallet: WalletLoaderDirect | WalletLoaderAmino): Promise<void> {
     setLoading(true);
     setError(undefined);
 
@@ -95,12 +95,12 @@ export function Login(): JSX.Element {
           </button>
           <button
             className="dropdown-item"
-            onClick={() => loginLaunchpad(loadLedgerWallet)}
-            disabled={
-              webUsbMissing() ||
-              settings.backend
-                .stargateEnabled /* Currently no CosmWasm+Stargate+Ledger is supported (https://github.com/cosmos/cosmjs/issues/594#issuecomment-758052785) */
+            onClick={() =>
+              settings.backend.stargateEnabled
+                ? loginStargate(loadLedgerWallet)
+                : loginLaunchpad(loadLedgerWallet)
             }
+            disabled={webUsbMissing()}
           >
             Ledger wallet
           </button>

@@ -9,9 +9,14 @@ import {
   SigningCosmWasmClient as StargateSigningClient,
 } from "@cosmjs/cosmwasm-stargate";
 import { Bip39, Random } from "@cosmjs/crypto";
-import { GasLimits, makeCosmoshubPath, OfflineSigner, Secp256k1HdWallet } from "@cosmjs/launchpad";
+import {
+  GasLimits,
+  makeCosmoshubPath,
+  OfflineSigner as OfflineAminoSigner,
+  Secp256k1HdWallet,
+} from "@cosmjs/launchpad";
 import { LedgerSigner } from "@cosmjs/launchpad-ledger";
-import { DirectSecp256k1HdWallet, OfflineDirectSigner, Registry } from "@cosmjs/proto-signing";
+import { DirectSecp256k1HdWallet, OfflineDirectSigner, OfflineSigner, Registry } from "@cosmjs/proto-signing";
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
 
 import { settings } from "../settings";
@@ -56,13 +61,13 @@ export function loadOrCreateMnemonic(mnemonic?: string): string {
   return loadedMnemonic;
 }
 
-export type WalletLoaderAmino = (addressPrefix: string, mnemonic?: string) => Promise<OfflineSigner>;
+export type WalletLoaderAmino = (addressPrefix: string, mnemonic?: string) => Promise<OfflineAminoSigner>;
 export type WalletLoaderDirect = (addressPrefix: string, mnemonic?: string) => Promise<OfflineDirectSigner>;
 
 export async function loadOrCreateWalletAmino(
   addressPrefix: string,
   mnemonic?: string,
-): Promise<OfflineSigner> {
+): Promise<OfflineAminoSigner> {
   const loadedMnemonic = loadOrCreateMnemonic(mnemonic);
   const hdPath = makeCosmoshubPath(0);
   return Secp256k1HdWallet.fromMnemonic(loadedMnemonic, hdPath, addressPrefix);
@@ -77,14 +82,14 @@ export async function loadOrCreateWalletDirect(
   return DirectSecp256k1HdWallet.fromMnemonic(loadedMnemonic, hdPath, addressPrefix);
 }
 
-export async function loadLedgerWallet(addressPrefix: string): Promise<OfflineSigner> {
+export async function loadLedgerWallet(addressPrefix: string): Promise<OfflineAminoSigner> {
   const interactiveTimeout = 120_000;
   const ledgerTransport = await TransportWebUSB.create(interactiveTimeout, interactiveTimeout);
 
   return new LedgerSigner(ledgerTransport, { hdPaths: [makeCosmoshubPath(0)], prefix: addressPrefix });
 }
 
-async function createLaunchpadSigningClient(signer: OfflineSigner): Promise<LaunchpadSigningClient> {
+async function createLaunchpadSigningClient(signer: OfflineAminoSigner): Promise<LaunchpadSigningClient> {
   const { nodeUrls, gasPrice } = settings.backend;
   const apiUrl = nodeUrls[0];
 
@@ -101,7 +106,7 @@ async function createLaunchpadSigningClient(signer: OfflineSigner): Promise<Laun
   return new LaunchpadSigningClient(apiUrl, firstAddress, signer, gasPrice, gasLimits);
 }
 
-async function createStargateSigningClient(signer: OfflineDirectSigner): Promise<StargateSigningClient> {
+async function createStargateSigningClient(signer: OfflineSigner): Promise<StargateSigningClient> {
   const { nodeUrls, gasPrice } = settings.backend;
   const endpoint = nodeUrls[0];
 
@@ -121,7 +126,7 @@ async function createStargateSigningClient(signer: OfflineDirectSigner): Promise
     changeAdmin: 80000,
   };
 
-  return StargateSigningClient.connectWithWallet(endpoint, signer, {
+  return StargateSigningClient.connectWithSigner(endpoint, signer, {
     registry: typeRegistry,
     gasPrice: gasPrice,
     gasLimits: gasLimits,
@@ -139,7 +144,7 @@ export async function getAddressAndLaunchpadSigningClient(
 }
 
 export async function getAddressAndStargateSigningClient(
-  loadWallet: WalletLoaderDirect,
+  loadWallet: WalletLoaderDirect | WalletLoaderAmino,
   mnemonic?: string,
 ): Promise<[string, StargateSigningClient]> {
   const signer = await loadWallet(settings.backend.addressPrefix, mnemonic);
