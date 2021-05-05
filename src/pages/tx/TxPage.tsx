@@ -9,7 +9,7 @@ import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
 import { ClientContext } from "../../contexts/ClientContext";
 import { ellideMiddle } from "../../ui-utils";
-import { isStargateClient, StargateClient } from "../../ui-utils/clients";
+import { StargateClient } from "../../ui-utils/clients";
 import {
   ErrorState,
   errorState,
@@ -57,11 +57,7 @@ export function TxPage(): JSX.Element {
     loadingState,
   );
 
-  React.useEffect(isStargateClient(client) ? stargateEffect(client, txId, setDetails) : () => {}, [
-    client,
-    txId,
-    typeRegistry,
-  ]);
+  React.useEffect(client ? stargateEffect(client, txId, setDetails) : () => {}, [client, txId, typeRegistry]);
 
   return (
     <div className="page">
