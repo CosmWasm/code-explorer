@@ -25,7 +25,7 @@ export function isStargateSigningClient(
   return signingClient instanceof StargateSigningClient;
 }
 
-export function generateMnemonic(): string {
+function generateMnemonic(): string {
   return Bip39.encode(Random.getBytes(16)).toString();
 }
 
