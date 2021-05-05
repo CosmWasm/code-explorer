@@ -5,7 +5,7 @@ import JSONInput from "react-json-editor-ajrm";
 
 import { ClientContext } from "../../contexts/ClientContext";
 import { settings } from "../../settings";
-import { isLaunchpadSigningClient, isStargateSigningClient } from "../../ui-utils/clients";
+import { isStargateSigningClient } from "../../ui-utils/clients";
 import { jsonInputStyle } from "../../ui-utils/jsonInput";
 import { Result } from "./ContractPage";
 
@@ -65,16 +65,6 @@ export function ExecuteContract({ contractAddress }: Props): JSX.Element {
       if (isStargateSigningClient(signingClient)) {
         const executeResponseResult: ExecuteResult = await signingClient.execute(
           userAddress,
-          contractAddress,
-          msgObject.result,
-          memo,
-          coinsObject?.result,
-        );
-        setExecuteResponse({ result: executeResponseResult });
-      }
-
-      if (isLaunchpadSigningClient(signingClient)) {
-        const executeResponseResult: ExecuteResult = await signingClient.execute(
           contractAddress,
           msgObject.result,
           memo,

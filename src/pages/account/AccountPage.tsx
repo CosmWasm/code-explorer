@@ -1,4 +1,4 @@
-import { Coin, IndexedTx as LaunchpadIndexedTx, isMsgSend, MsgSend } from "@cosmjs/launchpad";
+import { Coin } from "@cosmjs/launchpad";
 import { Registry } from "@cosmjs/proto-signing";
 import { codec, IndexedTx } from "@cosmjs/stargate";
 import React from "react";
@@ -9,7 +9,7 @@ import { Header } from "../../components/Header";
 import { ClientContext } from "../../contexts/ClientContext";
 import { settings } from "../../settings";
 import { ellideMiddle, printableBalance } from "../../ui-utils";
-import { isLaunchpadClient, isStargateClient, LaunchpadClient, StargateClient } from "../../ui-utils/clients";
+import { isStargateClient, StargateClient } from "../../ui-utils/clients";
 import {
   ErrorState,
   errorState,
@@ -36,44 +36,6 @@ function getTransferFromStargateMsgSend(typeRegistry: Registry, tx: IndexedTx) {
     };
   };
 }
-
-function getTransferFromLaunchpadMsgSend(tx: LaunchpadIndexedTx) {
-  return (msg: MsgSend, i: number): Transfer => ({
-    key: `${tx.hash}_${i}`,
-    height: tx.height,
-    transactionId: tx.hash,
-    msg: {
-      fromAddress: msg.value.from_address,
-      toAddress: msg.value.to_address,
-      amount: [...msg.value.amount],
-    },
-  });
-}
-
-const launchpadEffect = (
-  client: LaunchpadClient,
-  address: string,
-  setBalance: (balance: readonly ICoin[] | ErrorState | LoadingState) => void,
-  setTransfers: (transfers: readonly Transfer[] | ErrorState | LoadingState) => void,
-) => (): void => {
-  client
-    .getAccount(address)
-    .then((account) => setBalance(account?.balance ?? []))
-    .catch(() => setBalance(errorState));
-  client
-    .searchTx({ sentFromOrTo: address })
-    .then((txs) => {
-      const out = txs.reduce(
-        (transfers: readonly Transfer[], tx: LaunchpadIndexedTx): readonly Transfer[] => {
-          const txTransfers = tx.tx.value.msg.filter(isMsgSend).map(getTransferFromLaunchpadMsgSend(tx));
-          return [...transfers, ...txTransfers];
-        },
-        [],
-      );
-      setTransfers(out);
-    })
-    .catch(() => setBalance(errorState));
-};
 
 const stargateEffect = (
   client: StargateClient,
@@ -116,8 +78,6 @@ export function AccountPage(): JSX.Element {
   React.useEffect(
     isStargateClient(client)
       ? stargateEffect(client, address, typeRegistry, setBalance, setTransfers)
-      : isLaunchpadClient(client)
-      ? launchpadEffect(client, address, setBalance, setTransfers)
       : () => {},
     [address, client, typeRegistry],
   );

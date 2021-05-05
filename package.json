@@ -8,12 +8,9 @@
   "license": "Apache-2.0",
   "scripts": {
     "base-start": "react-scripts start",
-    "start-launchpad": "REACT_APP_BACKEND=devnetLaunchpad yarn base-start",
     "start-stargate": "REACT_APP_BACKEND=devnetStargate yarn base-start",
-    "start-coralnet": "REACT_APP_BACKEND=coralnet yarn base-start",
-    "start-heldernet": "REACT_APP_BACKEND=heldernet yarn base-start",
     "start-musselnet": "REACT_APP_BACKEND=musselnet yarn base-start",
-    "start": "yarn start-heldernet",
+    "start": "yarn start-musselnet",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "lint": "eslint -c .eslintrc.js --max-warnings 0 'src/**/*.ts{,x}'",

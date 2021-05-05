@@ -1,6 +1,5 @@
 import "./TxPage.css";
 
-import { Registry } from "@cosmjs/proto-signing";
 import { codec, IndexedTx } from "@cosmjs/stargate";
 import React from "react";
 import { useParams } from "react-router";
@@ -10,7 +9,7 @@ import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
 import { ClientContext } from "../../contexts/ClientContext";
 import { ellideMiddle } from "../../ui-utils";
-import { isLaunchpadClient, isStargateClient, LaunchpadClient, StargateClient } from "../../ui-utils/clients";
+import { isStargateClient, StargateClient } from "../../ui-utils/clients";
 import {
   ErrorState,
   errorState,
@@ -24,7 +23,6 @@ import {
   isAnyMsgInstantiateContract,
   isAnyMsgSend,
   isAnyMsgStoreCode,
-  launchpadTxToStargateTx,
 } from "../../ui-utils/txs";
 import { ExecutionInfo } from "./ExecutionInfo";
 import { MsgExecuteContract } from "./msgs/MsgExecuteContract";
@@ -34,29 +32,6 @@ import { MsgStoreCode } from "./msgs/MsgStoreCode";
 import { TxInfo } from "./TxInfo";
 
 const { Tx } = codec.cosmos.tx.v1beta1;
-
-const launchpadEffect = (
-  client: LaunchpadClient,
-  txId: string,
-  typeRegistry: Registry,
-  setDetails: (details: IndexedTx | undefined | ErrorState | LoadingState) => void,
-) => (): void => {
-  client
-    .getTx(txId)
-    .then((tx) => {
-      const indexedTx = tx
-        ? {
-            height: tx.height,
-            hash: tx.hash,
-            code: tx.code,
-            rawLog: tx.rawLog,
-            tx: launchpadTxToStargateTx(typeRegistry, tx.tx),
-          }
-        : undefined;
-      setDetails(indexedTx);
-    })
-    .catch(() => setDetails(errorState));
-};
 
 const stargateEffect = (
   client: StargateClient,
@@ -82,14 +57,11 @@ export function TxPage(): JSX.Element {
     loadingState,
   );
 
-  React.useEffect(
-    isStargateClient(client)
-      ? stargateEffect(client, txId, setDetails)
-      : isLaunchpadClient(client)
-      ? launchpadEffect(client, txId, typeRegistry, setDetails)
-      : () => {},
-    [client, txId, typeRegistry],
-  );
+  React.useEffect(isStargateClient(client) ? stargateEffect(client, txId, setDetails) : () => {}, [
+    client,
+    txId,
+    typeRegistry,
+  ]);
 
   return (
     <div className="page">
