@@ -1,6 +1,8 @@
 import "./TxPage.css";
 
-import { codec, IndexedTx } from "@cosmjs/stargate";
+import { Registry } from "@cosmjs/proto-signing";
+import { Tx } from "@cosmjs/proto-signing/build/codec/cosmos/tx/v1beta1/tx";
+import { IndexedTx } from "@cosmjs/stargate";
 import React from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
@@ -31,8 +33,6 @@ import { MsgSend } from "./msgs/MsgSend";
 import { MsgStoreCode } from "./msgs/MsgStoreCode";
 import { TxInfo } from "./TxInfo";
 
-const { Tx } = codec.cosmos.tx.v1beta1;
-
 const stargateEffect = (
   client: StargateClient,
   txId: string,
@@ -47,7 +47,8 @@ const stargateEffect = (
 };
 
 export function TxPage(): JSX.Element {
-  const { client, typeRegistry } = React.useContext(ClientContext);
+  const { client } = React.useContext(ClientContext);
+  const typeRegistry: Registry = (client as any).registry;
   const { txId: txIdParam } = useParams<{ readonly txId: string }>();
   const txId = txIdParam || "";
 
@@ -121,20 +122,20 @@ export function TxPage(): JSX.Element {
               Tx.decode(details.tx).body?.messages?.map((msg, index) => (
                 <div className="card mb-3" key={`${details.hash}_${index}`}>
                   <div className="card-header">
-                    Message {index + 1} (Type: {msg.type_url || <em>unset</em>})
+                    Message {index + 1} (Type: {msg.typeUrl || <em>unset</em>})
                   </div>
                   <ul className="list-group list-group-flush">
                     {isAnyMsgSend(msg) ? (
-                      <MsgSend msg={typeRegistry.decode({ typeUrl: msg.type_url, value: msg.value })} />
+                      <MsgSend msg={typeRegistry.decode({ typeUrl: msg.typeUrl, value: msg.value })} />
                     ) : isAnyMsgStoreCode(msg) ? (
-                      <MsgStoreCode msg={typeRegistry.decode({ typeUrl: msg.type_url, value: msg.value })} />
+                      <MsgStoreCode msg={typeRegistry.decode({ typeUrl: msg.typeUrl, value: msg.value })} />
                     ) : isAnyMsgInstantiateContract(msg) ? (
                       <MsgInstantiateContract
-                        msg={typeRegistry.decode({ typeUrl: msg.type_url, value: msg.value })}
+                        msg={typeRegistry.decode({ typeUrl: msg.typeUrl, value: msg.value })}
                       />
                     ) : isAnyMsgExecuteContract(msg) ? (
                       <MsgExecuteContract
-                        msg={typeRegistry.decode({ typeUrl: msg.type_url, value: msg.value })}
+                        msg={typeRegistry.decode({ typeUrl: msg.typeUrl, value: msg.value })}
                       />
                     ) : (
                       <li className="list-group-item">

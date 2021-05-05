@@ -1,11 +1,9 @@
-import { codec } from "@cosmjs/cosmwasm-stargate";
+import { MsgInstantiateContract as IMsgInstantiateContract } from "@cosmjs/cosmwasm-stargate/build/codec/x/wasm/internal/types/tx";
 import React, { Fragment } from "react";
 
 import { AccountLink } from "../../../components/AccountLink";
 import { CodeLink } from "../../../components/CodeLink";
 import { printableBalance } from "../../../ui-utils";
-
-type IMsgInstantiateContract = codec.cosmwasm.wasm.v1beta1.IMsgInstantiateContract;
 
 interface Props {
   readonly msg: IMsgInstantiateContract;

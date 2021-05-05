@@ -1,11 +1,9 @@
-import { codec } from "@cosmjs/stargate";
+import { MsgSend } from "@cosmjs/stargate/build/codec/cosmos/bank/v1beta1/tx";
 import React from "react";
 
 import { AccountLink } from "../../components/AccountLink";
 import { TransactionLink } from "../../components/TransactionLink";
 import { printableBalance } from "../../ui-utils";
-
-type MsgSend = codec.cosmos.bank.v1beta1.MsgSend;
 
 export interface Transfer {
   readonly key: string;

@@ -1,10 +1,8 @@
-import { codec } from "@cosmjs/cosmwasm-stargate";
+import { MsgExecuteContract } from "@cosmjs/cosmwasm-stargate/build/codec/x/wasm/internal/types/tx";
 import React from "react";
 
 import { AccountLink } from "../../components/AccountLink";
 import { TransactionLink } from "../../components/TransactionLink";
-
-type MsgExecuteContract = codec.cosmwasm.wasm.v1beta1.MsgExecuteContract;
 
 export interface Execution {
   readonly key: string;

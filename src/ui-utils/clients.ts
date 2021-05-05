@@ -1,17 +1,15 @@
 import { CosmWasmFeeTable } from "@cosmjs/cosmwasm-launchpad";
 import {
-  codec,
   CosmWasmClient as StargateClient,
   SigningCosmWasmClient as StargateSigningClient,
 } from "@cosmjs/cosmwasm-stargate";
 import { Bip39, Random } from "@cosmjs/crypto";
 import { GasLimits, makeCosmoshubPath, OfflineSigner as OfflineAminoSigner } from "@cosmjs/launchpad";
-import { LedgerSigner } from "@cosmjs/launchpad-ledger";
-import { DirectSecp256k1HdWallet, OfflineDirectSigner, OfflineSigner, Registry } from "@cosmjs/proto-signing";
+import { LedgerSigner } from "@cosmjs/ledger-amino";
+import { DirectSecp256k1HdWallet, OfflineDirectSigner, OfflineSigner } from "@cosmjs/proto-signing";
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
 
 import { settings } from "../settings";
-import { msgExecuteContractTypeUrl, msgInstantiateContractTypeUrl, msgStoreCodeTypeUrl } from "./txs";
 
 export { StargateClient, StargateSigningClient };
 
@@ -53,13 +51,6 @@ async function createStargateSigningClient(signer: OfflineSigner): Promise<Starg
   const { nodeUrls, gasPrice } = settings.backend;
   const endpoint = nodeUrls[0];
 
-  const { MsgStoreCode, MsgInstantiateContract, MsgExecuteContract } = codec.cosmwasm.wasm.v1beta1;
-  const typeRegistry = new Registry([
-    [msgStoreCodeTypeUrl, MsgStoreCode],
-    [msgInstantiateContractTypeUrl, MsgInstantiateContract],
-    [msgExecuteContractTypeUrl, MsgExecuteContract],
-  ]);
-
   const gasLimits: GasLimits<CosmWasmFeeTable> = {
     upload: 1500000,
     init: 600000,
@@ -70,7 +61,6 @@ async function createStargateSigningClient(signer: OfflineSigner): Promise<Starg
   };
 
   return StargateSigningClient.connectWithSigner(endpoint, signer, {
-    registry: typeRegistry,
     gasPrice: gasPrice,
     gasLimits: gasLimits,
   });

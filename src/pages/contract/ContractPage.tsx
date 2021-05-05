@@ -3,7 +3,9 @@ import "./ContractPage.css";
 import { Contract, ContractCodeHistoryEntry } from "@cosmjs/cosmwasm-launchpad";
 import { Coin } from "@cosmjs/launchpad";
 import { Registry } from "@cosmjs/proto-signing";
-import { codec, IndexedTx } from "@cosmjs/stargate";
+import { Tx } from "@cosmjs/proto-signing/build/codec/cosmos/tx/v1beta1/tx";
+import { Any } from "@cosmjs/proto-signing/build/codec/google/protobuf/any";
+import { IndexedTx } from "@cosmjs/stargate";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -29,20 +31,15 @@ import { HistoryInfo } from "./HistoryInfo";
 import { InitializationInfo } from "./InitializationInfo";
 import { QueryContract } from "./QueryContract";
 
-type ICoin = codec.cosmos.base.v1beta1.ICoin;
-type IAny = codec.google.protobuf.IAny;
-
 type IAnyMsgExecuteContract = {
-  readonly type_url: "/cosmwasm.wasm.v1beta1.MsgExecuteContract";
+  readonly typeUrl: "/cosmwasm.wasm.v1beta1.MsgExecuteContract";
   readonly value: Uint8Array;
 };
 
 export type Result<T> = { readonly result?: T; readonly error?: string };
 
-const { Tx } = codec.cosmos.tx.v1beta1;
-
-function isStargateMsgExecuteContract(msg: IAny): msg is IAnyMsgExecuteContract {
-  return msg.type_url === "/cosmwasm.wasm.v1beta1.MsgExecuteContract" && !!msg.value;
+function isStargateMsgExecuteContract(msg: Any): msg is IAnyMsgExecuteContract {
+  return msg.typeUrl === "/cosmwasm.wasm.v1beta1.MsgExecuteContract" && !!msg.value;
 }
 
 const getAndSetDetails = (
@@ -88,7 +85,7 @@ const getAndSetInstantiationTxHash = (
 
 function getExecutionFromStargateMsgExecuteContract(typeRegistry: Registry, tx: IndexedTx) {
   return (msg: IAnyMsgExecuteContract, i: number) => {
-    const decodedMsg = typeRegistry.decode({ typeUrl: msg.type_url, value: msg.value });
+    const decodedMsg = typeRegistry.decode({ typeUrl: msg.typeUrl, value: msg.value });
     return {
       key: `${tx.hash}_${i}`,
       height: tx.height,
@@ -101,8 +98,7 @@ function getExecutionFromStargateMsgExecuteContract(typeRegistry: Registry, tx: 
 const stargateEffect = (
   client: StargateClient,
   contractAddress: string,
-  typeRegistry: Registry,
-  setBalance: (balance: readonly ICoin[] | ErrorState | LoadingState) => void,
+  setBalance: (balance: readonly Coin[] | ErrorState | LoadingState) => void,
   setContractCodeHistory: (contractCodeHistory: readonly ContractCodeHistoryEntry[]) => void,
   setDetails: (details: Contract | ErrorState | LoadingState) => void,
   setExecutions: (executions: readonly Execution[] | ErrorState | LoadingState) => void,
@@ -128,7 +124,7 @@ const stargateEffect = (
         const decodedTx = Tx.decode(tx.tx);
         const txExecutions = (decodedTx?.body?.messages ?? [])
           .filter(isStargateMsgExecuteContract)
-          .map(getExecutionFromStargateMsgExecuteContract(typeRegistry, tx));
+          .map(getExecutionFromStargateMsgExecuteContract((client as any).registry, tx));
         return [...executions, ...txExecutions];
       }, []);
       setExecutions(out);
@@ -137,12 +133,12 @@ const stargateEffect = (
 };
 
 export function ContractPage(): JSX.Element {
-  const { client, typeRegistry } = React.useContext(ClientContext);
+  const { client } = React.useContext(ClientContext);
   const { contractAddress: contractAddressParam } = useParams<{ readonly contractAddress: string }>();
   const contractAddress = contractAddressParam || "";
 
   const [details, setDetails] = React.useState<Contract | ErrorState | LoadingState>(loadingState);
-  const [balance, setBalance] = React.useState<readonly ICoin[] | ErrorState | LoadingState>(loadingState);
+  const [balance, setBalance] = React.useState<readonly Coin[] | ErrorState | LoadingState>(loadingState);
   const [instantiationTxHash, setInstantiationTxHash] = React.useState<
     string | undefined | ErrorState | LoadingState
   >(loadingState);
@@ -158,7 +154,6 @@ export function ContractPage(): JSX.Element {
       ? stargateEffect(
           client,
           contractAddress,
-          typeRegistry,
           setBalance,
           setContractCodeHistory,
           setDetails,
@@ -166,7 +161,7 @@ export function ContractPage(): JSX.Element {
           setInstantiationTxHash,
         )
       : () => {},
-    [client, contractAddress, typeRegistry],
+    [client, contractAddress],
   );
 
   const pageTitle = <span title={contractAddress}>Contract {ellideMiddle(contractAddress, 15)}</span>;

@@ -1,5 +1,3 @@
-import { codec } from "@cosmjs/cosmwasm-stargate";
-import { Registry } from "@cosmjs/proto-signing";
 import React from "react";
 import { Redirect, Route, Switch } from "react-router";
 
@@ -11,20 +9,9 @@ import { ContractPage } from "../pages/contract/ContractPage";
 import { TxPage } from "../pages/tx/TxPage";
 import { settings } from "../settings";
 import { StargateClient, StargateSigningClient } from "../ui-utils/clients";
-import {
-  msgExecuteContractTypeUrl,
-  msgInstantiateContractTypeUrl,
-  msgStoreCodeTypeUrl,
-} from "../ui-utils/txs";
 import { FlexibleRouter } from "./FlexibleRouter";
 
 const { nodeUrls } = settings.backend;
-const { MsgStoreCode, MsgInstantiateContract, MsgExecuteContract } = codec.cosmwasm.wasm.v1beta1;
-const typeRegistry = new Registry([
-  [msgStoreCodeTypeUrl, MsgStoreCode],
-  [msgInstantiateContractTypeUrl, MsgInstantiateContract],
-  [msgExecuteContractTypeUrl, MsgExecuteContract],
-]);
 
 export function App(): JSX.Element {
   const [nodeUrl, setNodeUrl] = React.useState(nodeUrls[0]);
@@ -33,7 +20,6 @@ export function App(): JSX.Element {
   const [contextValue, setContextValue] = React.useState<ClientContextValue>({
     nodeUrl: nodeUrl,
     client: null,
-    typeRegistry: typeRegistry,
     resetClient: setNodeUrl,
     userAddress: userAddress,
     setUserAddress: setUserAddress,
