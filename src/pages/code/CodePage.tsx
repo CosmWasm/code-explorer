@@ -17,6 +17,7 @@ import {
   loadingState,
 } from "../../ui-utils/states";
 import { CodeInfo } from "./CodeInfo";
+import InstanceRow from "./InstanceRow";
 import { InstancesEmptyState } from "./InstancesEmptyState";
 
 export function CodePage(): JSX.Element {
@@ -41,12 +42,14 @@ export function CodePage(): JSX.Element {
       ?.getCodeDetails(codeId)
       .then(setDetails)
       .catch(() => setDetails(errorState));
-    (client?.searchTx({
-      tags: makeTags(`message.module=wasm&message.action=store-code&message.code_id=${codeId}`),
-    }) as Promise<ReadonlyArray<{ readonly hash: string }>>).then((results) => {
-      const first = results.find(() => true);
-      setUploadTxHash(first?.hash);
-    });
+    client
+      ?.searchTx({
+        tags: makeTags(`message.module=wasm&message.action=store-code&message.code_id=${codeId}`),
+      })
+      .then((results) => {
+        const first = results.find(() => true);
+        setUploadTxHash(first?.hash);
+      });
   }, [client, codeId]);
 
   const pageTitle = <span>Code #{codeId}</span>;
@@ -116,13 +119,9 @@ export function CodePage(): JSX.Element {
                   </tr>
                 </thead>
                 <tbody>
-                  {contracts.map(
-                    (address, _index) => (
-                      <div>{address}</div>
-                    ),
-                    // TODO: load full contract
-                    // <InstanceRow position={index + 1} contract={contract} key={contract.address} />
-                  )}
+                  {contracts.map((address, index) => (
+                    <InstanceRow position={index + 1} address={address} key={address} />
+                  ))}
                 </tbody>
               </table>
             )}

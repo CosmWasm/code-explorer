@@ -15,20 +15,24 @@ import {
 
 interface Props {
   readonly position: number;
-  readonly contract: Contract;
+  readonly address: string;
 }
 
-function InstanceRow({ position, contract }: Props): JSX.Element {
+function InstanceRow({ position, address }: Props): JSX.Element {
   const { client } = React.useContext(ClientContext);
   const [executionCount, setExecutionCount] = React.useState<number | ErrorState | LoadingState>(
     loadingState,
   );
+  const [contract, setContract] = React.useState<Contract>();
 
   React.useEffect(() => {
+    client?.getContract(address).then((contract) => {
+      setContract(contract);
+    });
     const tags = [
       {
         key: "message.contract_address",
-        value: contract.address,
+        value: address,
       },
       {
         key: "message.action",
@@ -38,19 +42,17 @@ function InstanceRow({ position, contract }: Props): JSX.Element {
     (client?.searchTx({ tags: tags }) as Promise<ReadonlyArray<{ readonly hash: string }>>)
       .then((execTxs) => setExecutionCount(execTxs.length))
       .catch(() => setExecutionCount(errorState));
-  }, [client, contract.address]);
+  }, [client, address]);
 
   return (
     <tr>
       <th scope="row">{position}</th>
-      <td>{contract.label}</td>
+      <td>{contract?.label || "Loading …"}</td>
       <td>
-        <ContractLink address={contract.address} />
+        <ContractLink address={address} />
       </td>
-      <td>
-        <AccountLink address={contract.creator} />
-      </td>
-      <td>{contract.admin ? <AccountLink address={contract.admin} /> : "–"}</td>
+      <td>{contract ? <AccountLink address={contract.creator} /> : "Loading …"}</td>
+      <td>{contract ? contract.admin ? <AccountLink address={contract.admin} /> : "–" : "Loading …"}</td>
       <td>
         {isLoadingState(executionCount)
           ? "Loading …"
