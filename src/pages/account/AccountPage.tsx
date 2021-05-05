@@ -1,6 +1,5 @@
 import { Coin } from "@cosmjs/launchpad";
-import { Registry } from "@cosmjs/proto-signing";
-import { Tx } from "@cosmjs/proto-signing/build/codec/cosmos/tx/v1beta1/tx";
+import { decodeTxRaw, Registry } from "@cosmjs/proto-signing";
 import { IndexedTx } from "@cosmjs/stargate";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
@@ -50,7 +49,7 @@ const stargateEffect = (
     .searchTx({ sentFromOrTo: address })
     .then((txs) => {
       const out = txs.reduce((transfers: readonly Transfer[], tx: IndexedTx): readonly Transfer[] => {
-        const decodedTx = Tx.decode(tx.tx);
+        const decodedTx = decodeTxRaw(tx.tx);
         const txTransfers = (decodedTx?.body?.messages ?? [])
           .filter(isAnyMsgSend)
           .map(getTransferFromStargateMsgSend((client as any).registry, tx));

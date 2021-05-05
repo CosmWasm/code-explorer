@@ -1,9 +1,8 @@
 import "./ContractPage.css";
 
-import { Contract, ContractCodeHistoryEntry } from "@cosmjs/cosmwasm-launchpad";
+import { Contract, ContractCodeHistoryEntry } from "@cosmjs/cosmwasm-launchpad"; // https://github.com/cosmos/cosmjs/pull/790
 import { Coin } from "@cosmjs/launchpad";
-import { Registry } from "@cosmjs/proto-signing";
-import { Tx } from "@cosmjs/proto-signing/build/codec/cosmos/tx/v1beta1/tx";
+import { decodeTxRaw, Registry } from "@cosmjs/proto-signing";
 import { Any } from "@cosmjs/proto-signing/build/codec/google/protobuf/any";
 import { IndexedTx } from "@cosmjs/stargate";
 import React from "react";
@@ -121,8 +120,8 @@ const stargateEffect = (
     })
     .then((txs) => {
       const out = txs.reduce((executions: readonly Execution[], tx: IndexedTx): readonly Execution[] => {
-        const decodedTx = Tx.decode(tx.tx);
-        const txExecutions = (decodedTx?.body?.messages ?? [])
+        const decodedTx = decodeTxRaw(tx.tx);
+        const txExecutions = decodedTx.body.messages
           .filter(isStargateMsgExecuteContract)
           .map(getExecutionFromStargateMsgExecuteContract((client as any).registry, tx));
         return [...executions, ...txExecutions];

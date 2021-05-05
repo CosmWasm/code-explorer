@@ -1,7 +1,6 @@
 import "./TxPage.css";
 
-import { Registry } from "@cosmjs/proto-signing";
-import { Tx } from "@cosmjs/proto-signing/build/codec/cosmos/tx/v1beta1/tx";
+import { decodeTxRaw, Registry } from "@cosmjs/proto-signing";
 import { IndexedTx } from "@cosmjs/stargate";
 import React from "react";
 import { useParams } from "react-router";
@@ -100,7 +99,7 @@ export function TxPage(): JSX.Element {
             ) : details === undefined ? (
               <p>Transaction not found</p>
             ) : (
-              <TxInfo tx={Tx.decode(details.tx)} />
+              <TxInfo tx={decodeTxRaw(details.tx)} />
             )}
           </div>
         </div>
@@ -119,7 +118,7 @@ export function TxPage(): JSX.Element {
             ) : details === undefined ? (
               <p>Transaction not found</p>
             ) : (
-              Tx.decode(details.tx).body?.messages?.map((msg, index) => (
+              decodeTxRaw(details.tx).body.messages.map((msg, index) => (
                 <div className="card mb-3" key={`${details.hash}_${index}`}>
                   <div className="card-header">
                     Message {index + 1} (Type: {msg.typeUrl || <em>unset</em>})

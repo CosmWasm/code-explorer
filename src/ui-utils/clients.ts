@@ -1,4 +1,4 @@
-import { CosmWasmFeeTable } from "@cosmjs/cosmwasm-launchpad";
+import { CosmWasmFeeTable } from "@cosmjs/cosmwasm-launchpad"; // https://github.com/cosmos/cosmjs/pull/791
 import {
   CosmWasmClient as StargateClient,
   SigningCosmWasmClient as StargateSigningClient,
@@ -37,7 +37,7 @@ export async function loadOrCreateWalletDirect(
 ): Promise<OfflineDirectSigner> {
   const loadedMnemonic = loadOrCreateMnemonic(mnemonic);
   const hdPath = makeCosmoshubPath(0);
-  return DirectSecp256k1HdWallet.fromMnemonic(loadedMnemonic, hdPath, addressPrefix);
+  return DirectSecp256k1HdWallet.fromMnemonic(loadedMnemonic, { hdPaths: [hdPath], prefix: addressPrefix });
 }
 
 export async function loadLedgerWallet(addressPrefix: string): Promise<OfflineAminoSigner> {

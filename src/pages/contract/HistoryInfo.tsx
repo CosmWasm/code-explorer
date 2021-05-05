@@ -1,4 +1,4 @@
-import { ContractCodeHistoryEntry } from "@cosmjs/cosmwasm-launchpad";
+import { ContractCodeHistoryEntry } from "@cosmjs/cosmwasm-launchpad"; // https://github.com/cosmos/cosmjs/pull/790
 import React from "react";
 
 import { CodeLink } from "../../components/CodeLink";
