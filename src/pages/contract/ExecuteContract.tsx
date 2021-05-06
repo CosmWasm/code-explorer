@@ -1,5 +1,5 @@
 import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
-import { Coin } from "@cosmjs/launchpad";
+import { Coin } from "@cosmjs/stargate";
 import React from "react";
 import JSONInput from "react-json-editor-ajrm";
 

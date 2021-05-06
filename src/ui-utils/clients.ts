@@ -1,12 +1,16 @@
+import {
+  makeCosmoshubPath, // https://github.com/cosmos/cosmjs/issues/770
+  OfflineAminoSigner,
+} from "@cosmjs/amino";
 import { CosmWasmFeeTable } from "@cosmjs/cosmwasm-stargate";
 import {
   CosmWasmClient as StargateClient,
   SigningCosmWasmClient as StargateSigningClient,
 } from "@cosmjs/cosmwasm-stargate";
 import { Bip39, Random } from "@cosmjs/crypto";
-import { GasLimits, makeCosmoshubPath, OfflineSigner as OfflineAminoSigner } from "@cosmjs/launchpad";
 import { LedgerSigner } from "@cosmjs/ledger-amino";
 import { DirectSecp256k1HdWallet, OfflineDirectSigner, OfflineSigner } from "@cosmjs/proto-signing";
+import { GasLimits } from "@cosmjs/stargate";
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
 
 import { settings } from "../settings";

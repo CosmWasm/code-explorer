@@ -1,10 +1,9 @@
 import "./ContractPage.css";
 
 import { Contract, ContractCodeHistoryEntry } from "@cosmjs/cosmwasm-stargate";
-import { Coin } from "@cosmjs/launchpad";
 import { decodeTxRaw, Registry } from "@cosmjs/proto-signing";
 import { Any } from "@cosmjs/proto-signing/build/codec/google/protobuf/any";
-import { IndexedTx } from "@cosmjs/stargate";
+import { Coin, IndexedTx } from "@cosmjs/stargate";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
