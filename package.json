@@ -32,7 +32,6 @@
     ]
   },
   "dependencies": {
-    "@cosmjs/cosmwasm-launchpad": "^0.25.1",
     "@cosmjs/cosmwasm-stargate": "^0.25.1",
     "@cosmjs/encoding": "^0.25.1",
     "@cosmjs/launchpad": "^0.25.1",

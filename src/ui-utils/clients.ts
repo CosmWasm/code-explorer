@@ -1,4 +1,4 @@
-import { CosmWasmFeeTable } from "@cosmjs/cosmwasm-launchpad"; // https://github.com/cosmos/cosmjs/pull/791
+import { CosmWasmFeeTable } from "@cosmjs/cosmwasm-stargate";
 import {
   CosmWasmClient as StargateClient,
   SigningCosmWasmClient as StargateSigningClient,
@@ -51,7 +51,7 @@ async function createStargateSigningClient(signer: OfflineSigner): Promise<Starg
   const { nodeUrls, gasPrice } = settings.backend;
   const endpoint = nodeUrls[0];
 
-  const gasLimits: GasLimits<CosmWasmFeeTable> = {
+  const gasLimits: Partial<GasLimits<CosmWasmFeeTable>> = {
     upload: 1500000,
     init: 600000,
     exec: 400000,

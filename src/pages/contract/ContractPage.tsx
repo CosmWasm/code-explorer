@@ -1,6 +1,6 @@
 import "./ContractPage.css";
 
-import { Contract, ContractCodeHistoryEntry } from "@cosmjs/cosmwasm-launchpad"; // https://github.com/cosmos/cosmjs/pull/790
+import { Contract, ContractCodeHistoryEntry } from "@cosmjs/cosmwasm-stargate";
 import { Coin } from "@cosmjs/launchpad";
 import { decodeTxRaw, Registry } from "@cosmjs/proto-signing";
 import { Any } from "@cosmjs/proto-signing/build/codec/google/protobuf/any";
