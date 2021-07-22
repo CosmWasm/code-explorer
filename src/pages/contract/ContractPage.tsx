@@ -3,10 +3,8 @@ import "./ContractPage.css";
 import {
   Contract,
   ContractCodeHistoryEntry,
-  isMsgExecuteContract,
-  MsgExecuteContract,
-} from "@cosmjs/cosmwasm-launchpad";
-import { Coin, IndexedTx as LaunchpadIndexedTx } from "@cosmjs/launchpad";
+} from "@cosmjs/cosmwasm-stargate";
+import { Coin } from "@cosmjs/stargate";
 import { Registry } from "@cosmjs/proto-signing";
 import { IndexedTx } from "@cosmjs/stargate";
 import React from "react";
@@ -18,7 +16,7 @@ import { Header } from "../../components/Header";
 import { ClientContext } from "../../contexts/ClientContext";
 import { settings } from "../../settings";
 import { ellideMiddle, printableBalance } from "../../ui-utils";
-import { isLaunchpadClient, isStargateClient, LaunchpadClient, StargateClient } from "../../ui-utils/clients";
+import { isStargateClient, StargateClient } from "../../ui-utils/clients";
 import { makeTags } from "../../ui-utils/sdkhelpers";
 import {
   ErrorState,
@@ -52,7 +50,7 @@ function isStargateMsgExecuteContract(msg: IAny): msg is IAnyMsgExecuteContract 
 }
 
 const getAndSetDetails = (
-  client: LaunchpadClient | StargateClient,
+  client: StargateClient,
   contractAddress: string,
   setDetails: (details: Contract | ErrorState | LoadingState) => void,
 ): void => {
@@ -63,7 +61,7 @@ const getAndSetDetails = (
 };
 
 const getAndSetContractCodeHistory = (
-  client: LaunchpadClient | StargateClient,
+  client: StargateClient,
   contractAddress: string,
   setContractCodeHistory: (contractCodeHistory: readonly ContractCodeHistoryEntry[]) => void,
 ): void => {
@@ -76,7 +74,7 @@ const getAndSetContractCodeHistory = (
 };
 
 const getAndSetInstantiationTxHash = (
-  client: LaunchpadClient | StargateClient,
+  client: StargateClient,
   contractAddress: string,
   setInstantiationTxHash: (instantiationTxHash: string | undefined | ErrorState | LoadingState) => void,
 ): void => {
@@ -103,57 +101,6 @@ function getExecutionFromStargateMsgExecuteContract(typeRegistry: Registry, tx: 
     };
   };
 }
-
-function getExecutionFromLaunchpadMsgExecuteContract(tx: LaunchpadIndexedTx) {
-  return (msg: MsgExecuteContract, i: number): Execution => ({
-    key: `${tx.hash}_${i}`,
-    height: tx.height,
-    transactionId: tx.hash,
-    msg: {
-      sender: msg.value.sender,
-      contract: msg.value.contract,
-      msg: msg.value.msg,
-      funds: [...msg.value.sent_funds],
-    },
-  });
-}
-
-const launchpadEffect = (
-  client: LaunchpadClient,
-  contractAddress: string,
-  setBalance: (balance: readonly ICoin[] | ErrorState | LoadingState) => void,
-  setContractCodeHistory: (contractCodeHistory: readonly ContractCodeHistoryEntry[]) => void,
-  setDetails: (details: Contract | ErrorState | LoadingState) => void,
-  setExecutions: (executions: readonly Execution[] | ErrorState | LoadingState) => void,
-  setInstantiationTxHash: (instantiationTxHash: string | undefined | ErrorState | LoadingState) => void,
-) => () => {
-  getAndSetContractCodeHistory(client, contractAddress, setContractCodeHistory);
-  getAndSetDetails(client, contractAddress, setDetails);
-  getAndSetInstantiationTxHash(client, contractAddress, setInstantiationTxHash);
-
-  client
-    .getAccount(contractAddress)
-    .then((account) => setBalance(account?.balance ?? []))
-    .catch(() => setBalance(errorState));
-
-  client
-    .searchTx({
-      tags: makeTags(`message.contract_address=${contractAddress}&message.action=execute`),
-    })
-    .then((txs) => {
-      const out = txs.reduce(
-        (executions: readonly Execution[], tx: LaunchpadIndexedTx): readonly Execution[] => {
-          const txExecutions = tx.tx.value.msg
-            .filter(isMsgExecuteContract)
-            .map(getExecutionFromLaunchpadMsgExecuteContract(tx));
-          return [...executions, ...txExecutions];
-        },
-        [],
-      );
-      setExecutions(out);
-    })
-    .catch(() => setExecutions(errorState));
-};
 
 const stargateEffect = (
   client: StargateClient,
@@ -216,16 +163,6 @@ export function ContractPage(): JSX.Element {
           client,
           contractAddress,
           typeRegistry,
-          setBalance,
-          setContractCodeHistory,
-          setDetails,
-          setExecutions,
-          setInstantiationTxHash,
-        )
-      : isLaunchpadClient(client)
-      ? launchpadEffect(
-          client,
-          contractAddress,
           setBalance,
           setContractCodeHistory,
           setDetails,

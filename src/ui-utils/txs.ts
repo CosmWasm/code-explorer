@@ -1,8 +1,3 @@
-import { cosmWasmTypes } from "@cosmjs/cosmwasm-stargate";
-import { fromBase64 } from "@cosmjs/encoding";
-import { Msg, pubkeyType, WrappedStdTx } from "@cosmjs/launchpad";
-import { Registry } from "@cosmjs/proto-signing";
-import { AminoTypes } from "@cosmjs/stargate";
 import { Any } from "@cosmjs/stargate/build/codec/google/protobuf/any"
 
 type IAny = Any;
@@ -46,19 +41,6 @@ export function isAnyMsgInstantiateContract(msg: IAny): msg is AnyMsgInstantiate
 
 export function isAnyMsgExecuteContract(msg: IAny): msg is AnyMsgExecuteContract {
   return msg.typeUrl === msgExecuteContractTypeUrl && !!msg.value;
-}
-
-const aminoTypes = new AminoTypes({
-  additions: cosmWasmTypes,
-});
-
-/* eslint-disable @typescript-eslint/camelcase */
-function launchpadMsgToStargateMsg(typeRegistry: Registry, msg: Msg): IAny {
-  const stargateMsg = aminoTypes.fromAmino(msg);
-  return {
-    typeUrl: stargateMsg.typeUrl,
-    value: typeRegistry.encode(stargateMsg),
-  };
 }
 
 /* eslint-enable @typescript-eslint/camelcase */

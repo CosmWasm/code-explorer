@@ -18,14 +18,6 @@ const devnetStargateSettings: BackendSettings = {
   gasPrice: GasPrice.fromString("0.25ucosm"),
 };
 
-const devnetLaunchpadSettings: BackendSettings = {
-  nodeUrls: ["http://localhost:1317"],
-  stargateEnabled: false,
-  denominations: ["ucosm", "ustake"],
-  addressPrefix: "cosmos",
-  gasPrice: GasPrice.fromString("0.25ucosm"),
-};
-
 const coralnetSettings: BackendSettings = {
   nodeUrls: ["https://lcd.coralnet.cosmwasm.com"],
   stargateEnabled: false,
@@ -61,14 +53,13 @@ const lucinanetSettings: BackendSettings = {
 const knownBackends: Partial<Record<string, BackendSettings>> = {
   coralnet: coralnetSettings,
   heldernet: heldernetSettings,
-  devnetLaunchpad: devnetLaunchpadSettings,
   devnetStargate: devnetStargateSettings,
   musselnet: musselnetSettings,
   lucinanet: lucinanetSettings 
 };
 
 export function getCurrentBackend(): BackendSettings {
-  const id = process.env.REACT_APP_BACKEND || "devnetLaunchpad";
+  const id = process.env.REACT_APP_BACKEND || "lucinanet";
   const backend = knownBackends[id];
   if (!backend) {
     throw new Error(`No backend found for the given ID "${id}"`);

@@ -1,6 +1,6 @@
 import "./CodePage.css";
 
-import { CodeDetails, Contract } from "@cosmjs/cosmwasm-launchpad";
+import { CodeDetails } from "@cosmjs/cosmwasm-stargate";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -35,7 +35,7 @@ export function CodePage(): JSX.Element {
   );
 
   React.useEffect(() => {
-    (client as CosmWasmClient)
+    client
       ?.getContracts(codeId)
       .then(setContracts)
       .catch(() => setContracts(errorState));
