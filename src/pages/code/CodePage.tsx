@@ -26,7 +26,7 @@ export function CodePage(): JSX.Element {
   const codeId = parseInt(codeIdParam || "0", 10);
 
   const [details, setDetails] = React.useState<CodeDetails | ErrorState | LoadingState>(loadingState);
-  const [contracts, setContracts] = React.useState<readonly Contract[] | ErrorState | LoadingState>(
+  const [contracts, setContracts] = React.useState<readonly string[] | ErrorState | LoadingState>(
     loadingState,
   );
   const [uploadTxHash, setUploadTxHash] = React.useState<string | undefined | ErrorState | LoadingState>(
@@ -118,7 +118,7 @@ export function CodePage(): JSX.Element {
                 </thead>
                 <tbody>
                   {contracts.map((contract, index) => (
-                    <InstanceRow position={index + 1} contract={contract} key={contract.address} />
+                    <InstanceRow position={index + 1} contract={contract} key={contract} />
                   ))}
                 </tbody>
               </table>

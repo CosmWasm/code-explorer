@@ -15,7 +15,7 @@ import {
 
 interface Props {
   readonly position: number;
-  readonly contract: Contract;
+  readonly contract: string;
 }
 
 function InstanceRow({ position, contract }: Props): JSX.Element {
@@ -28,7 +28,7 @@ function InstanceRow({ position, contract }: Props): JSX.Element {
     const tags = [
       {
         key: "message.contract_address",
-        value: contract.address,
+        value: contract,
       },
       {
         key: "message.action",
@@ -38,19 +38,19 @@ function InstanceRow({ position, contract }: Props): JSX.Element {
     (client?.searchTx({ tags: tags }) as Promise<ReadonlyArray<{ readonly hash: string }>>)
       .then((execTxs) => setExecutionCount(execTxs.length))
       .catch(() => setExecutionCount(errorState));
-  }, [client, contract.address]);
+  }, [client, contract]);
 
   return (
     <tr>
       <th scope="row">{position}</th>
-      <td>{contract.label}</td>
+      <td>{"-"}</td>
       <td>
-        <ContractLink address={contract.address} />
+      <ContractLink address={contract} />
       </td>
       <td>
-        <AccountLink address={contract.creator} />
+        <AccountLink address={"-"} />
       </td>
-      <td>{contract.admin ? <AccountLink address={contract.admin} /> : "–"}</td>
+      <td>{"–"}</td>
       <td>
         {isLoadingState(executionCount)
           ? "Loading …"
