@@ -118,8 +118,8 @@ export function CodePage(): JSX.Element {
                   </tr>
                 </thead>
                 <tbody>
-                  {contracts.map((contract, index) => (
-                    <InstanceRow position={index + 1} contract={contract} key={contract} />
+                  {contracts.map((address, index) => (
+                    <InstanceRow position={index + 1} address={address} key={address} />
                   ))}
                 </tbody>
               </table>

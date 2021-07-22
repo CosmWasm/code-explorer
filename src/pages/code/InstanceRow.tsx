@@ -15,23 +15,27 @@ import {
 
 interface Props {
   readonly position: number;
-  readonly contract: string;
+  readonly address: string;
 }
 
-function InstanceRow({ position, contract }: Props): JSX.Element {
+function InstanceRow({ position, address }: Props): JSX.Element {
   const { client } = React.useContext(ClientContext);
   const [executionCount, setExecutionCount] = React.useState<number | ErrorState | LoadingState>(
     loadingState,
   );
-  const [contractInfo, setContractInfo] = React.useState<Contract | ErrorState | LoadingState>(
+  const [contract, setContractInfo] = React.useState<Contract | ErrorState | LoadingState>(
     loadingState,
   );
 
   React.useEffect(() => {
+    (client?.getContract(address) as Promise<Contract>)
+    .then((execTxs) => setContractInfo(execTxs))
+    .catch(() => setContractInfo(errorState));
+
     const tags = [
       {
         key: "message.contract_address",
-        value: contract,
+        value: address,
       },
       {
         key: "message.action",
@@ -42,26 +46,23 @@ function InstanceRow({ position, contract }: Props): JSX.Element {
       .then((execTxs) => setExecutionCount(execTxs.length))
       .catch(() => setExecutionCount(errorState));
 
-    (client?.getContract(contract) as Promise<Contract>)
-        .then((execTxs) => setContractInfo(execTxs))
-        .catch(() => setContractInfo(errorState));
-  }, [client, contract]);
+  }, [client, address]);
 
-  return isLoadingState(contractInfo) 
+  return isLoadingState(contract) 
     ? (<tr><td>Loading ...</td></tr>) 
-    : isErrorState(contractInfo)
-    ? (<tr><td>Error ...</td></tr>) 
+    : isErrorState(contract)
+    ? (<tr><td>Error</td></tr>) 
     : (
     <tr>
       <th scope="row">{position}</th>
-      <td>{contractInfo.label}</td>
+      <td>{contract.label}</td>
       <td>
-      <ContractLink address={contractInfo.address} />
+      <ContractLink address={contract.address} />
       </td>
       <td>
-        <AccountLink address={contractInfo.creator} />
+        <AccountLink address={contract.creator} />
       </td>
-      <td>{contractInfo.admin ? <AccountLink address={contractInfo.admin} /> : "–"}</td>
+      <td>{contract.admin ? <AccountLink address={contract.admin} /> : "–"}</td>
       <td>
         {isLoadingState(executionCount)
           ? "Loading …"
