@@ -3,6 +3,7 @@ import React from "react";
 import { ClientContext } from "../contexts/ClientContext";
 import {
   getAddressAndStargateSigningClient,
+  loadLedgerWallet,
   loadOrCreateWalletDirect,
   WalletLoaderDirect,
   webUsbMissing,
@@ -70,6 +71,15 @@ export function Login(): JSX.Element {
             }
           >
             Browser wallet
+          </button>
+          <button
+            className="dropdown-item"
+            onClick={() =>
+              loginStargate(loadLedgerWallet)
+            }
+            disabled={webUsbMissing()}
+          >
+            Ledger wallet
           </button>
         </div>
       </>

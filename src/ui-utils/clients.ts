@@ -6,11 +6,14 @@ import {
 import { GasLimits, defaultGasLimits as defaultStargateGasLimits } from "@cosmjs/stargate";
 import { MsgExecuteContract, MsgInstantiateContract, MsgStoreCode } from "@cosmjs/cosmwasm-stargate/build/codec/cosmwasm/wasm/v1beta1/tx";
 import { Bip39, Random } from "@cosmjs/crypto";
-
 import { DirectSecp256k1HdWallet, OfflineDirectSigner, OfflineSigner, Registry } from "@cosmjs/proto-signing";
+
+import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
 
 import { settings } from "../settings";
 import { msgExecuteContractTypeUrl, msgInstantiateContractTypeUrl, msgStoreCodeTypeUrl } from "./txs";
+import { LedgerSigner } from "@cosmjs/ledger-amino";
+import { OfflineAminoSigner, makeCosmoshubPath } from "@cosmjs/amino";
 
 export { StargateClient, StargateSigningClient };
 
@@ -46,10 +49,18 @@ export async function loadOrCreateWalletDirect(
   mnemonic?: string,
 ): Promise<OfflineDirectSigner> {
   const loadedMnemonic = loadOrCreateMnemonic(mnemonic);
+  const hdPath = makeCosmoshubPath(0);
   return DirectSecp256k1HdWallet.fromMnemonic(loadedMnemonic, {
-    // hdPaths: [hdPath],
+    hdPaths: [hdPath],
     prefix: addressPrefix
   });
+}
+
+export async function loadLedgerWallet(addressPrefix: string): Promise<OfflineAminoSigner> {
+  const interactiveTimeout = 120_000;
+  const ledgerTransport = await TransportWebUSB.create(interactiveTimeout, interactiveTimeout);
+
+  return new LedgerSigner(ledgerTransport, { hdPaths: [makeCosmoshubPath(0)], prefix: addressPrefix });
 }
 
 async function createStargateSigningClient(signer: OfflineSigner): Promise<StargateSigningClient> {
