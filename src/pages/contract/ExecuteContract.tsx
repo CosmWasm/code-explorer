@@ -10,7 +10,7 @@ import { jsonInputStyle } from "../../ui-utils/jsonInput";
 import { Result } from "./ContractPage";
 
 const executePlaceholder = {
-  transfer: { recipient: "cosmos1zk4hr47hlch274x28j32dgnhuyewqjrwxn4mvm", amount: "1" },
+  transfer: { recipient: "juno1zk4hr47hlch274x28j32dgnhuyewqjrwxn4mvm", amount: "1" },
 };
 
 const coinsPlaceholder = [{ denom: settings.backend.denominations[0], amount: "1" }];
