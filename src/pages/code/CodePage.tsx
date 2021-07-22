@@ -19,6 +19,7 @@ import {
 import { CodeInfo } from "./CodeInfo";
 import InstanceRow from "./InstanceRow";
 import { InstancesEmptyState } from "./InstancesEmptyState";
+import { CosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 
 export function CodePage(): JSX.Element {
   const { client } = React.useContext(ClientContext);
@@ -34,7 +35,7 @@ export function CodePage(): JSX.Element {
   );
 
   React.useEffect(() => {
-    client
+    (client as CosmWasmClient)
       ?.getContracts(codeId)
       .then(setContracts)
       .catch(() => setContracts(errorState));
