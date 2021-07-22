@@ -2,7 +2,7 @@
 
 ## Use hosted
 
-The explorer is deployed at https://giansalex.github.io/code-explorer and is configured
+The explorer is deployed at https://giansalex.github.io/juno-codes and is configured
 for [Lucina](https://github.com/CosmosContracts/testnets/tree/main/lucina).
 
 ## Use local
