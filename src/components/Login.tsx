@@ -3,6 +3,7 @@ import React from "react";
 import { ClientContext } from "../contexts/ClientContext";
 import {
   getAddressAndStargateSigningClient,
+  loadKeplrWallet,
   loadLedgerWallet,
   loadOrCreateWalletDirect,
   WalletLoaderDirect,
@@ -10,7 +11,7 @@ import {
 } from "../ui-utils/clients";
 
 export function Login(): JSX.Element {
-  const { userAddress, setUserAddress, setSigningClient } = React.useContext(ClientContext);
+  const { userAddress, setUserAddress, setSigningClient, client } = React.useContext(ClientContext);
   const [mnemonic, setMnemonic] = React.useState<string>();
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string>();
@@ -71,6 +72,14 @@ export function Login(): JSX.Element {
             }
           >
             Browser wallet
+          </button>
+          <button
+            className="dropdown-item"
+            onClick={async () =>
+              loginStargate(await loadKeplrWallet(client!))
+            }
+          >
+            Keplr wallet
           </button>
           <button
             className="dropdown-item"
