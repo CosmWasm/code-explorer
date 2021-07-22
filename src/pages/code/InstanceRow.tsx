@@ -23,6 +23,9 @@ function InstanceRow({ position, contract }: Props): JSX.Element {
   const [executionCount, setExecutionCount] = React.useState<number | ErrorState | LoadingState>(
     loadingState,
   );
+  const [contractInfo, setContractInfo] = React.useState<Contract | ErrorState | LoadingState>(
+    loadingState,
+  );
 
   React.useEffect(() => {
     const tags = [
@@ -36,21 +39,31 @@ function InstanceRow({ position, contract }: Props): JSX.Element {
       },
     ];
     (client?.searchTx({ tags: tags }) as Promise<ReadonlyArray<{ readonly hash: string }>>)
-      .then((execTxs) => setExecutionCount(execTxs.length))
+      .then((execTxs) => {
+        setExecutionCount(execTxs.length);
+
+        (client?.getContract(contract) as Promise<Contract>)
+          .then((execTxs) => setContractInfo(execTxs))
+          .catch(() => setContractInfo(errorState));
+      })
       .catch(() => setExecutionCount(errorState));
   }, [client, contract]);
 
-  return (
+  return isLoadingState(contractInfo) 
+    ? (<tr>Loading ...</tr>) 
+    : isErrorState(contractInfo)
+    ? (<tr>Error ...</tr>) 
+    : (
     <tr>
       <th scope="row">{position}</th>
-      <td>{"-"}</td>
+      <td>{contractInfo.label}</td>
       <td>
-      <ContractLink address={contract} />
+      <ContractLink address={contractInfo.address} />
       </td>
       <td>
-        <AccountLink address={"-"} />
+        <AccountLink address={contractInfo.creator} />
       </td>
-      <td>{"–"}</td>
+      <td>{contractInfo.admin ? <AccountLink address={contractInfo.admin} /> : "–"}</td>
       <td>
         {isLoadingState(executionCount)
           ? "Loading …"
