@@ -50,12 +50,21 @@ const musselnetSettings: BackendSettings = {
   gasPrice: GasPrice.fromString("0.25ucosm"),
 };
 
+const lucinanetSettings: BackendSettings = {
+  nodeUrls: ["https://rpc.juno.giansalex.dev"],
+  stargateEnabled: true,
+  denominations: ["ujuno"],
+  addressPrefix: "juno",
+  gasPrice: GasPrice.fromString("0.25ujuno"),
+};
+
 const knownBackends: Partial<Record<string, BackendSettings>> = {
   coralnet: coralnetSettings,
   heldernet: heldernetSettings,
   devnetLaunchpad: devnetLaunchpadSettings,
   devnetStargate: devnetStargateSettings,
   musselnet: musselnetSettings,
+  lucinanet: lucinanetSettings 
 };
 
 export function getCurrentBackend(): BackendSettings {
