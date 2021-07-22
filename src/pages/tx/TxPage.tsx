@@ -1,6 +1,6 @@
 import "./TxPage.css";
 
-import { IndexedTx } from "@cosmjs/stargate";
+import { IndexedTx, Block } from "@cosmjs/stargate";
 import React from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
@@ -32,19 +32,6 @@ import { MsgStoreCode } from "./msgs/MsgStoreCode";
 import { TxInfo } from "./TxInfo";
 import { Tx } from "@cosmjs/stargate/build/codec/cosmos/tx/v1beta1/tx"
 
-const stargateEffect = (
-  client: StargateClient,
-  txId: string,
-  setDetails: (details: IndexedTx | undefined | ErrorState | LoadingState) => void,
-) => (): void => {
-  client
-    .getTx(txId)
-    .then((tx) => {
-      setDetails(tx || undefined);
-    })
-    .catch(() => setDetails(errorState));
-};
-
 export function TxPage(): JSX.Element {
   const { client, typeRegistry } = React.useContext(ClientContext);
   const { txId: txIdParam } = useParams<{ readonly txId: string }>();
@@ -56,10 +43,24 @@ export function TxPage(): JSX.Element {
     loadingState,
   );
 
+  const [block, setBlock] = React.useState<Block | undefined | ErrorState | LoadingState>(
+    loadingState,
+  );
+
   React.useEffect(
-    isStargateClient(client)
-      ? stargateEffect(client, txId, setDetails)
-      : () => {},
+    () => {
+      client?.getTx(txId)
+      .then((tx) => {
+        setDetails(tx || undefined);
+        if (!tx) return;
+        client?.getBlock(tx.height)
+          .then((b) => {
+            setBlock(b);
+          })
+          .catch(() => setBlock(errorState));
+      })
+      .catch(() => setDetails(errorState));
+    },
     [client, txId, typeRegistry],
   );
 
@@ -92,7 +93,7 @@ export function TxPage(): JSX.Element {
             ) : details === undefined ? (
               <p>Transaction not found</p>
             ) : (
-              <ExecutionInfo tx={details} />
+              <ExecutionInfo tx={details} timestamp={isLoadingState(block) || isErrorState(block) ? "" : block?.header.time || ""} />
             )}
           </div>
           <div className="col">
@@ -125,7 +126,7 @@ export function TxPage(): JSX.Element {
               Tx.decode(details.tx).body?.messages?.map((msg: any, index: number) => (
                 <div className="card mb-3" key={`${details.hash}_${index}`}>
                   <div className="card-header">
-                    Message {index + 1} (Type: {msg.typeUrl || <em>unset</em>})
+                    Message {index + 1} (Type: <code>{msg.typeUrl || <em>unset</em>}</code>)
                   </div>
                   <ul className="list-group list-group-flush">
                     {isAnyMsgSend(msg) ? (

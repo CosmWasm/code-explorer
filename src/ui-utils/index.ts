@@ -38,3 +38,14 @@ export function printableBalance(balance: readonly ICoin[]): string {
   if (balance.length === 0) return "–";
   return balance.map(printableCoin).join(", ");
 }
+
+export function parseMsgContract(msg: Uint8Array) {
+  if (!msg) return {};
+
+  let json = '';
+  msg.forEach((item) => {
+    json += String.fromCharCode(item);
+  });
+
+  return JSON.parse(json);
+}

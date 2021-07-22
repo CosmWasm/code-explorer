@@ -3,7 +3,9 @@ import React, { Fragment } from "react";
 
 import { AccountLink } from "../../../components/AccountLink";
 import { CodeLink } from "../../../components/CodeLink";
-import { printableBalance } from "../../../ui-utils";
+import { parseMsgContract, printableBalance } from "../../../ui-utils";
+
+import ReactJson from 'react-json-view';
 
 type IMsgInstantiateContract = MsgInitContract;
 
@@ -23,8 +25,8 @@ export function MsgInstantiateContract({ msg }: Props): JSX.Element {
       <li className="list-group-item">Label: {msg.label}</li>
       <li className="list-group-item">Init funds: {printableBalance(msg.funds ?? [])}</li>
       <li className="list-group-item">
-        <span title="The contract level message">Init message</span>:{" "}
-        <pre className="mb-0">{JSON.stringify(msg.initMsg, null, "  ")}</pre>
+        <span title="The contract level message">Init message</span>:
+        <ReactJson src={parseMsgContract(msg.initMsg)} />
       </li>
     </Fragment>
   );
