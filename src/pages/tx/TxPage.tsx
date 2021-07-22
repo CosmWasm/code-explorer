@@ -9,7 +9,7 @@ import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
 import { ClientContext } from "../../contexts/ClientContext";
 import { ellideMiddle } from "../../ui-utils";
-import { isLaunchpadClient, isStargateClient, LaunchpadClient, StargateClient } from "../../ui-utils/clients";
+import { isStargateClient, StargateClient } from "../../ui-utils/clients";
 import {
   ErrorState,
   errorState,

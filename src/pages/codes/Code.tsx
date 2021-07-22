@@ -39,7 +39,7 @@ export function Code({ data, index }: Props): JSX.Element {
   >(loadingState);
 
   React.useEffect(() => {
-    (client as CosmWasmClient)
+    client
       ?.getContracts(data.codeId)
       .then((contracts) => {
         setInstantiationInfo({

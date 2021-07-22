@@ -1,13 +1,9 @@
 import React from "react";
 
 import { ClientContext } from "../contexts/ClientContext";
-import { settings } from "../settings";
 import {
-  getAddressAndLaunchpadSigningClient,
   getAddressAndStargateSigningClient,
-  loadOrCreateWalletAmino,
   loadOrCreateWalletDirect,
-  WalletLoaderAmino,
   WalletLoaderDirect,
   webUsbMissing,
 } from "../ui-utils/clients";
@@ -18,22 +14,7 @@ export function Login(): JSX.Element {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string>();
 
-  async function loginLaunchpad(loadWallet: WalletLoaderAmino): Promise<void> {
-    setLoading(true);
-    setError(undefined);
-
-    try {
-      const [userAddress, signingClient] = await getAddressAndLaunchpadSigningClient(loadWallet, mnemonic);
-      setUserAddress(userAddress);
-      setSigningClient(signingClient);
-    } catch (error) {
-      setError(error.message);
-    }
-
-    setLoading(false);
-  }
-
-  async function loginStargate(loadWallet: WalletLoaderDirect | WalletLoaderAmino): Promise<void> {
+  async function loginStargate(loadWallet: WalletLoaderDirect): Promise<void> {
     setLoading(true);
     setError(undefined);
 
@@ -85,9 +66,7 @@ export function Login(): JSX.Element {
           <button
             className="dropdown-item"
             onClick={() =>
-              settings.backend.stargateEnabled
-                ? loginStargate(loadOrCreateWalletDirect)
-                : loginLaunchpad(loadOrCreateWalletAmino)
+              loginStargate(loadOrCreateWalletDirect)
             }
           >
             Browser wallet
