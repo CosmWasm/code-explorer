@@ -4,7 +4,7 @@ import { Coin } from "@cosmjs/stargate/build/codec/cosmos/base/v1beta1/coin";
 type ICoin = Coin;
 
 export function ellideMiddle(str: string, maxOutLen: number): string {
-  if ((str || "").length <= maxOutLen) {
+  if (str.length <= maxOutLen) {
     return str;
   }
   const ellide = "…";
