@@ -59,7 +59,7 @@ const knownBackends: Partial<Record<string, BackendSettings>> = {
 };
 
 export function getCurrentBackend(): BackendSettings {
-  const id = process.env.REACT_APP_BACKEND || "lucinanet";
+  const id = process.env.REACT_APP_BACKEND || "devnetStargate";
   const backend = knownBackends[id];
   if (!backend) {
     throw new Error(`No backend found for the given ID "${id}"`);
