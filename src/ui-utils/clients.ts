@@ -44,6 +44,17 @@ export function loadOrCreateMnemonic(mnemonic?: string): string {
 
 export type WalletLoaderDirect = (addressPrefix: string, mnemonic?: string) => Promise<OfflineDirectSigner>;
 
+export async function loadKeplrWallet(client: StargateClient): Promise<WalletLoaderDirect> {
+  const chaindId = await client.getChainId();
+  
+  return async () => {
+    const w = window as any;
+    await w.keplr.enable(chaindId);
+
+    return w.getOfflineSigner(chaindId);
+  }
+}
+
 export async function loadOrCreateWalletDirect(
   addressPrefix: string,
   mnemonic?: string,
