@@ -15,9 +15,8 @@ import {
   OfflineSigner as OfflineAminoSigner,
   Secp256k1HdWallet,
 } from "@cosmjs/launchpad";
-import { LedgerSigner } from "@cosmjs/launchpad-ledger";
+
 import { DirectSecp256k1HdWallet, OfflineDirectSigner, OfflineSigner, Registry } from "@cosmjs/proto-signing";
-import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
 
 import { settings } from "../settings";
 import { msgExecuteContractTypeUrl, msgInstantiateContractTypeUrl, msgStoreCodeTypeUrl } from "./txs";
@@ -80,13 +79,6 @@ export async function loadOrCreateWalletDirect(
   const loadedMnemonic = loadOrCreateMnemonic(mnemonic);
   const hdPath = makeCosmoshubPath(0);
   return DirectSecp256k1HdWallet.fromMnemonic(loadedMnemonic, hdPath, addressPrefix);
-}
-
-export async function loadLedgerWallet(addressPrefix: string): Promise<OfflineAminoSigner> {
-  const interactiveTimeout = 120_000;
-  const ledgerTransport = await TransportWebUSB.create(interactiveTimeout, interactiveTimeout);
-
-  return new LedgerSigner(ledgerTransport, { hdPaths: [makeCosmoshubPath(0)], prefix: addressPrefix });
 }
 
 async function createLaunchpadSigningClient(signer: OfflineAminoSigner): Promise<LaunchpadSigningClient> {

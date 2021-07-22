@@ -5,7 +5,6 @@ import { settings } from "../settings";
 import {
   getAddressAndLaunchpadSigningClient,
   getAddressAndStargateSigningClient,
-  loadLedgerWallet,
   loadOrCreateWalletAmino,
   loadOrCreateWalletDirect,
   WalletLoaderAmino,
@@ -92,17 +91,6 @@ export function Login(): JSX.Element {
             }
           >
             Browser wallet
-          </button>
-          <button
-            className="dropdown-item"
-            onClick={() =>
-              settings.backend.stargateEnabled
-                ? loginStargate(loadLedgerWallet)
-                : loginLaunchpad(loadLedgerWallet)
-            }
-            disabled={webUsbMissing()}
-          >
-            Ledger wallet
           </button>
         </div>
       </>
