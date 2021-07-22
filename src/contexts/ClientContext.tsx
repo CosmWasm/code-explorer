@@ -1,4 +1,4 @@
-import { codec } from "@cosmjs/cosmwasm-stargate";
+import { MsgExecuteContract, MsgInstantiateContract, MsgStoreCode } from "@cosmjs/cosmwasm-stargate/build/codec/cosmwasm/wasm/v1beta1/tx";
 import { Registry } from "@cosmjs/proto-signing";
 import React from "react";
 
@@ -13,8 +13,6 @@ import {
   msgInstantiateContractTypeUrl,
   msgStoreCodeTypeUrl,
 } from "../ui-utils/txs";
-
-const { MsgExecuteContract, MsgInstantiateContract, MsgStoreCode } = codec.cosmwasm.wasm.v1beta1;
 
 export interface ClientContextValue {
   readonly nodeUrl: string;

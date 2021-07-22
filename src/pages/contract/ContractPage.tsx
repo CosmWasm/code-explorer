@@ -8,7 +8,7 @@ import {
 } from "@cosmjs/cosmwasm-launchpad";
 import { Coin, IndexedTx as LaunchpadIndexedTx } from "@cosmjs/launchpad";
 import { Registry } from "@cosmjs/proto-signing";
-import { codec, IndexedTx } from "@cosmjs/stargate";
+import { IndexedTx } from "@cosmjs/stargate";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -33,21 +33,22 @@ import { Execution, ExecutionsTable } from "./ExecutionsTable";
 import { HistoryInfo } from "./HistoryInfo";
 import { InitializationInfo } from "./InitializationInfo";
 import { QueryContract } from "./QueryContract";
+import { Tx } from "@cosmjs/stargate/build/codec/cosmos/tx/v1beta1/tx";
+import { Any } from "@cosmjs/stargate/build/codec/google/protobuf/any"
+import { Coin as CosmosICoin } from "@cosmjs/stargate/build/codec/cosmos/base/v1beta1/coin";
 
-type ICoin = codec.cosmos.base.v1beta1.ICoin;
-type IAny = codec.google.protobuf.IAny;
+type ICoin = CosmosICoin;
+type IAny = Any;
 
 type IAnyMsgExecuteContract = {
-  readonly type_url: "/cosmwasm.wasm.v1beta1.MsgExecuteContract";
+  readonly typeUrl: "/cosmwasm.wasm.v1beta1.MsgExecuteContract";
   readonly value: Uint8Array;
 };
 
 export type Result<T> = { readonly result?: T; readonly error?: string };
 
-const { Tx } = codec.cosmos.tx.v1beta1;
-
 function isStargateMsgExecuteContract(msg: IAny): msg is IAnyMsgExecuteContract {
-  return msg.type_url === "/cosmwasm.wasm.v1beta1.MsgExecuteContract" && !!msg.value;
+  return msg.typeUrl === "/cosmwasm.wasm.v1beta1.MsgExecuteContract" && !!msg.value;
 }
 
 const getAndSetDetails = (
@@ -93,7 +94,7 @@ const getAndSetInstantiationTxHash = (
 
 function getExecutionFromStargateMsgExecuteContract(typeRegistry: Registry, tx: IndexedTx) {
   return (msg: IAnyMsgExecuteContract, i: number) => {
-    const decodedMsg = typeRegistry.decode({ typeUrl: msg.type_url, value: msg.value });
+    const decodedMsg = typeRegistry.decode({ typeUrl: msg.typeUrl, value: msg.value });
     return {
       key: `${tx.hash}_${i}`,
       height: tx.height,

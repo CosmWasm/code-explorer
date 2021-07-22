@@ -4,10 +4,10 @@ import {
   SigningCosmWasmClient as LaunchpadSigningClient,
 } from "@cosmjs/cosmwasm-launchpad";
 import {
-  codec,
   CosmWasmClient as StargateClient,
   SigningCosmWasmClient as StargateSigningClient,
 } from "@cosmjs/cosmwasm-stargate";
+import { MsgExecuteContract, MsgInstantiateContract, MsgStoreCode } from "@cosmjs/cosmwasm-stargate/build/codec/cosmwasm/wasm/v1beta1/tx";
 import { Bip39, Random } from "@cosmjs/crypto";
 import {
   GasLimits,
@@ -69,7 +69,10 @@ export async function loadOrCreateWalletAmino(
 ): Promise<OfflineAminoSigner> {
   const loadedMnemonic = loadOrCreateMnemonic(mnemonic);
   const hdPath = makeCosmoshubPath(0);
-  return Secp256k1HdWallet.fromMnemonic(loadedMnemonic, hdPath, addressPrefix);
+  return Secp256k1HdWallet.fromMnemonic(loadedMnemonic, {
+    // hdPaths: [hdPath],
+    prefix: addressPrefix
+  });
 }
 
 export async function loadOrCreateWalletDirect(
@@ -78,7 +81,10 @@ export async function loadOrCreateWalletDirect(
 ): Promise<OfflineDirectSigner> {
   const loadedMnemonic = loadOrCreateMnemonic(mnemonic);
   const hdPath = makeCosmoshubPath(0);
-  return DirectSecp256k1HdWallet.fromMnemonic(loadedMnemonic, hdPath, addressPrefix);
+  return DirectSecp256k1HdWallet.fromMnemonic(loadedMnemonic, {
+    // hdPaths: [hdPath],
+    prefix: addressPrefix
+  });
 }
 
 async function createLaunchpadSigningClient(signer: OfflineAminoSigner): Promise<LaunchpadSigningClient> {
@@ -102,7 +108,6 @@ async function createStargateSigningClient(signer: OfflineSigner): Promise<Starg
   const { nodeUrls, gasPrice } = settings.backend;
   const endpoint = nodeUrls[0];
 
-  const { MsgStoreCode, MsgInstantiateContract, MsgExecuteContract } = codec.cosmwasm.wasm.v1beta1;
   const typeRegistry = new Registry([
     [msgStoreCodeTypeUrl, MsgStoreCode],
     [msgInstantiateContractTypeUrl, MsgInstantiateContract],

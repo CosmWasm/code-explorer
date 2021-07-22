@@ -1,9 +1,9 @@
-import { codec } from "@cosmjs/stargate";
+import { Tx } from "@cosmjs/stargate/build/codec/cosmos/tx/v1beta1/tx";
 import React from "react";
 
 import { printableBalance } from "../../ui-utils";
 
-type ITx = codec.cosmos.tx.v1beta1.ITx;
+type ITx = Tx;
 
 interface Props {
   readonly tx: ITx;

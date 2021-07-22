@@ -1,6 +1,8 @@
 import { Coin, IndexedTx as LaunchpadIndexedTx, isMsgSend, MsgSend } from "@cosmjs/launchpad";
 import { Registry } from "@cosmjs/proto-signing";
-import { codec, IndexedTx } from "@cosmjs/stargate";
+import { IndexedTx } from "@cosmjs/stargate";
+import { Coin as CosmosICoin } from "@cosmjs/stargate/build/codec/cosmos/base/v1beta1/coin";
+import { Tx } from "@cosmjs/stargate/build/codec/cosmos/tx/v1beta1/tx";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -21,13 +23,11 @@ import {
 import { AnyMsgSend, isAnyMsgSend } from "../../ui-utils/txs";
 import { Transfer, TransfersTable } from "./TransfersTable";
 
-type ICoin = codec.cosmos.base.v1beta1.ICoin;
-
-const { Tx } = codec.cosmos.tx.v1beta1;
+type ICoin = CosmosICoin;
 
 function getTransferFromStargateMsgSend(typeRegistry: Registry, tx: IndexedTx) {
   return (msg: AnyMsgSend, i: number) => {
-    const decodedMsg = typeRegistry.decode({ typeUrl: msg.type_url, value: msg.value });
+    const decodedMsg = typeRegistry.decode({ typeUrl: msg.typeUrl, value: msg.value });
     return {
       key: `${tx.hash}_${i}`,
       height: tx.height,

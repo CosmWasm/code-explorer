@@ -1,4 +1,4 @@
-import { codec } from "@cosmjs/cosmwasm-stargate";
+import { MsgExecuteContract, MsgInstantiateContract, MsgStoreCode } from "@cosmjs/cosmwasm-stargate/build/codec/cosmwasm/wasm/v1beta1/tx";
 import { Registry } from "@cosmjs/proto-signing";
 import React from "react";
 import { Redirect, Route, Switch } from "react-router";
@@ -24,7 +24,6 @@ import {
 import { FlexibleRouter } from "./FlexibleRouter";
 
 const { nodeUrls, stargateEnabled } = settings.backend;
-const { MsgStoreCode, MsgInstantiateContract, MsgExecuteContract } = codec.cosmwasm.wasm.v1beta1;
 const typeRegistry = new Registry([
   [msgStoreCodeTypeUrl, MsgStoreCode],
   [msgInstantiateContractTypeUrl, MsgInstantiateContract],
