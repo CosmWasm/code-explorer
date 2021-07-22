@@ -44,7 +44,7 @@ export function CodePage(): JSX.Element {
       .catch(() => setDetails(errorState));
     (client?.searchTx({
       tags: makeTags(`message.module=wasm&message.action=store-code&message.code_id=${codeId}`),
-    }) as Promise<ReadonlyArray<{ readonly hash: string }>>).then((results) => {
+    }) as Promise<ReadonlyArray<{ readonly hash: string }>>)?.then((results) => {
       const first = results.find(() => true);
       setUploadTxHash(first?.hash);
     });

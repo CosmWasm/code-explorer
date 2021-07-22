@@ -39,20 +39,18 @@ function InstanceRow({ position, contract }: Props): JSX.Element {
       },
     ];
     (client?.searchTx({ tags: tags }) as Promise<ReadonlyArray<{ readonly hash: string }>>)
-      .then((execTxs) => {
-        setExecutionCount(execTxs.length);
-
-        (client?.getContract(contract) as Promise<Contract>)
-          .then((execTxs) => setContractInfo(execTxs))
-          .catch(() => setContractInfo(errorState));
-      })
+      .then((execTxs) => setExecutionCount(execTxs.length))
       .catch(() => setExecutionCount(errorState));
+
+    (client?.getContract(contract) as Promise<Contract>)
+        .then((execTxs) => setContractInfo(execTxs))
+        .catch(() => setContractInfo(errorState));
   }, [client, contract]);
 
   return isLoadingState(contractInfo) 
-    ? (<tr>Loading ...</tr>) 
+    ? (<tr><td>Loading ...</td></tr>) 
     : isErrorState(contractInfo)
-    ? (<tr>Error ...</tr>) 
+    ? (<tr><td>Error ...</td></tr>) 
     : (
     <tr>
       <th scope="row">{position}</th>
