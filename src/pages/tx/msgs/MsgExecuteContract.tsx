@@ -3,7 +3,7 @@ import React, { Fragment } from "react";
 
 import { AccountLink } from "../../../components/AccountLink";
 import { ContractLink } from "../../../components/ContractLink";
-import { printableBalance } from "../../../ui-utils";
+import { parseMsgContract, printableBalance } from "../../../ui-utils";
 
 import ReactJson from 'react-json-view';
 
@@ -14,16 +14,7 @@ interface Props {
 }
 
 export function MsgExecuteContract({ msg }: Props): JSX.Element {
-  const parseMsgContract = (msg: Uint8Array) => {
-    if (!msg) return {};
-    
-    let json = '';
-    msg.forEach((item) => {
-      json += String.fromCharCode(item);
-    });
 
-    return JSON.parse(json);
-  };
 
   return (
     <Fragment>
@@ -35,7 +26,7 @@ export function MsgExecuteContract({ msg }: Props): JSX.Element {
       </li>
       <li className="list-group-item">Sent funds: {printableBalance(msg.funds)}</li>
       <li className="list-group-item">
-        <span title="The contract level message">Handle message</span>: <br />
+        <span title="The contract level message">Handle message</span>:
         <ReactJson src={parseMsgContract(msg.msg)} />
       </li>
     </Fragment>
