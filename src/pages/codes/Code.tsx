@@ -13,6 +13,7 @@ import {
   LoadingState,
   loadingState,
 } from "../../ui-utils/states";
+import { Contract, CosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 
 export interface CodeData {
   readonly codeId: number;
@@ -38,7 +39,7 @@ export function Code({ data, index }: Props): JSX.Element {
   >(loadingState);
 
   React.useEffect(() => {
-    client
+    (client as CosmWasmClient)
       ?.getContracts(data.codeId)
       .then((contracts) => {
         setInstantiationInfo({

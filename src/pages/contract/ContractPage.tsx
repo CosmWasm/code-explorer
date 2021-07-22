@@ -113,7 +113,7 @@ function getExecutionFromLaunchpadMsgExecuteContract(tx: LaunchpadIndexedTx) {
       sender: msg.value.sender,
       contract: msg.value.contract,
       msg: msg.value.msg,
-      sentFunds: [...msg.value.sent_funds],
+      funds: [...msg.value.sent_funds],
     },
   });
 }
