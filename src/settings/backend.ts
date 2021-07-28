@@ -46,7 +46,7 @@ const musselnetSettings: BackendSettings = {
 const oysternetSettings: BackendSettings = {
   nodeUrls: ["http://rpc.oysternet.cosmwasm.com"],
   stargateEnabled: true,
-  denominations: ["usponge", "ustar"],
+  denominations: ["usponge"],
   addressPrefix: "wasm",
   gasPrice: GasPrice.fromString("0.25ucosm"),
   keplrChainInfo: {
@@ -55,8 +55,8 @@ const oysternetSettings: BackendSettings = {
 		chainId: 'oysternet-1',
 		chainName: 'Wasm Oysternet',
 		stakeCurrency: {
-			coinDenom: 'STAR',
-			coinMinimalDenom: 'ustar',
+			coinDenom: 'SPONGE',
+			coinMinimalDenom: 'usponge',
 			coinDecimals: 6
 		},
 		bip44: {
@@ -72,8 +72,8 @@ const oysternetSettings: BackendSettings = {
     },
 		currencies: [
 			{
-				coinDenom: 'STAR',
-				coinMinimalDenom: 'ustar',
+				coinDenom: 'SPONGE',
+				coinMinimalDenom: 'usponge',
 				coinDecimals: 6
 			},
 		],
