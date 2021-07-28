@@ -1,5 +1,6 @@
 import { Decimal } from "@cosmjs/math";
 import { Coin } from "@cosmjs/stargate/build/codec/cosmos/base/v1beta1/coin";
+import { fromUtf8 } from "@cosmjs/encoding";
 
 type ICoin = Coin;
 
@@ -40,12 +41,7 @@ export function printableBalance(balance: readonly ICoin[]): string {
 }
 
 export function parseMsgContract(msg: Uint8Array) {
-  if (!msg) return {};
-
-  let json = '';
-  msg.forEach((item) => {
-    json += String.fromCharCode(item);
-  });
+  const json = fromUtf8(msg);
 
   return JSON.parse(json);
 }
