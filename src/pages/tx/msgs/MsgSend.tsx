@@ -1,10 +1,8 @@
-import { MsgSend as CosmosMsgSend } from "@cosmjs/stargate/build/codec/cosmos/bank/v1beta1/tx";
+import { MsgSend as IMsgSend  } from "@cosmjs/stargate/build/codec/cosmos/bank/v1beta1/tx";
 import React, { Fragment } from "react";
 
 import { AccountLink } from "../../../components/AccountLink";
 import { printableBalance } from "../../../ui-utils";
-
-type IMsgSend = CosmosMsgSend;
 
 interface Props {
   readonly msg: IMsgSend;
