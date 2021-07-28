@@ -1,6 +1,7 @@
-import { Coin, IndexedTx as LaunchpadIndexedTx, isMsgSend, MsgSend } from "@cosmjs/launchpad";
 import { Registry } from "@cosmjs/proto-signing";
-import { codec, IndexedTx } from "@cosmjs/stargate";
+import { IndexedTx } from "@cosmjs/stargate";
+import { Coin } from "@cosmjs/stargate/build/codec/cosmos/base/v1beta1/coin";
+import { Tx } from "@cosmjs/stargate/build/codec/cosmos/tx/v1beta1/tx";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -9,7 +10,7 @@ import { Header } from "../../components/Header";
 import { ClientContext } from "../../contexts/ClientContext";
 import { settings } from "../../settings";
 import { ellideMiddle, printableBalance } from "../../ui-utils";
-import { isLaunchpadClient, isStargateClient, LaunchpadClient, StargateClient } from "../../ui-utils/clients";
+import { StargateClient } from "../../ui-utils/clients";
 import {
   ErrorState,
   errorState,
@@ -21,13 +22,11 @@ import {
 import { AnyMsgSend, isAnyMsgSend } from "../../ui-utils/txs";
 import { Transfer, TransfersTable } from "./TransfersTable";
 
-type ICoin = codec.cosmos.base.v1beta1.ICoin;
-
-const { Tx } = codec.cosmos.tx.v1beta1;
+type ICoin = Coin;
 
 function getTransferFromStargateMsgSend(typeRegistry: Registry, tx: IndexedTx) {
   return (msg: AnyMsgSend, i: number) => {
-    const decodedMsg = typeRegistry.decode({ typeUrl: msg.type_url, value: msg.value });
+    const decodedMsg = typeRegistry.decode({ typeUrl: msg.typeUrl, value: msg.value });
     return {
       key: `${tx.hash}_${i}`,
       height: tx.height,
@@ -36,44 +35,6 @@ function getTransferFromStargateMsgSend(typeRegistry: Registry, tx: IndexedTx) {
     };
   };
 }
-
-function getTransferFromLaunchpadMsgSend(tx: LaunchpadIndexedTx) {
-  return (msg: MsgSend, i: number): Transfer => ({
-    key: `${tx.hash}_${i}`,
-    height: tx.height,
-    transactionId: tx.hash,
-    msg: {
-      fromAddress: msg.value.from_address,
-      toAddress: msg.value.to_address,
-      amount: [...msg.value.amount],
-    },
-  });
-}
-
-const launchpadEffect = (
-  client: LaunchpadClient,
-  address: string,
-  setBalance: (balance: readonly ICoin[] | ErrorState | LoadingState) => void,
-  setTransfers: (transfers: readonly Transfer[] | ErrorState | LoadingState) => void,
-) => (): void => {
-  client
-    .getAccount(address)
-    .then((account) => setBalance(account?.balance ?? []))
-    .catch(() => setBalance(errorState));
-  client
-    .searchTx({ sentFromOrTo: address })
-    .then((txs) => {
-      const out = txs.reduce(
-        (transfers: readonly Transfer[], tx: LaunchpadIndexedTx): readonly Transfer[] => {
-          const txTransfers = tx.tx.value.msg.filter(isMsgSend).map(getTransferFromLaunchpadMsgSend(tx));
-          return [...transfers, ...txTransfers];
-        },
-        [],
-      );
-      setTransfers(out);
-    })
-    .catch(() => setBalance(errorState));
-};
 
 const stargateEffect = (
   client: StargateClient,
@@ -114,11 +75,7 @@ export function AccountPage(): JSX.Element {
   );
 
   React.useEffect(
-    isStargateClient(client)
-      ? stargateEffect(client, address, typeRegistry, setBalance, setTransfers)
-      : isLaunchpadClient(client)
-      ? launchpadEffect(client, address, setBalance, setTransfers)
-      : () => {},
+    client !== null ? stargateEffect(client, address, typeRegistry, setBalance, setTransfers) : () => {},
     [address, client, typeRegistry],
   );
 

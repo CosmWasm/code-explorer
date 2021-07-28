@@ -1,5 +1,6 @@
-import { ContractCodeHistoryEntry } from "@cosmjs/cosmwasm-launchpad";
+import { ContractCodeHistoryEntry } from "@cosmjs/cosmwasm-stargate";
 import React from "react";
+import ReactJson from "react-json-view";
 
 import { CodeLink } from "../../components/CodeLink";
 
@@ -19,7 +20,7 @@ export function HistoryInfo({ contractCodeHistory }: Props): JSX.Element {
             <span title="The message operation type">
               {entry.operation} - <CodeLink codeId={entry.codeId} />
             </span>
-            <pre className="mb-0">{JSON.stringify(entry.msg, null, "  ")}</pre>
+            <ReactJson src={entry.msg} />
           </li>
         ))}
       </ul>

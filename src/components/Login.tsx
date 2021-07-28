@@ -3,38 +3,21 @@ import React from "react";
 import { ClientContext } from "../contexts/ClientContext";
 import { settings } from "../settings";
 import {
-  getAddressAndLaunchpadSigningClient,
   getAddressAndStargateSigningClient,
+  loadKeplrWallet,
   loadLedgerWallet,
-  loadOrCreateWalletAmino,
   loadOrCreateWalletDirect,
-  WalletLoaderAmino,
   WalletLoaderDirect,
   webUsbMissing,
 } from "../ui-utils/clients";
 
 export function Login(): JSX.Element {
-  const { userAddress, setUserAddress, setSigningClient } = React.useContext(ClientContext);
+  const { userAddress, setUserAddress, setSigningClient, client } = React.useContext(ClientContext);
   const [mnemonic, setMnemonic] = React.useState<string>();
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string>();
 
-  async function loginLaunchpad(loadWallet: WalletLoaderAmino): Promise<void> {
-    setLoading(true);
-    setError(undefined);
-
-    try {
-      const [userAddress, signingClient] = await getAddressAndLaunchpadSigningClient(loadWallet, mnemonic);
-      setUserAddress(userAddress);
-      setSigningClient(signingClient);
-    } catch (error) {
-      setError(error.message);
-    }
-
-    setLoading(false);
-  }
-
-  async function loginStargate(loadWallet: WalletLoaderDirect | WalletLoaderAmino): Promise<void> {
+  async function loginStargate(loadWallet: WalletLoaderDirect): Promise<void> {
     setLoading(true);
     setError(undefined);
 
@@ -57,6 +40,20 @@ export function Login(): JSX.Element {
   }
 
   function renderLoginButton(): JSX.Element {
+    const { keplrChainInfo } = settings.backend;
+
+    let keplrButton;
+    if (keplrChainInfo !== undefined && client !== null) {
+      keplrButton = (
+        <button
+          className="dropdown-item"
+          onClick={async () => loginStargate(loadKeplrWallet(client, keplrChainInfo))}
+        >
+          Keplr wallet
+        </button>
+      );
+    }
+
     return loading ? (
       <button className="btn btn-primary" type="button" disabled>
         <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>
@@ -83,23 +80,13 @@ export function Login(): JSX.Element {
         </button>
         <div className="dropdown-menu">
           <h6 className="dropdown-header">with</h6>
-          <button
-            className="dropdown-item"
-            onClick={() =>
-              settings.backend.stargateEnabled
-                ? loginStargate(loadOrCreateWalletDirect)
-                : loginLaunchpad(loadOrCreateWalletAmino)
-            }
-          >
+          <button className="dropdown-item" onClick={() => loginStargate(loadOrCreateWalletDirect)}>
             Browser wallet
           </button>
+          {keplrButton}
           <button
             className="dropdown-item"
-            onClick={() =>
-              settings.backend.stargateEnabled
-                ? loginStargate(loadLedgerWallet)
-                : loginLaunchpad(loadLedgerWallet)
-            }
+            onClick={() => loginStargate(loadLedgerWallet)}
             disabled={webUsbMissing()}
           >
             Ledger wallet

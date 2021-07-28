@@ -1,11 +1,10 @@
-import { codec } from "@cosmjs/cosmwasm-stargate";
+import { MsgInstantiateContract as IMsgInstantiateContract } from "@cosmjs/cosmwasm-stargate/build/codec/cosmwasm/wasm/v1beta1/tx";
 import React, { Fragment } from "react";
+import ReactJson from "react-json-view";
 
 import { AccountLink } from "../../../components/AccountLink";
 import { CodeLink } from "../../../components/CodeLink";
-import { printableBalance } from "../../../ui-utils";
-
-type IMsgInstantiateContract = codec.cosmwasm.wasm.v1beta1.IMsgInstantiateContract;
+import { parseMsgContract, printableBalance } from "../../../ui-utils";
 
 interface Props {
   readonly msg: IMsgInstantiateContract;
@@ -21,10 +20,10 @@ export function MsgInstantiateContract({ msg }: Props): JSX.Element {
         Code ID: <CodeLink codeId={msg.codeId?.toNumber() ?? 0} text={msg.codeId?.toString() ?? "-"} />
       </li>
       <li className="list-group-item">Label: {msg.label}</li>
-      <li className="list-group-item">Init funds: {printableBalance(msg.initFunds ?? [])}</li>
+      <li className="list-group-item">Init funds: {printableBalance(msg.funds)}</li>
       <li className="list-group-item">
-        <span title="The contract level message">Init message</span>:{" "}
-        <pre className="mb-0">{JSON.stringify(msg.initMsg, null, "  ")}</pre>
+        <span title="The contract level message">Init message</span>:
+        <ReactJson src={parseMsgContract(msg.initMsg)} />
       </li>
     </Fragment>
   );

@@ -1,30 +1,27 @@
-import { codec } from "@cosmjs/cosmwasm-stargate";
+import {
+  MsgExecuteContract,
+  MsgInstantiateContract,
+  MsgStoreCode,
+} from "@cosmjs/cosmwasm-stargate/build/codec/cosmwasm/wasm/v1beta1/tx";
 import { Registry } from "@cosmjs/proto-signing";
 import React from "react";
 
-import {
-  LaunchpadClient,
-  LaunchpadSigningClient,
-  StargateClient,
-  StargateSigningClient,
-} from "../ui-utils/clients";
+import { StargateClient, StargateSigningClient } from "../ui-utils/clients";
 import {
   msgExecuteContractTypeUrl,
   msgInstantiateContractTypeUrl,
   msgStoreCodeTypeUrl,
 } from "../ui-utils/txs";
 
-const { MsgExecuteContract, MsgInstantiateContract, MsgStoreCode } = codec.cosmwasm.wasm.v1beta1;
-
 export interface ClientContextValue {
   readonly nodeUrl: string;
-  readonly client: LaunchpadClient | StargateClient | null;
+  readonly client: StargateClient | null;
   readonly typeRegistry: Registry;
   readonly resetClient: (nodeUrl: string) => void;
   readonly userAddress?: string;
   readonly setUserAddress: (newUserAddress?: string) => void;
-  readonly signingClient?: LaunchpadSigningClient | StargateSigningClient;
-  readonly setSigningClient: (newSigningClient?: LaunchpadSigningClient | StargateSigningClient) => void;
+  readonly signingClient?: StargateSigningClient;
+  readonly setSigningClient: (newSigningClient?: StargateSigningClient) => void;
 }
 
 /**

@@ -1,49 +1,29 @@
+import { makeCosmoshubPath, OfflineAminoSigner } from "@cosmjs/amino";
 import {
-  CosmWasmClient as LaunchpadClient,
-  CosmWasmFeeTable,
-  SigningCosmWasmClient as LaunchpadSigningClient,
-} from "@cosmjs/cosmwasm-launchpad";
-import {
-  codec,
   CosmWasmClient as StargateClient,
+  CosmWasmFeeTable,
   SigningCosmWasmClient as StargateSigningClient,
 } from "@cosmjs/cosmwasm-stargate";
-import { Bip39, Random } from "@cosmjs/crypto";
 import {
-  GasLimits,
-  makeCosmoshubPath,
-  OfflineSigner as OfflineAminoSigner,
-  Secp256k1HdWallet,
-} from "@cosmjs/launchpad";
-import { LedgerSigner } from "@cosmjs/launchpad-ledger";
+  MsgExecuteContract,
+  MsgInstantiateContract,
+  MsgStoreCode,
+} from "@cosmjs/cosmwasm-stargate/build/codec/cosmwasm/wasm/v1beta1/tx";
+import { Bip39, Random } from "@cosmjs/crypto";
+import { LedgerSigner } from "@cosmjs/ledger-amino";
 import { DirectSecp256k1HdWallet, OfflineDirectSigner, OfflineSigner, Registry } from "@cosmjs/proto-signing";
+import { defaultGasLimits as defaultStargateGasLimits, GasLimits } from "@cosmjs/stargate";
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
 
 import { settings } from "../settings";
 import { msgExecuteContractTypeUrl, msgInstantiateContractTypeUrl, msgStoreCodeTypeUrl } from "./txs";
 
-export { LaunchpadClient, StargateClient, LaunchpadSigningClient, StargateSigningClient };
-
-export function isStargateClient(client: LaunchpadClient | StargateClient | null): client is StargateClient {
-  return client instanceof StargateClient;
-}
-
-export function isLaunchpadClient(
-  client: LaunchpadClient | StargateClient | null,
-): client is LaunchpadClient {
-  return client instanceof LaunchpadClient;
-}
+export { StargateClient, StargateSigningClient };
 
 export function isStargateSigningClient(
-  signingClient: LaunchpadSigningClient | StargateSigningClient | null,
+  signingClient: StargateSigningClient | null,
 ): signingClient is StargateSigningClient {
   return signingClient instanceof StargateSigningClient;
-}
-
-export function isLaunchpadSigningClient(
-  signingClient: LaunchpadClient | StargateClient | null,
-): signingClient is LaunchpadSigningClient {
-  return signingClient instanceof LaunchpadSigningClient;
 }
 
 export function generateMnemonic(): string {
@@ -61,16 +41,38 @@ export function loadOrCreateMnemonic(mnemonic?: string): string {
   return loadedMnemonic;
 }
 
-export type WalletLoaderAmino = (addressPrefix: string, mnemonic?: string) => Promise<OfflineAminoSigner>;
-export type WalletLoaderDirect = (addressPrefix: string, mnemonic?: string) => Promise<OfflineDirectSigner>;
-
-export async function loadOrCreateWalletAmino(
+export type WalletLoaderDirect = (
   addressPrefix: string,
   mnemonic?: string,
-): Promise<OfflineAminoSigner> {
-  const loadedMnemonic = loadOrCreateMnemonic(mnemonic);
-  const hdPath = makeCosmoshubPath(0);
-  return Secp256k1HdWallet.fromMnemonic(loadedMnemonic, hdPath, addressPrefix);
+) => Promise<OfflineDirectSigner | OfflineAminoSigner>;
+
+export function loadKeplrWallet(client: StargateClient, keplrChainInfo: any): WalletLoaderDirect {
+  return async () => {
+    const chaindId = await client.getChainId();
+
+    await registerKeplrChain(keplrChainInfo);
+    const w = window as any;
+    await w.keplr.enable(chaindId);
+
+    return w.getOfflineSigner(chaindId);
+  };
+}
+
+async function registerKeplrChain(keplrChainInfo: any): Promise<void> {
+  const w = window as any;
+  if (!w.getOfflineSigner || !w.keplr) {
+    throw new Error("Please install keplr extension");
+  }
+
+  if (!w.keplr.experimentalSuggestChain) {
+    throw new Error("Please use the recent version of keplr extension");
+  }
+
+  try {
+    await w.keplr.experimentalSuggestChain(keplrChainInfo);
+  } catch {
+    throw new Error("Failed to suggest the chain");
+  }
 }
 
 export async function loadOrCreateWalletDirect(
@@ -79,7 +81,10 @@ export async function loadOrCreateWalletDirect(
 ): Promise<OfflineDirectSigner> {
   const loadedMnemonic = loadOrCreateMnemonic(mnemonic);
   const hdPath = makeCosmoshubPath(0);
-  return DirectSecp256k1HdWallet.fromMnemonic(loadedMnemonic, hdPath, addressPrefix);
+  return DirectSecp256k1HdWallet.fromMnemonic(loadedMnemonic, {
+    hdPaths: [hdPath],
+    prefix: addressPrefix,
+  });
 }
 
 export async function loadLedgerWallet(addressPrefix: string): Promise<OfflineAminoSigner> {
@@ -89,28 +94,10 @@ export async function loadLedgerWallet(addressPrefix: string): Promise<OfflineAm
   return new LedgerSigner(ledgerTransport, { hdPaths: [makeCosmoshubPath(0)], prefix: addressPrefix });
 }
 
-async function createLaunchpadSigningClient(signer: OfflineAminoSigner): Promise<LaunchpadSigningClient> {
-  const { nodeUrls, gasPrice } = settings.backend;
-  const apiUrl = nodeUrls[0];
-
-  const firstAddress = (await signer.getAccounts())[0].address;
-  const gasLimits: GasLimits<CosmWasmFeeTable> = {
-    upload: 1500000,
-    init: 600000,
-    exec: 400000,
-    migrate: 600000,
-    send: 80000,
-    changeAdmin: 80000,
-  };
-
-  return new LaunchpadSigningClient(apiUrl, firstAddress, signer, gasPrice, gasLimits);
-}
-
 async function createStargateSigningClient(signer: OfflineSigner): Promise<StargateSigningClient> {
   const { nodeUrls, gasPrice } = settings.backend;
   const endpoint = nodeUrls[0];
 
-  const { MsgStoreCode, MsgInstantiateContract, MsgExecuteContract } = codec.cosmwasm.wasm.v1beta1;
   const typeRegistry = new Registry([
     [msgStoreCodeTypeUrl, MsgStoreCode],
     [msgInstantiateContractTypeUrl, MsgInstantiateContract],
@@ -118,6 +105,7 @@ async function createStargateSigningClient(signer: OfflineSigner): Promise<Starg
   ]);
 
   const gasLimits: GasLimits<CosmWasmFeeTable> = {
+    ...defaultStargateGasLimits,
     upload: 1500000,
     init: 600000,
     exec: 400000,
@@ -133,18 +121,8 @@ async function createStargateSigningClient(signer: OfflineSigner): Promise<Starg
   });
 }
 
-export async function getAddressAndLaunchpadSigningClient(
-  loadWallet: WalletLoaderAmino,
-  mnemonic?: string,
-): Promise<[string, LaunchpadSigningClient]> {
-  const signer = await loadWallet(settings.backend.addressPrefix, mnemonic);
-  const userAddress = (await signer.getAccounts())[0].address;
-  const signingClient = await createLaunchpadSigningClient(signer);
-  return [userAddress, signingClient];
-}
-
 export async function getAddressAndStargateSigningClient(
-  loadWallet: WalletLoaderDirect | WalletLoaderAmino,
+  loadWallet: WalletLoaderDirect,
   mnemonic?: string,
 ): Promise<[string, StargateSigningClient]> {
   const signer = await loadWallet(settings.backend.addressPrefix, mnemonic);

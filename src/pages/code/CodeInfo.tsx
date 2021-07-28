@@ -1,4 +1,4 @@
-import { CodeDetails } from "@cosmjs/cosmwasm-launchpad";
+import { CodeDetails } from "@cosmjs/cosmwasm-stargate";
 import React from "react";
 
 import { AccountLink } from "../../components/AccountLink";

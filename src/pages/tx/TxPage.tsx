@@ -1,7 +1,7 @@
 import "./TxPage.css";
 
-import { Registry } from "@cosmjs/proto-signing";
-import { codec, IndexedTx } from "@cosmjs/stargate";
+import { Block, IndexedTx } from "@cosmjs/stargate";
+import { Tx } from "@cosmjs/stargate/build/codec/cosmos/tx/v1beta1/tx";
 import React from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
@@ -10,7 +10,7 @@ import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
 import { ClientContext } from "../../contexts/ClientContext";
 import { ellideMiddle } from "../../ui-utils";
-import { isLaunchpadClient, isStargateClient, LaunchpadClient, StargateClient } from "../../ui-utils/clients";
+import { StargateClient } from "../../ui-utils/clients";
 import {
   ErrorState,
   errorState,
@@ -24,7 +24,6 @@ import {
   isAnyMsgInstantiateContract,
   isAnyMsgSend,
   isAnyMsgStoreCode,
-  launchpadTxToStargateTx,
 } from "../../ui-utils/txs";
 import { ExecutionInfo } from "./ExecutionInfo";
 import { MsgExecuteContract } from "./msgs/MsgExecuteContract";
@@ -33,40 +32,23 @@ import { MsgSend } from "./msgs/MsgSend";
 import { MsgStoreCode } from "./msgs/MsgStoreCode";
 import { TxInfo } from "./TxInfo";
 
-const { Tx } = codec.cosmos.tx.v1beta1;
-
-const launchpadEffect = (
-  client: LaunchpadClient,
-  txId: string,
-  typeRegistry: Registry,
-  setDetails: (details: IndexedTx | undefined | ErrorState | LoadingState) => void,
-) => (): void => {
-  client
-    .getTx(txId)
-    .then((tx) => {
-      const indexedTx = tx
-        ? {
-            height: tx.height,
-            hash: tx.hash,
-            code: tx.code,
-            rawLog: tx.rawLog,
-            tx: launchpadTxToStargateTx(typeRegistry, tx.tx),
-          }
-        : undefined;
-      setDetails(indexedTx);
-    })
-    .catch(() => setDetails(errorState));
-};
-
 const stargateEffect = (
   client: StargateClient,
   txId: string,
   setDetails: (details: IndexedTx | undefined | ErrorState | LoadingState) => void,
+  setBlockInfo: (block: Block | undefined | ErrorState | LoadingState) => void,
 ) => (): void => {
   client
     .getTx(txId)
     .then((tx) => {
       setDetails(tx || undefined);
+      if (!tx) return;
+      client
+        .getBlock(tx.height)
+        .then((b) => {
+          setBlockInfo(b);
+        })
+        .catch(() => setBlockInfo(errorState));
     })
     .catch(() => setDetails(errorState));
 };
@@ -82,14 +64,13 @@ export function TxPage(): JSX.Element {
     loadingState,
   );
 
-  React.useEffect(
-    isStargateClient(client)
-      ? stargateEffect(client, txId, setDetails)
-      : isLaunchpadClient(client)
-      ? launchpadEffect(client, txId, typeRegistry, setDetails)
-      : () => {},
-    [client, txId, typeRegistry],
-  );
+  const [block, setBlockInfo] = React.useState<Block | undefined | ErrorState | LoadingState>(loadingState);
+
+  React.useEffect(client !== null ? stargateEffect(client, txId, setDetails, setBlockInfo) : () => {}, [
+    client,
+    txId,
+    typeRegistry,
+  ]);
 
   return (
     <div className="page">
@@ -120,7 +101,10 @@ export function TxPage(): JSX.Element {
             ) : details === undefined ? (
               <p>Transaction not found</p>
             ) : (
-              <ExecutionInfo tx={details} />
+              <ExecutionInfo
+                tx={details}
+                timestamp={isLoadingState(block) || isErrorState(block) ? "" : block?.header.time || ""}
+              />
             )}
           </div>
           <div className="col">
@@ -150,23 +134,23 @@ export function TxPage(): JSX.Element {
             ) : details === undefined ? (
               <p>Transaction not found</p>
             ) : (
-              Tx.decode(details.tx).body?.messages?.map((msg, index) => (
+              Tx.decode(details.tx).body?.messages?.map((msg: any, index: number) => (
                 <div className="card mb-3" key={`${details.hash}_${index}`}>
                   <div className="card-header">
-                    Message {index + 1} (Type: {msg.type_url || <em>unset</em>})
+                    Message {index + 1} (Type: <code>{msg.typeUrl || <em>unset</em>}</code>)
                   </div>
                   <ul className="list-group list-group-flush">
                     {isAnyMsgSend(msg) ? (
-                      <MsgSend msg={typeRegistry.decode({ typeUrl: msg.type_url, value: msg.value })} />
+                      <MsgSend msg={typeRegistry.decode({ typeUrl: msg.typeUrl, value: msg.value })} />
                     ) : isAnyMsgStoreCode(msg) ? (
-                      <MsgStoreCode msg={typeRegistry.decode({ typeUrl: msg.type_url, value: msg.value })} />
+                      <MsgStoreCode msg={typeRegistry.decode({ typeUrl: msg.typeUrl, value: msg.value })} />
                     ) : isAnyMsgInstantiateContract(msg) ? (
                       <MsgInstantiateContract
-                        msg={typeRegistry.decode({ typeUrl: msg.type_url, value: msg.value })}
+                        msg={typeRegistry.decode({ typeUrl: msg.typeUrl, value: msg.value })}
                       />
                     ) : isAnyMsgExecuteContract(msg) ? (
                       <MsgExecuteContract
-                        msg={typeRegistry.decode({ typeUrl: msg.type_url, value: msg.value })}
+                        msg={typeRegistry.decode({ typeUrl: msg.typeUrl, value: msg.value })}
                       />
                     ) : (
                       <li className="list-group-item">

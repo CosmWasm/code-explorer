@@ -1,4 +1,4 @@
-import { Contract } from "@cosmjs/cosmwasm-launchpad";
+import { Contract } from "@cosmjs/cosmwasm-stargate";
 import React from "react";
 
 import { AccountLink } from "../../components/AccountLink";
@@ -15,20 +15,25 @@ import {
 
 interface Props {
   readonly position: number;
-  readonly contract: Contract;
+  readonly address: string;
 }
 
-function InstanceRow({ position, contract }: Props): JSX.Element {
+function InstanceRow({ position, address }: Props): JSX.Element {
   const { client } = React.useContext(ClientContext);
   const [executionCount, setExecutionCount] = React.useState<number | ErrorState | LoadingState>(
     loadingState,
   );
+  const [contract, setContractInfo] = React.useState<Contract | ErrorState | LoadingState>(loadingState);
 
   React.useEffect(() => {
+    (client?.getContract(address) as Promise<Contract>)
+      .then((execTxs) => setContractInfo(execTxs))
+      .catch(() => setContractInfo(errorState));
+
     const tags = [
       {
         key: "message.contract_address",
-        value: contract.address,
+        value: address,
       },
       {
         key: "message.action",
@@ -38,9 +43,17 @@ function InstanceRow({ position, contract }: Props): JSX.Element {
     (client?.searchTx({ tags: tags }) as Promise<ReadonlyArray<{ readonly hash: string }>>)
       .then((execTxs) => setExecutionCount(execTxs.length))
       .catch(() => setExecutionCount(errorState));
-  }, [client, contract.address]);
+  }, [client, address]);
 
-  return (
+  return isLoadingState(contract) ? (
+    <tr>
+      <td>Loading ...</td>
+    </tr>
+  ) : isErrorState(contract) ? (
+    <tr>
+      <td>Error</td>
+    </tr>
+  ) : (
     <tr>
       <th scope="row">{position}</th>
       <td>{contract.label}</td>

@@ -1,7 +1,6 @@
+import { fromUtf8 } from "@cosmjs/encoding";
 import { Decimal } from "@cosmjs/math";
-import { codec } from "@cosmjs/stargate";
-
-type ICoin = codec.cosmos.base.v1beta1.ICoin;
+import { Coin } from "@cosmjs/stargate/build/codec/cosmos/base/v1beta1/coin";
 
 export function ellideMiddle(str: string, maxOutLen: number): string {
   if (str.length <= maxOutLen) {
@@ -25,7 +24,7 @@ export function ellideRight(str: string, maxOutLen: number): string {
 // NARROW NO-BREAK SPACE (U+202F)
 const thinSpace = "\u202F";
 
-function printableCoin(coin: ICoin): string {
+function printableCoin(coin: Coin): string {
   if (coin.denom?.startsWith("u")) {
     const ticker = coin.denom.slice(1).toUpperCase();
     return Decimal.fromAtomics(coin.amount ?? "0", 6).toString() + thinSpace + ticker;
@@ -34,7 +33,13 @@ function printableCoin(coin: ICoin): string {
   }
 }
 
-export function printableBalance(balance: readonly ICoin[]): string {
+export function printableBalance(balance: readonly Coin[]): string {
   if (balance.length === 0) return "–";
   return balance.map(printableCoin).join(", ");
+}
+
+export function parseMsgContract(msg: Uint8Array): any {
+  const json = fromUtf8(msg);
+
+  return JSON.parse(json);
 }
