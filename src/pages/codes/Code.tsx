@@ -13,7 +13,6 @@ import {
   LoadingState,
   loadingState,
 } from "../../ui-utils/states";
-import { Contract, CosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 
 export interface CodeData {
   readonly codeId: number;

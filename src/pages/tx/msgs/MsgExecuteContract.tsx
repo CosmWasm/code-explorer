@@ -1,4 +1,4 @@
-import { MsgExecuteContract as MsgExecuteCtr } from "@cosmjs/cosmwasm-stargate/build/codec/cosmwasm/wasm/v1beta1/tx";
+import { MsgExecuteContract as IMsgExecuteContract } from "@cosmjs/cosmwasm-stargate/build/codec/cosmwasm/wasm/v1beta1/tx";
 import React, { Fragment } from "react";
 
 import { AccountLink } from "../../../components/AccountLink";
@@ -6,8 +6,6 @@ import { ContractLink } from "../../../components/ContractLink";
 import { parseMsgContract, printableBalance } from "../../../ui-utils";
 
 import ReactJson from 'react-json-view';
-
-type IMsgExecuteContract = MsgExecuteCtr;
 
 interface Props {
   readonly msg: IMsgExecuteContract;

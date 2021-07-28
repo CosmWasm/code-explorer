@@ -3,10 +3,8 @@ import React from "react";
 
 import { printableBalance } from "../../ui-utils";
 
-type ITx = Tx;
-
 interface Props {
-  readonly tx: ITx;
+  readonly tx: Tx;
 }
 
 export function TxInfo({ tx }: Props): JSX.Element {

@@ -1,14 +1,12 @@
 import "./MsgStoreCode.css";
 
-import { MsgStoreCode as MsgStoreC } from "@cosmjs/cosmwasm-stargate/build/codec/cosmwasm/wasm/v1beta1/tx";
+import { MsgStoreCode as IMsgStoreCode } from "@cosmjs/cosmwasm-stargate/build/codec/cosmwasm/wasm/v1beta1/tx";
 import { toBase64 } from "@cosmjs/encoding";
 import React, { Fragment } from "react";
 
 import { AccountLink } from "../../../components/AccountLink";
 import { ellideRight } from "../../../ui-utils";
 import { getFileType } from "./magic";
-
-type IMsgStoreCode = MsgStoreC;
 
 interface Props {
   readonly msg: IMsgStoreCode;

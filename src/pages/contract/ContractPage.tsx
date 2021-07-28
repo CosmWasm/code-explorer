@@ -33,10 +33,7 @@ import { InitializationInfo } from "./InitializationInfo";
 import { QueryContract } from "./QueryContract";
 import { Tx } from "@cosmjs/stargate/build/codec/cosmos/tx/v1beta1/tx";
 import { Any } from "@cosmjs/stargate/build/codec/google/protobuf/any"
-import { Coin as CosmosICoin } from "@cosmjs/stargate/build/codec/cosmos/base/v1beta1/coin";
-
-type ICoin = CosmosICoin;
-type IAny = Any;
+import { Coin as ICoin } from "@cosmjs/stargate/build/codec/cosmos/base/v1beta1/coin";
 
 type IAnyMsgExecuteContract = {
   readonly typeUrl: "/cosmwasm.wasm.v1beta1.MsgExecuteContract";
@@ -45,7 +42,7 @@ type IAnyMsgExecuteContract = {
 
 export type Result<T> = { readonly result?: T; readonly error?: string };
 
-function isStargateMsgExecuteContract(msg: IAny): msg is IAnyMsgExecuteContract {
+function isStargateMsgExecuteContract(msg: Any): msg is IAnyMsgExecuteContract {
   return msg.typeUrl === "/cosmwasm.wasm.v1beta1.MsgExecuteContract" && !!msg.value;
 }
 
