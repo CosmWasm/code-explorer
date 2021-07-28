@@ -48,7 +48,7 @@ export async function loadKeplrWallet(client: StargateClient, keplrChainInfo: an
   return async () => {
     const chaindId = await client.getChainId();
 
-    await registerLucina(keplrChainInfo);
+    await registerKeplrChain(keplrChainInfo);
     const w = window as any;
     await w.keplr.enable(chaindId);
 
@@ -56,7 +56,7 @@ export async function loadKeplrWallet(client: StargateClient, keplrChainInfo: an
   }
 }
 
-async function registerLucina(keplrChainInfo: any): Promise<void> {
+async function registerKeplrChain(keplrChainInfo: any): Promise<void> {
   const w = (window as any);
   if (!w.getOfflineSigner || !w.keplr) {
     console.log("No keplr");
