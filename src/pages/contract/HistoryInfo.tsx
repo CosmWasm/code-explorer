@@ -1,6 +1,6 @@
 import { ContractCodeHistoryEntry } from "@cosmjs/cosmwasm-stargate";
 import React from "react";
-import ReactJson from 'react-json-view';
+import ReactJson from "react-json-view";
 
 import { CodeLink } from "../../components/CodeLink";
 

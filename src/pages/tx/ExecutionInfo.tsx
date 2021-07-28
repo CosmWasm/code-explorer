@@ -11,14 +11,14 @@ interface Props {
 }
 
 export function ExecutionInfo({ tx, timestamp }: Props): JSX.Element {
-  const time = timestamp ? fromRfc3339(timestamp): null;
+  const time = timestamp ? fromRfc3339(timestamp) : null;
   const success = tx.code === 0;
 
   return (
     <ul className="list-group list-group-horizontal mb-3">
       <li className="list-group-item">Height: {tx.height}</li>
       <li className="list-group-item">
-      <span title={timestamp}>Time: {time?.toLocaleString()}</span>
+        <span title={timestamp}>Time: {time?.toLocaleString()}</span>
       </li>
       <li className="list-group-item">
         <span title={`Execution succeeded: ${success ? "yes" : "no"}`}>

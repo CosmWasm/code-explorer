@@ -1,11 +1,10 @@
 import { MsgInstantiateContract as IMsgInstantiateContract } from "@cosmjs/cosmwasm-stargate/build/codec/cosmwasm/wasm/v1beta1/tx";
 import React, { Fragment } from "react";
+import ReactJson from "react-json-view";
 
 import { AccountLink } from "../../../components/AccountLink";
 import { CodeLink } from "../../../components/CodeLink";
 import { parseMsgContract, printableBalance } from "../../../ui-utils";
-
-import ReactJson from 'react-json-view';
 
 interface Props {
   readonly msg: IMsgInstantiateContract;

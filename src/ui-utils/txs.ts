@@ -1,4 +1,4 @@
-import { Any } from "@cosmjs/stargate/build/codec/google/protobuf/any"
+import { Any } from "@cosmjs/stargate/build/codec/google/protobuf/any";
 
 type IAny = Any;
 

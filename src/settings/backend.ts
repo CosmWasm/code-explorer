@@ -30,96 +30,94 @@ const oysternetSettings: BackendSettings = {
   addressPrefix: "wasm",
   gasPrice: GasPrice.fromString("0.25ucosm"),
   keplrChainInfo: {
-		rpc: 'http://rpc.oysternet.cosmwasm.com',
-		rest: 'http://lcd.oysternet.cosmwasm.com',
-		chainId: 'oysternet-1',
-		chainName: 'Wasm Oysternet',
-		stakeCurrency: {
-			coinDenom: 'SPONGE',
-			coinMinimalDenom: 'usponge',
-			coinDecimals: 6
-		},
-		bip44: {
-			coinType: 118,
-		},
-		bech32Config: {
+    rpc: "http://rpc.oysternet.cosmwasm.com",
+    rest: "http://lcd.oysternet.cosmwasm.com",
+    chainId: "oysternet-1",
+    chainName: "Wasm Oysternet",
+    stakeCurrency: {
+      coinDenom: "SPONGE",
+      coinMinimalDenom: "usponge",
+      coinDecimals: 6,
+    },
+    bip44: {
+      coinType: 118,
+    },
+    bech32Config: {
       bech32PrefixAccAddr: "wasm",
       bech32PrefixAccPub: "wasmpub",
       bech32PrefixValAddr: "wasmvaloper",
       bech32PrefixValPub: "wasmvaloperpub",
       bech32PrefixConsAddr: "wasmvalcons",
-      bech32PrefixConsPub: "wasmvalconspub"
+      bech32PrefixConsPub: "wasmvalconspub",
     },
-		currencies: [
-			{
-				coinDenom: 'SPONGE',
-				coinMinimalDenom: 'usponge',
-				coinDecimals: 6
-			},
-		],
-		feeCurrencies: [
-			{
-				coinDenom: 'SPONGE',
-				coinMinimalDenom: 'usponge',
-				coinDecimals: 6
-			},
-		],
-		features: ['stargate']
-	},
+    currencies: [
+      {
+        coinDenom: "SPONGE",
+        coinMinimalDenom: "usponge",
+        coinDecimals: 6,
+      },
+    ],
+    feeCurrencies: [
+      {
+        coinDenom: "SPONGE",
+        coinMinimalDenom: "usponge",
+        coinDecimals: 6,
+      },
+    ],
+    features: ["stargate"],
+  },
 };
 
 const lucinanetSettings: BackendSettings = {
   nodeUrls: ["https://rpc.juno.giansalex.dev"],
-  stargateEnabled: true,
   denominations: ["ujuno"],
   addressPrefix: "juno",
-  gasPrice: GasPrice.fromString("0.25ujuno"),
+  gasPrice: GasPrice.fromString("0.25ucosm"),
   keplrChainInfo: {
     rpc: "https://rpc.juno.giansalex.dev:443",
     rest: "https://lcd.juno.giansalex.dev:443",
     chainId: "lucina",
     chainName: "Juno testnet",
-		stakeCurrency: {
-			coinDenom: 'JUNO',
-			coinMinimalDenom: 'ujuno',
-			coinDecimals: 6
-		},
-		bip44: {
-			coinType: 118,
-		},
-		bech32Config: {
+    stakeCurrency: {
+      coinDenom: "JUNO",
+      coinMinimalDenom: "ujuno",
+      coinDecimals: 6,
+    },
+    bip44: {
+      coinType: 118,
+    },
+    bech32Config: {
       bech32PrefixAccAddr: "juno",
       bech32PrefixAccPub: "junopub",
       bech32PrefixValAddr: "junovaloper",
       bech32PrefixValPub: "junovaloperpub",
       bech32PrefixConsAddr: "junovalcons",
-      bech32PrefixConsPub: "junovalconspub"
+      bech32PrefixConsPub: "junovalconspub",
     },
-		currencies: [
-			{
-				coinDenom: 'JUNO',
-				coinMinimalDenom: 'ujuno',
-				coinDecimals: 6
-			},
-		],
-		feeCurrencies: [
-			{
-				coinDenom: 'JUNO',
-				coinMinimalDenom: 'ujuno',
-				coinDecimals: 6
-			},
-		],
-		features: ["stargate", 'ibc-transfer', 'cosmwasm'],
-    explorerUrlToTx: 'https://testnet.juno.aneka.io/txs/{txHash}',
-	},
-  
+    currencies: [
+      {
+        coinDenom: "JUNO",
+        coinMinimalDenom: "ujuno",
+        coinDecimals: 6,
+      },
+    ],
+    feeCurrencies: [
+      {
+        coinDenom: "JUNO",
+        coinMinimalDenom: "ujuno",
+        coinDecimals: 6,
+      },
+    ],
+    features: ["stargate", "ibc-transfer", "cosmwasm"],
+    explorerUrlToTx: "https://testnet.juno.aneka.io/txs/{txHash}",
+  },
 };
 
 const knownBackends: Partial<Record<string, BackendSettings>> = {
   devnetStargate: devnetStargateSettings,
   musselnet: musselnetSettings,
   oysternet: oysternetSettings,
-  lucinanet: lucinanetSettings 
+  lucinanet: lucinanetSettings,
 };
 
 export function getCurrentBackend(): BackendSettings {

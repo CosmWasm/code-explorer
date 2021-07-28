@@ -1,12 +1,12 @@
 import "./ContractPage.css";
 
-import {
-  Contract,
-  ContractCodeHistoryEntry,
-} from "@cosmjs/cosmwasm-stargate";
-import { Coin } from "@cosmjs/stargate";
+import { Contract, ContractCodeHistoryEntry } from "@cosmjs/cosmwasm-stargate";
 import { Registry } from "@cosmjs/proto-signing";
+import { Coin } from "@cosmjs/stargate";
 import { IndexedTx } from "@cosmjs/stargate";
+import { Coin as ICoin } from "@cosmjs/stargate/build/codec/cosmos/base/v1beta1/coin";
+import { Tx } from "@cosmjs/stargate/build/codec/cosmos/tx/v1beta1/tx";
+import { Any } from "@cosmjs/stargate/build/codec/google/protobuf/any";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -31,9 +31,6 @@ import { Execution, ExecutionsTable } from "./ExecutionsTable";
 import { HistoryInfo } from "./HistoryInfo";
 import { InitializationInfo } from "./InitializationInfo";
 import { QueryContract } from "./QueryContract";
-import { Tx } from "@cosmjs/stargate/build/codec/cosmos/tx/v1beta1/tx";
-import { Any } from "@cosmjs/stargate/build/codec/google/protobuf/any"
-import { Coin as ICoin } from "@cosmjs/stargate/build/codec/cosmos/base/v1beta1/coin";
 
 type IAnyMsgExecuteContract = {
   readonly typeUrl: "/cosmwasm.wasm.v1beta1.MsgExecuteContract";

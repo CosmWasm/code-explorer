@@ -75,9 +75,7 @@ export function AccountPage(): JSX.Element {
   );
 
   React.useEffect(
-    client !== null
-      ? stargateEffect(client, address, typeRegistry, setBalance, setTransfers)
-      : () => {},
+    client !== null ? stargateEffect(client, address, typeRegistry, setBalance, setTransfers) : () => {},
     [address, client, typeRegistry],
   );
 
