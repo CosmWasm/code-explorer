@@ -13,7 +13,6 @@
     "start-heldernet": "REACT_APP_BACKEND=heldernet yarn base-start",
     "start-musselnet": "REACT_APP_BACKEND=musselnet yarn base-start",
     "start-oysternet": "REACT_APP_BACKEND=oysternet yarn base-start",
-    "start-lucinanet": "REACT_APP_BACKEND=lucinanet yarn base-start",
     "start": "yarn start-heldernet",
     "build": "react-scripts build",
     "test": "react-scripts test",

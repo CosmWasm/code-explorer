@@ -88,21 +88,12 @@ const oysternetSettings: BackendSettings = {
 	},
 };
 
-const lucinanetSettings: BackendSettings = {
-  nodeUrls: ["https://rpc.juno.giansalex.dev"],
-  stargateEnabled: true,
-  denominations: ["ujuno"],
-  addressPrefix: "juno",
-  gasPrice: GasPrice.fromString("0.25ujuno"),
-};
-
 const knownBackends: Partial<Record<string, BackendSettings>> = {
   coralnet: coralnetSettings,
   heldernet: heldernetSettings,
   devnetStargate: devnetStargateSettings,
   musselnet: musselnetSettings,
-  oysternet: oysternetSettings,
-  lucinanet: lucinanetSettings 
+  oysternet: oysternetSettings
 };
 
 export function getCurrentBackend(): BackendSettings {

@@ -1,9 +1,9 @@
-# Juno Code Explorer
+# CosmWasm Code Explorer
 
 ## Use hosted
 
-The explorer is configured
-for [Lucina](https://github.com/CosmosContracts/testnets/tree/main/lucina).
+The explorer is deployed at https://cosmwasm.github.io/code-explorer and is configured
+for [Heldernet](https://gist.github.com/webmaster128/6385a7e1885211d9937ada2688ce34c3).
 
 ## Use local
 
@@ -17,25 +17,45 @@ yarn install
 
 You don't need to run a local network in order to connect to the testnets, you just need the right start script for each network.
 
-#### Lucina
+#### Heldernet
 
 ```sh
-yarn start-lucinanet
+yarn start-heldernet
 ```
+
+#### Coralnet
+
+```sh
+yarn start-coralnet
+```
+
+#### Musslenet
+
+Coming soon!
 
 ### Run against local networks
 
-Clone the CosmJS repo in order to run a local Stargate network:
+Clone the CosmJS repo in order to run a local Launchpad or Stargate network:
 
 ```sh
-git clone --depth 1 --branch v0.25.5 https://github.com/cosmos/cosmjs.git
+git clone --depth 1 --branch v0.24.0-alpha.11 https://github.com/cosmos/cosmjs.git
 ```
 
-Also make sure to comply with the [prerequisites](https://github.com/cosmos/cosmjs/blob/v0.25.5/HACKING.md#prerequisite).
+Also make sure to comply with the [prerequisites](https://github.com/cosmos/cosmjs/blob/v0.24.0-alpha.11/HACKING.md#prerequisite).
+
+#### Launchpad
+
+In order to run a local Launchpad network follow [these instructions](https://github.com/cosmos/cosmjs/tree/v0.24.0-alpha.11/scripts/launchpad).
+
+The start script that makes the code-explorer connect to a local Launchpad network is:
+
+```sh
+yarn start-launchpad
+```
 
 #### Stargate
 
-In order to run a local Stargate network, follow [these instructions](https://github.com/cosmos/cosmjs/tree/v0.25.5/scripts/wasmd).
+In order to run a local Stargate network, follow [these instructions](https://github.com/cosmos/cosmjs/tree/v0.24.0-alpha.11/scripts/wasmd).
 
 The start script that makes the code-explorer connect to a local Stargate network is:
 
@@ -51,7 +71,7 @@ Requirements: yarn, Node.js 10+
 
 ```
 yarn install
-PUBLIC_URL=https://code-explorer.junochain.com/ REACT_APP_BACKEND=lucinanet yarn build
+PUBLIC_URL=https://code-explorer.musselnet.cosmwasm.com/ REACT_APP_BACKEND=musselnet yarn build
 ```
 
 ## Credits
