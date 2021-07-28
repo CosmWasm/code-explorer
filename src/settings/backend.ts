@@ -94,6 +94,45 @@ const lucinanetSettings: BackendSettings = {
   denominations: ["ujuno"],
   addressPrefix: "juno",
   gasPrice: GasPrice.fromString("0.25ujuno"),
+  keplrChainInfo: {
+    rpc: "https://rpc.juno.giansalex.dev:443",
+    rest: "https://lcd.juno.giansalex.dev:443",
+    chainId: "lucina",
+    chainName: "Juno testnet",
+		stakeCurrency: {
+			coinDenom: 'JUNO',
+			coinMinimalDenom: 'ujuno',
+			coinDecimals: 6
+		},
+		bip44: {
+			coinType: 118,
+		},
+		bech32Config: {
+      bech32PrefixAccAddr: "juno",
+      bech32PrefixAccPub: "junopub",
+      bech32PrefixValAddr: "junovaloper",
+      bech32PrefixValPub: "junovaloperpub",
+      bech32PrefixConsAddr: "junovalcons",
+      bech32PrefixConsPub: "junovalconspub"
+    },
+		currencies: [
+			{
+				coinDenom: 'JUNO',
+				coinMinimalDenom: 'ujuno',
+				coinDecimals: 6
+			},
+		],
+		feeCurrencies: [
+			{
+				coinDenom: 'JUNO',
+				coinMinimalDenom: 'ujuno',
+				coinDecimals: 6
+			},
+		],
+		features: ["stargate", 'ibc-transfer', 'cosmwasm'],
+    explorerUrlToTx: 'https://testnet.juno.aneka.io/txs/{txHash}',
+	},
+  
 };
 
 const knownBackends: Partial<Record<string, BackendSettings>> = {
