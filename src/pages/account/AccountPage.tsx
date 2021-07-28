@@ -10,7 +10,7 @@ import { Header } from "../../components/Header";
 import { ClientContext } from "../../contexts/ClientContext";
 import { settings } from "../../settings";
 import { ellideMiddle, printableBalance } from "../../ui-utils";
-import { isStargateClient, StargateClient } from "../../ui-utils/clients";
+import { StargateClient } from "../../ui-utils/clients";
 import {
   ErrorState,
   errorState,
@@ -75,7 +75,7 @@ export function AccountPage(): JSX.Element {
   );
 
   React.useEffect(
-    isStargateClient(client)
+    client !== null
       ? stargateEffect(client, address, typeRegistry, setBalance, setTransfers)
       : () => {},
     [address, client, typeRegistry],

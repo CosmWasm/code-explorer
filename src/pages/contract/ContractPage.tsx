@@ -16,7 +16,7 @@ import { Header } from "../../components/Header";
 import { ClientContext } from "../../contexts/ClientContext";
 import { settings } from "../../settings";
 import { ellideMiddle, printableBalance } from "../../ui-utils";
-import { isStargateClient, StargateClient } from "../../ui-utils/clients";
+import { StargateClient } from "../../ui-utils/clients";
 import { makeTags } from "../../ui-utils/sdkhelpers";
 import {
   ErrorState,
@@ -158,7 +158,7 @@ export function ContractPage(): JSX.Element {
   );
 
   React.useEffect(
-    isStargateClient(client)
+    client !== null
       ? stargateEffect(
           client,
           contractAddress,

@@ -17,10 +17,6 @@ import { OfflineAminoSigner, makeCosmoshubPath } from "@cosmjs/amino";
 
 export { StargateClient, StargateSigningClient };
 
-export function isStargateClient(client: StargateClient | null): client is StargateClient {
-  return client instanceof StargateClient;
-}
-
 export function isStargateSigningClient(
   signingClient: StargateSigningClient | null,
 ): signingClient is StargateSigningClient {
