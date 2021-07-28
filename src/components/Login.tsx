@@ -1,6 +1,7 @@
 import React from "react";
 
 import { ClientContext } from "../contexts/ClientContext";
+import { settings } from "../settings";
 import {
   getAddressAndStargateSigningClient,
   loadKeplrWallet,
@@ -39,6 +40,22 @@ export function Login(): JSX.Element {
   }
 
   function renderLoginButton(): JSX.Element {
+    const { keplrChainInfo } = settings.backend;
+
+    let keplrButton;
+    if (keplrChainInfo != undefined) {
+      keplrButton = (
+        <button
+          className="dropdown-item"
+          onClick={async () =>
+            loginStargate(await loadKeplrWallet(client!, keplrChainInfo))
+          }
+        >
+          Keplr wallet
+        </button>
+      );
+    }
+
     return loading ? (
       <button className="btn btn-primary" type="button" disabled>
         <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>
@@ -73,14 +90,7 @@ export function Login(): JSX.Element {
           >
             Browser wallet
           </button>
-          <button
-            className="dropdown-item"
-            onClick={async () =>
-              loginStargate(await loadKeplrWallet(client!))
-            }
-          >
-            Keplr wallet
-          </button>
+          {keplrButton}
           <button
             className="dropdown-item"
             onClick={() =>
