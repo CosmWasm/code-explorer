@@ -1,4 +1,8 @@
-import { MsgExecuteContract, MsgInstantiateContract, MsgStoreCode } from "@cosmjs/cosmwasm-stargate/build/codec/cosmwasm/wasm/v1beta1/tx";
+import {
+  MsgExecuteContract,
+  MsgInstantiateContract,
+  MsgStoreCode,
+} from "@cosmjs/cosmwasm-stargate/build/codec/cosmwasm/wasm/v1beta1/tx";
 import { Registry } from "@cosmjs/proto-signing";
 import React from "react";
 import { Redirect, Route, Switch } from "react-router";
@@ -10,10 +14,7 @@ import { CodesPage } from "../pages/codes/CodesPage";
 import { ContractPage } from "../pages/contract/ContractPage";
 import { TxPage } from "../pages/tx/TxPage";
 import { settings } from "../settings";
-import {
-  StargateClient,
-  StargateSigningClient,
-} from "../ui-utils/clients";
+import { StargateClient, StargateSigningClient } from "../ui-utils/clients";
 import {
   msgExecuteContractTypeUrl,
   msgInstantiateContractTypeUrl,

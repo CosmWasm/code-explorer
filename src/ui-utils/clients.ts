@@ -1,19 +1,22 @@
+import { makeCosmoshubPath, OfflineAminoSigner } from "@cosmjs/amino";
 import {
   CosmWasmClient as StargateClient,
   CosmWasmFeeTable,
   SigningCosmWasmClient as StargateSigningClient,
 } from "@cosmjs/cosmwasm-stargate";
-import { GasLimits, defaultGasLimits as defaultStargateGasLimits } from "@cosmjs/stargate";
-import { MsgExecuteContract, MsgInstantiateContract, MsgStoreCode } from "@cosmjs/cosmwasm-stargate/build/codec/cosmwasm/wasm/v1beta1/tx";
+import {
+  MsgExecuteContract,
+  MsgInstantiateContract,
+  MsgStoreCode,
+} from "@cosmjs/cosmwasm-stargate/build/codec/cosmwasm/wasm/v1beta1/tx";
 import { Bip39, Random } from "@cosmjs/crypto";
+import { LedgerSigner } from "@cosmjs/ledger-amino";
 import { DirectSecp256k1HdWallet, OfflineDirectSigner, OfflineSigner, Registry } from "@cosmjs/proto-signing";
-
+import { defaultGasLimits as defaultStargateGasLimits, GasLimits } from "@cosmjs/stargate";
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
 
 import { settings } from "../settings";
 import { msgExecuteContractTypeUrl, msgInstantiateContractTypeUrl, msgStoreCodeTypeUrl } from "./txs";
-import { LedgerSigner } from "@cosmjs/ledger-amino";
-import { OfflineAminoSigner, makeCosmoshubPath } from "@cosmjs/amino";
 
 export { StargateClient, StargateSigningClient };
 
@@ -38,7 +41,10 @@ export function loadOrCreateMnemonic(mnemonic?: string): string {
   return loadedMnemonic;
 }
 
-export type WalletLoaderDirect = (addressPrefix: string, mnemonic?: string) => Promise<OfflineDirectSigner|OfflineAminoSigner>;
+export type WalletLoaderDirect = (
+  addressPrefix: string,
+  mnemonic?: string,
+) => Promise<OfflineDirectSigner | OfflineAminoSigner>;
 
 export function loadKeplrWallet(client: StargateClient, keplrChainInfo: any): WalletLoaderDirect {
   return async () => {
@@ -49,24 +55,23 @@ export function loadKeplrWallet(client: StargateClient, keplrChainInfo: any): Wa
     await w.keplr.enable(chaindId);
 
     return w.getOfflineSigner(chaindId);
-  }
+  };
 }
 
 async function registerKeplrChain(keplrChainInfo: any): Promise<void> {
-  const w = (window as any);
+  const w = window as any;
   if (!w.getOfflineSigner || !w.keplr) {
-    console.log("No keplr");
-      throw "Please install keplr extension";
+    throw new Error("Please install keplr extension");
   }
 
   if (!w.keplr.experimentalSuggestChain) {
-    throw "Please use the recent version of keplr extension";
+    throw new Error("Please use the recent version of keplr extension");
   }
 
   try {
     await w.keplr.experimentalSuggestChain(keplrChainInfo);
   } catch {
-    throw "Failed to suggest the chain";
+    throw new Error("Failed to suggest the chain");
   }
 }
 
@@ -78,7 +83,7 @@ export async function loadOrCreateWalletDirect(
   const hdPath = makeCosmoshubPath(0);
   return DirectSecp256k1HdWallet.fromMnemonic(loadedMnemonic, {
     hdPaths: [hdPath],
-    prefix: addressPrefix
+    prefix: addressPrefix,
   });
 }
 

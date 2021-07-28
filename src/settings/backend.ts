@@ -30,48 +30,48 @@ const oysternetSettings: BackendSettings = {
   addressPrefix: "wasm",
   gasPrice: GasPrice.fromString("0.25ucosm"),
   keplrChainInfo: {
-		rpc: 'http://rpc.oysternet.cosmwasm.com',
-		rest: 'http://lcd.oysternet.cosmwasm.com',
-		chainId: 'oysternet-1',
-		chainName: 'Wasm Oysternet',
-		stakeCurrency: {
-			coinDenom: 'SPONGE',
-			coinMinimalDenom: 'usponge',
-			coinDecimals: 6
-		},
-		bip44: {
-			coinType: 118,
-		},
-		bech32Config: {
+    rpc: "http://rpc.oysternet.cosmwasm.com",
+    rest: "http://lcd.oysternet.cosmwasm.com",
+    chainId: "oysternet-1",
+    chainName: "Wasm Oysternet",
+    stakeCurrency: {
+      coinDenom: "SPONGE",
+      coinMinimalDenom: "usponge",
+      coinDecimals: 6,
+    },
+    bip44: {
+      coinType: 118,
+    },
+    bech32Config: {
       bech32PrefixAccAddr: "wasm",
       bech32PrefixAccPub: "wasmpub",
       bech32PrefixValAddr: "wasmvaloper",
       bech32PrefixValPub: "wasmvaloperpub",
       bech32PrefixConsAddr: "wasmvalcons",
-      bech32PrefixConsPub: "wasmvalconspub"
+      bech32PrefixConsPub: "wasmvalconspub",
     },
-		currencies: [
-			{
-				coinDenom: 'SPONGE',
-				coinMinimalDenom: 'usponge',
-				coinDecimals: 6
-			},
-		],
-		feeCurrencies: [
-			{
-				coinDenom: 'SPONGE',
-				coinMinimalDenom: 'usponge',
-				coinDecimals: 6
-			},
-		],
-		features: ['stargate']
-	},
+    currencies: [
+      {
+        coinDenom: "SPONGE",
+        coinMinimalDenom: "usponge",
+        coinDecimals: 6,
+      },
+    ],
+    feeCurrencies: [
+      {
+        coinDenom: "SPONGE",
+        coinMinimalDenom: "usponge",
+        coinDecimals: 6,
+      },
+    ],
+    features: ["stargate"],
+  },
 };
 
 const knownBackends: Partial<Record<string, BackendSettings>> = {
   devnetStargate: devnetStargateSettings,
   musselnet: musselnetSettings,
-  oysternet: oysternetSettings
+  oysternet: oysternetSettings,
 };
 
 export function getCurrentBackend(): BackendSettings {

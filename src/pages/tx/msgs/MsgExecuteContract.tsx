@@ -1,19 +1,16 @@
 import { MsgExecuteContract as IMsgExecuteContract } from "@cosmjs/cosmwasm-stargate/build/codec/cosmwasm/wasm/v1beta1/tx";
 import React, { Fragment } from "react";
+import ReactJson from "react-json-view";
 
 import { AccountLink } from "../../../components/AccountLink";
 import { ContractLink } from "../../../components/ContractLink";
 import { parseMsgContract, printableBalance } from "../../../ui-utils";
-
-import ReactJson from 'react-json-view';
 
 interface Props {
   readonly msg: IMsgExecuteContract;
 }
 
 export function MsgExecuteContract({ msg }: Props): JSX.Element {
-
-
   return (
     <Fragment>
       <li className="list-group-item">

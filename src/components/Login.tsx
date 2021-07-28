@@ -47,9 +47,7 @@ export function Login(): JSX.Element {
       keplrButton = (
         <button
           className="dropdown-item"
-          onClick={async () =>
-            loginStargate(loadKeplrWallet(client, keplrChainInfo))
-          }
+          onClick={async () => loginStargate(loadKeplrWallet(client, keplrChainInfo))}
         >
           Keplr wallet
         </button>
@@ -82,20 +80,13 @@ export function Login(): JSX.Element {
         </button>
         <div className="dropdown-menu">
           <h6 className="dropdown-header">with</h6>
-          <button
-            className="dropdown-item"
-            onClick={() =>
-              loginStargate(loadOrCreateWalletDirect)
-            }
-          >
+          <button className="dropdown-item" onClick={() => loginStargate(loadOrCreateWalletDirect)}>
             Browser wallet
           </button>
           {keplrButton}
           <button
             className="dropdown-item"
-            onClick={() =>
-              loginStargate(loadLedgerWallet)
-            }
+            onClick={() => loginStargate(loadLedgerWallet)}
             disabled={webUsbMissing()}
           >
             Ledger wallet

@@ -1,6 +1,6 @@
+import { fromUtf8 } from "@cosmjs/encoding";
 import { Decimal } from "@cosmjs/math";
 import { Coin } from "@cosmjs/stargate/build/codec/cosmos/base/v1beta1/coin";
-import { fromUtf8 } from "@cosmjs/encoding";
 
 export function ellideMiddle(str: string, maxOutLen: number): string {
   if (str.length <= maxOutLen) {
@@ -38,7 +38,7 @@ export function printableBalance(balance: readonly Coin[]): string {
   return balance.map(printableCoin).join(", ");
 }
 
-export function parseMsgContract(msg: Uint8Array) {
+export function parseMsgContract(msg: Uint8Array): any {
   const json = fromUtf8(msg);
 
   return JSON.parse(json);

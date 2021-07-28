@@ -1,6 +1,7 @@
 import "./TxPage.css";
 
-import { IndexedTx, Block } from "@cosmjs/stargate";
+import { Block, IndexedTx } from "@cosmjs/stargate";
+import { Tx } from "@cosmjs/stargate/build/codec/cosmos/tx/v1beta1/tx";
 import React from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
@@ -30,7 +31,6 @@ import { MsgInstantiateContract } from "./msgs/MsgInstantiateContract";
 import { MsgSend } from "./msgs/MsgSend";
 import { MsgStoreCode } from "./msgs/MsgStoreCode";
 import { TxInfo } from "./TxInfo";
-import { Tx } from "@cosmjs/stargate/build/codec/cosmos/tx/v1beta1/tx"
 
 const stargateEffect = (
   client: StargateClient,
@@ -43,7 +43,8 @@ const stargateEffect = (
     .then((tx) => {
       setDetails(tx || undefined);
       if (!tx) return;
-      client.getBlock(tx.height)
+      client
+        .getBlock(tx.height)
         .then((b) => {
           setBlockInfo(b);
         })
@@ -63,16 +64,13 @@ export function TxPage(): JSX.Element {
     loadingState,
   );
 
-  const [block, setBlockInfo] = React.useState<Block | undefined | ErrorState | LoadingState>(
-    loadingState,
-  );
+  const [block, setBlockInfo] = React.useState<Block | undefined | ErrorState | LoadingState>(loadingState);
 
-  React.useEffect(
-    client != undefined
-    ? stargateEffect(client, txId, setDetails, setBlockInfo)
-    : () => {},
-    [client, txId, typeRegistry],
-  );
+  React.useEffect(client !== null ? stargateEffect(client, txId, setDetails, setBlockInfo) : () => {}, [
+    client,
+    txId,
+    typeRegistry,
+  ]);
 
   return (
     <div className="page">
@@ -103,7 +101,10 @@ export function TxPage(): JSX.Element {
             ) : details === undefined ? (
               <p>Transaction not found</p>
             ) : (
-              <ExecutionInfo tx={details} timestamp={isLoadingState(block) || isErrorState(block) ? "" : block?.header.time || ""} />
+              <ExecutionInfo
+                tx={details}
+                timestamp={isLoadingState(block) || isErrorState(block) ? "" : block?.header.time || ""}
+              />
             )}
           </div>
           <div className="col">
