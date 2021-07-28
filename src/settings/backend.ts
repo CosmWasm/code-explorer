@@ -17,20 +17,6 @@ const devnetStargateSettings: BackendSettings = {
   gasPrice: GasPrice.fromString("0.25ucosm"),
 };
 
-const coralnetSettings: BackendSettings = {
-  nodeUrls: ["https://lcd.coralnet.cosmwasm.com"],
-  denominations: ["ucosm", "ustake"],
-  addressPrefix: "coral",
-  gasPrice: GasPrice.fromString("0.25ucosm"),
-};
-
-const heldernetSettings: BackendSettings = {
-  nodeUrls: ["https://lcd.heldernet.cosmwasm.com"],
-  denominations: ["ucosm", "ustake"],
-  addressPrefix: "cosmos",
-  gasPrice: GasPrice.fromString("0.25ucosm"),
-};
-
 const musselnetSettings: BackendSettings = {
   nodeUrls: ["https://rpc.musselnet.cosmwasm.com"],
   denominations: ["umayo", "ufrites"],
@@ -83,8 +69,6 @@ const oysternetSettings: BackendSettings = {
 };
 
 const knownBackends: Partial<Record<string, BackendSettings>> = {
-  coralnet: coralnetSettings,
-  heldernet: heldernetSettings,
   devnetStargate: devnetStargateSettings,
   musselnet: musselnetSettings,
   oysternet: oysternetSettings

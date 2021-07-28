@@ -17,18 +17,6 @@ yarn install
 
 You don't need to run a local network in order to connect to the testnets, you just need the right start script for each network.
 
-#### Heldernet
-
-```sh
-yarn start-heldernet
-```
-
-#### Coralnet
-
-```sh
-yarn start-coralnet
-```
-
 #### Musslenet
 
 Coming soon!
