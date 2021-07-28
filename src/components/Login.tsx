@@ -43,12 +43,12 @@ export function Login(): JSX.Element {
     const { keplrChainInfo } = settings.backend;
 
     let keplrButton;
-    if (keplrChainInfo != undefined && client != undefined) {
+    if (keplrChainInfo !== undefined && client !== null) {
       keplrButton = (
         <button
           className="dropdown-item"
           onClick={async () =>
-            loginStargate(await loadKeplrWallet(client, keplrChainInfo))
+            loginStargate(loadKeplrWallet(client, keplrChainInfo))
           }
         >
           Keplr wallet
