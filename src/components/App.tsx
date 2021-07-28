@@ -21,7 +21,7 @@ import {
 } from "../ui-utils/txs";
 import { FlexibleRouter } from "./FlexibleRouter";
 
-const { nodeUrls, stargateEnabled } = settings.backend;
+const { nodeUrls } = settings.backend;
 const typeRegistry = new Registry([
   [msgStoreCodeTypeUrl, MsgStoreCode],
   [msgInstantiateContractTypeUrl, MsgInstantiateContract],

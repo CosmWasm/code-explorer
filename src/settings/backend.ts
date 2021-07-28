@@ -4,7 +4,6 @@ export type NonEmptyArray<ElementType> = { readonly 0: ElementType } & readonly 
 
 export interface BackendSettings {
   readonly nodeUrls: NonEmptyArray<string>;
-  readonly stargateEnabled: boolean;
   readonly denominations: readonly string[];
   readonly addressPrefix: string;
   readonly gasPrice: GasPrice;
@@ -13,7 +12,6 @@ export interface BackendSettings {
 
 const devnetStargateSettings: BackendSettings = {
   nodeUrls: ["http://localhost:26659"],
-  stargateEnabled: true,
   denominations: ["ucosm", "ustake"],
   addressPrefix: "wasm",
   gasPrice: GasPrice.fromString("0.25ucosm"),
@@ -21,7 +19,6 @@ const devnetStargateSettings: BackendSettings = {
 
 const coralnetSettings: BackendSettings = {
   nodeUrls: ["https://lcd.coralnet.cosmwasm.com"],
-  stargateEnabled: false,
   denominations: ["ucosm", "ustake"],
   addressPrefix: "coral",
   gasPrice: GasPrice.fromString("0.25ucosm"),
@@ -29,7 +26,6 @@ const coralnetSettings: BackendSettings = {
 
 const heldernetSettings: BackendSettings = {
   nodeUrls: ["https://lcd.heldernet.cosmwasm.com"],
-  stargateEnabled: false,
   denominations: ["ucosm", "ustake"],
   addressPrefix: "cosmos",
   gasPrice: GasPrice.fromString("0.25ucosm"),
@@ -37,7 +33,6 @@ const heldernetSettings: BackendSettings = {
 
 const musselnetSettings: BackendSettings = {
   nodeUrls: ["https://rpc.musselnet.cosmwasm.com"],
-  stargateEnabled: true,
   denominations: ["umayo", "ufrites"],
   addressPrefix: "wasm",
   gasPrice: GasPrice.fromString("0.25ucosm"),
@@ -45,7 +40,6 @@ const musselnetSettings: BackendSettings = {
 
 const oysternetSettings: BackendSettings = {
   nodeUrls: ["http://rpc.oysternet.cosmwasm.com"],
-  stargateEnabled: true,
   denominations: ["usponge"],
   addressPrefix: "wasm",
   gasPrice: GasPrice.fromString("0.25ucosm"),
