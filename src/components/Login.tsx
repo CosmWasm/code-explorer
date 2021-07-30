@@ -6,14 +6,12 @@ import {
   getAddressAndStargateSigningClient,
   loadKeplrWallet,
   loadLedgerWallet,
-  loadOrCreateWalletDirect,
   WalletLoaderDirect,
   webUsbMissing,
 } from "../ui-utils/clients";
 
 export function Login(): JSX.Element {
   const { userAddress, setUserAddress, setSigningClient, client } = React.useContext(ClientContext);
-  const [mnemonic, setMnemonic] = React.useState<string>();
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string>();
 
@@ -22,7 +20,7 @@ export function Login(): JSX.Element {
     setError(undefined);
 
     try {
-      const [userAddress, signingClient] = await getAddressAndStargateSigningClient(loadWallet, mnemonic);
+      const [userAddress, signingClient] = await getAddressAndStargateSigningClient(loadWallet);
       setUserAddress(userAddress);
       setSigningClient(signingClient);
     } catch (error) {
@@ -35,7 +33,6 @@ export function Login(): JSX.Element {
   function logout(): void {
     setError(undefined);
     setUserAddress(undefined);
-    setMnemonic(undefined);
     setSigningClient(undefined);
   }
 
@@ -61,14 +58,6 @@ export function Login(): JSX.Element {
       </button>
     ) : (
       <>
-        <div className="mr-3 p-2 rounded bg-white">
-          <span title="Mnemonic for burner wallet">Mnemonic:</span>
-          <input
-            className="ml-3 flex-grow-1"
-            value={mnemonic}
-            onChange={(event) => setMnemonic(event.target.value)}
-          />
-        </div>
         <button
           type="button"
           className="btn btn-primary dropdown-toggle"
@@ -80,9 +69,6 @@ export function Login(): JSX.Element {
         </button>
         <div className="dropdown-menu">
           <h6 className="dropdown-header">with</h6>
-          <button className="dropdown-item" onClick={() => loginStargate(loadOrCreateWalletDirect)}>
-            Browser wallet
-          </button>
           {keplrButton}
           <button
             className="dropdown-item"
