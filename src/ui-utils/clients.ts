@@ -11,7 +11,7 @@ import {
 } from "@cosmjs/cosmwasm-stargate/build/codec/cosmwasm/wasm/v1beta1/tx";
 import { Bip39, Random } from "@cosmjs/crypto";
 import { LedgerSigner } from "@cosmjs/ledger-amino";
-import { DirectSecp256k1HdWallet, OfflineDirectSigner, OfflineSigner, Registry } from "@cosmjs/proto-signing";
+import { OfflineDirectSigner, OfflineSigner, Registry } from "@cosmjs/proto-signing";
 import { defaultGasLimits as defaultStargateGasLimits, GasLimits } from "@cosmjs/stargate";
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
 
@@ -19,27 +19,6 @@ import { settings } from "../settings";
 import { msgExecuteContractTypeUrl, msgInstantiateContractTypeUrl, msgStoreCodeTypeUrl } from "./txs";
 
 export { StargateClient, StargateSigningClient };
-
-export function isStargateSigningClient(
-  signingClient: StargateSigningClient | null,
-): signingClient is StargateSigningClient {
-  return signingClient instanceof StargateSigningClient;
-}
-
-export function generateMnemonic(): string {
-  return Bip39.encode(Random.getBytes(16)).toString();
-}
-
-export function loadOrCreateMnemonic(mnemonic?: string): string {
-  const key = "burner-wallet";
-  const loaded = localStorage.getItem(key);
-  if (loaded && !mnemonic) {
-    return loaded;
-  }
-  const loadedMnemonic = mnemonic || generateMnemonic();
-  localStorage.setItem(key, loadedMnemonic);
-  return loadedMnemonic;
-}
 
 export type WalletLoaderDirect = (
   addressPrefix: string,
@@ -73,18 +52,6 @@ async function registerKeplrChain(keplrChainInfo: any): Promise<void> {
   } catch {
     throw new Error("Failed to suggest the chain");
   }
-}
-
-export async function loadOrCreateWalletDirect(
-  addressPrefix: string,
-  mnemonic?: string,
-): Promise<OfflineDirectSigner> {
-  const loadedMnemonic = loadOrCreateMnemonic(mnemonic);
-  const hdPath = makeCosmoshubPath(0);
-  return DirectSecp256k1HdWallet.fromMnemonic(loadedMnemonic, {
-    hdPaths: [hdPath],
-    prefix: addressPrefix,
-  });
 }
 
 export async function loadLedgerWallet(addressPrefix: string): Promise<OfflineAminoSigner> {

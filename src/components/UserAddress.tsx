@@ -7,8 +7,7 @@ export function UserAddress(): JSX.Element {
 
   return userAddress ? (
     <div className="mr-3 p-2 rounded bg-white">
-      <span>My address: </span>
-      <span>{userAddress}</span>
+      <span className="badge">{userAddress}</span>
     </div>
   ) : (
     <></>
