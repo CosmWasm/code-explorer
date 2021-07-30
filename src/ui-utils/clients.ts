@@ -20,12 +20,6 @@ import { msgExecuteContractTypeUrl, msgInstantiateContractTypeUrl, msgStoreCodeT
 
 export { StargateClient, StargateSigningClient };
 
-export function isStargateSigningClient(
-  signingClient: StargateSigningClient | null,
-): signingClient is StargateSigningClient {
-  return signingClient instanceof StargateSigningClient;
-}
-
 export type WalletLoaderDirect = (
   addressPrefix: string,
   mnemonic?: string,
