@@ -19,6 +19,7 @@ import {
 import { CodeInfo } from "./CodeInfo";
 import InstanceRow from "./InstanceRow";
 import { InstancesEmptyState } from "./InstancesEmptyState";
+import { InstantiationContract } from "../contract/InstantiationContract";
 
 export function CodePage(): JSX.Element {
   const { client } = React.useContext(ClientContext);
@@ -91,7 +92,10 @@ export function CodePage(): JSX.Element {
             ) : isErrorState(details) ? (
               <span>Error</span>
             ) : (
-              <CodeInfo code={details} uploadTxHash={uploadTxHash} />
+              <>
+                <CodeInfo code={details} uploadTxHash={uploadTxHash} />
+                <InstantiationContract codeId={details.id} />
+              </>
             )}
           </div>
         </div>
