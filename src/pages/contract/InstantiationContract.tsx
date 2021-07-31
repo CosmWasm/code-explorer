@@ -2,6 +2,7 @@ import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin } from "@cosmjs/stargate";
 import React from "react";
 import JSONInput from "react-json-editor-ajrm";
+import { JsonView } from "../../components/JsonView";
 
 import { ClientContext } from "../../contexts/ClientContext";
 import { settings } from "../../settings";
@@ -154,7 +155,7 @@ export function InstantiationContract({ codeId }: Props): JSX.Element {
         {executeResponse?.result ? (
           <li className="list-group-item">
             <span title="The contract formatted input">Response:</span>
-            <pre className="mb-0">{JSON.stringify(executeResponse.result, undefined, "  ")}</pre>
+            <JsonView src={executeResponse.result} />
           </li>
         ) : null}
         {error ? (

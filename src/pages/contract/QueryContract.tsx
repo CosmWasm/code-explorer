@@ -1,5 +1,6 @@
 import React from "react";
 import JSONInput from "react-json-editor-ajrm";
+import { JsonView } from "../../components/JsonView";
 
 import { ClientContext } from "../../contexts/ClientContext";
 import { jsonInputStyle } from "../../ui-utils/jsonInput";
@@ -82,7 +83,7 @@ export function QueryContract({ contractAddress }: Props): JSX.Element {
         {queryResponse?.result ? (
           <li className="list-group-item">
             <span title="The query response">Response:</span>
-            <pre className="mb-0">{queryResponse.result}</pre>
+            <JsonView src={JSON.parse(queryResponse.result)} />
           </li>
         ) : null}
         {error ? (

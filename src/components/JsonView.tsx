@@ -14,7 +14,7 @@ export function JsonView({ src, strLength }: Props): JSX.Element {
         displayDataTypes={false}
         displayObjectSize={false}
         collapseStringsAfterLength={strLength ?? 24}
-        theme="monokai" 
+        theme="twilight" 
       />
   );
 }

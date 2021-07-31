@@ -8,6 +8,7 @@ import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
 import { ClientContext } from "../../contexts/ClientContext";
 import { Result } from "../contract/ContractPage";
+import { JsonView } from "../../components/JsonView";
 
 export function NewCodePage(): JSX.Element {
   const { userAddress, signingClient } = React.useContext(ClientContext);
@@ -133,7 +134,7 @@ export function NewCodePage(): JSX.Element {
                 {executeResponse?.result ? (
                   <li className="list-group-item">
                     <span title="The contract formatted input">Response:</span>
-                    <pre className="mb-0">{JSON.stringify(executeResponse.result, undefined, "  ")}</pre>
+                    <JsonView src={executeResponse.result} strLength={100} />
                   </li>
                 ) : null}
                 {error ? (
