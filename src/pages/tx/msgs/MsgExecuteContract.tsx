@@ -1,9 +1,9 @@
 import { MsgExecuteContract as IMsgExecuteContract } from "@cosmjs/cosmwasm-stargate/build/codec/cosmwasm/wasm/v1beta1/tx";
 import React, { Fragment } from "react";
-import ReactJson from "react-json-view";
 
 import { AccountLink } from "../../../components/AccountLink";
 import { ContractLink } from "../../../components/ContractLink";
+import { JsonView } from "../../../components/JsonView";
 import { parseMsgContract, printableBalance } from "../../../ui-utils";
 
 interface Props {
@@ -29,7 +29,7 @@ export function MsgExecuteContract({ msg }: Props): JSX.Element {
           Handle message
         </span>
         :
-        <ReactJson src={parseMsgContract(msg.msg)} theme="monokai" />
+        <JsonView src={parseMsgContract(msg.msg)} strLength={100} />
       </li>
     </Fragment>
   );

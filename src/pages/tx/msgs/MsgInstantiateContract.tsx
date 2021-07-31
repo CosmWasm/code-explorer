@@ -1,9 +1,9 @@
 import { MsgInstantiateContract as IMsgInstantiateContract } from "@cosmjs/cosmwasm-stargate/build/codec/cosmwasm/wasm/v1beta1/tx";
 import React, { Fragment } from "react";
-import ReactJson from "react-json-view";
 
 import { AccountLink } from "../../../components/AccountLink";
 import { CodeLink } from "../../../components/CodeLink";
+import { JsonView } from "../../../components/JsonView";
 import { parseMsgContract, printableBalance } from "../../../ui-utils";
 
 interface Props {
@@ -32,7 +32,7 @@ export function MsgInstantiateContract({ msg }: Props): JSX.Element {
           Init message
         </span>
         :
-        <ReactJson src={parseMsgContract(msg.initMsg)} theme="monokai" />
+        <JsonView src={parseMsgContract(msg.initMsg)} strLength={100} />
       </li>
     </Fragment>
   );
