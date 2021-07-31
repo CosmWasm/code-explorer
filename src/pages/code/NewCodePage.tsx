@@ -80,7 +80,7 @@ export function NewCodePage(): JSX.Element {
                 <li className="list-group-item d-flex align-items-baseline">
                   <span title="The wasm code">Wasm:</span>
                   <div className="file btn btn-secondary">
-                    Select file
+                    {wasm?.name ?? "Select file"}
                     <input
                       type="file"
                       accept=".wasm"
