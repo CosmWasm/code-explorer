@@ -9,7 +9,6 @@ import {
   MsgInstantiateContract,
   MsgStoreCode,
 } from "@cosmjs/cosmwasm-stargate/build/codec/cosmwasm/wasm/v1beta1/tx";
-import { Bip39, Random } from "@cosmjs/crypto";
 import { LedgerSigner } from "@cosmjs/ledger-amino";
 import { OfflineDirectSigner, OfflineSigner, Registry } from "@cosmjs/proto-signing";
 import { defaultGasLimits as defaultStargateGasLimits, GasLimits } from "@cosmjs/stargate";

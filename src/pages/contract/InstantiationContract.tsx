@@ -9,9 +9,9 @@ import { jsonInputStyle } from "../../ui-utils/jsonInput";
 import { Result } from "./ContractPage";
 
 const executePlaceholder = {
-    name: "Nation coin",
-    symbol: "NTN",
-    decimals: 6
+  name: "Nation coin",
+  symbol: "NTN",
+  decimals: 6,
 };
 
 const coinsPlaceholder = [{ denom: settings.backend.denominations[0], amount: "1" }];
@@ -64,16 +64,15 @@ export function InstantiationContract({ codeId }: Props): JSX.Element {
     setExecuting(true);
 
     try {
-        
       const executeResponseResult: ExecuteResult = await signingClient.instantiate(
         userAddress,
         codeId,
         msgObject.result,
         label,
         {
-            memo: memo,
-            transferAmount: coinsObject?.result
-        }
+          memo: memo,
+          transferAmount: coinsObject?.result,
+        },
       );
       setExecuteResponse({ result: executeResponseResult });
     } catch (error) {
@@ -114,15 +113,15 @@ export function InstantiationContract({ codeId }: Props): JSX.Element {
         </li>
         <li className="list-group-item d-flex align-items-baseline">
           <div className="form-group row flex-grow-1">
-              <label className="col-sm-2 col-form-label">Label</label>
-              <div className="col-sm-10">
-                <input
-                  className="form-control"
-                  value={label}
-                  onChange={(event) => setLabel(event.target.value)}
-                />
-              </div>
+            <label className="col-sm-2 col-form-label">Label</label>
+            <div className="col-sm-10">
+              <input
+                className="form-control"
+                value={label}
+                onChange={(event) => setLabel(event.target.value)}
+              />
             </div>
+          </div>
         </li>
         <li className="list-group-item d-flex align-items-baseline">
           <div className="form-group row flex-grow-1">

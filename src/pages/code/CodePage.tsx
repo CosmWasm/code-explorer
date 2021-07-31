@@ -16,10 +16,10 @@ import {
   LoadingState,
   loadingState,
 } from "../../ui-utils/states";
+import { InstantiationContract } from "../contract/InstantiationContract";
 import { CodeInfo } from "./CodeInfo";
 import InstanceRow from "./InstanceRow";
 import { InstancesEmptyState } from "./InstancesEmptyState";
-import { InstantiationContract } from "../contract/InstantiationContract";
 
 export function CodePage(): JSX.Element {
   const { client } = React.useContext(ClientContext);
@@ -43,12 +43,14 @@ export function CodePage(): JSX.Element {
       ?.getCodeDetails(codeId)
       .then(setDetails)
       .catch(() => setDetails(errorState));
-    client?.searchTx({
-      tags: makeTags(`message.module=wasm&message.action=store-code&message.code_id=${codeId}`),
-    }).then((results) => {
-      const first = results.find(() => true);
-      setUploadTxHash(first?.hash);
-    });
+    client
+      ?.searchTx({
+        tags: makeTags(`message.module=wasm&message.action=store-code&message.code_id=${codeId}`),
+      })
+      .then((results) => {
+        const first = results.find(() => true);
+        setUploadTxHash(first?.hash);
+      });
   }, [client, codeId]);
 
   const pageTitle = <span>Code #{codeId}</span>;

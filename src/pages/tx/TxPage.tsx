@@ -72,12 +72,12 @@ export function TxPage(): JSX.Element {
     typeRegistry,
   ]);
 
-  const formatMsg = (typeUrl?: String) => {
+  const formatMsg = (typeUrl?: string): string | undefined => {
     if (!typeUrl) return typeUrl;
 
-    const idx = typeUrl.lastIndexOf('.');
+    const idx = typeUrl.lastIndexOf(".");
 
-    return idx < 0 ? typeUrl : typeUrl.substring(idx+1);
+    return idx < 0 ? typeUrl : typeUrl.substring(idx + 1);
   };
 
   return (
@@ -142,7 +142,9 @@ export function TxPage(): JSX.Element {
                 <div className="card mb-3" key={`${details.hash}_${index}`}>
                   <div className="card-header">
                     <h4>
-                      <span className="badge badge-pill badge-info">{formatMsg(msg.typeUrl) || <em>unset</em>}</span>
+                      <span className="badge badge-pill badge-info">
+                        {formatMsg(msg.typeUrl) || <em>unset</em>}
+                      </span>
                     </h4>
                   </div>
                   <ul className="list-group list-group-flush">

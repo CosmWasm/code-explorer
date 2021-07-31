@@ -14,15 +14,22 @@ export function MsgExecuteContract({ msg }: Props): JSX.Element {
   return (
     <Fragment>
       <li className="list-group-item">
-        <span className="font-weight-bold">Contract:</span> <ContractLink address={msg.contract ?? "-"} maxLength={null} />
+        <span className="font-weight-bold">Contract:</span>{" "}
+        <ContractLink address={msg.contract ?? "-"} maxLength={null} />
       </li>
       <li className="list-group-item">
-        <span className="font-weight-bold">Sender:</span> <AccountLink address={msg.sender ?? "-"} maxLength={null} />
+        <span className="font-weight-bold">Sender:</span>{" "}
+        <AccountLink address={msg.sender ?? "-"} maxLength={null} />
       </li>
-      <li className="list-group-item"><span className="font-weight-bold">Sent funds:</span> {printableBalance(msg.funds)}</li>
       <li className="list-group-item">
-        <span title="The contract level message" className="font-weight-bold">Handle message</span>:
-        <ReactJson src={parseMsgContract(msg.msg)} theme="monokai"/>
+        <span className="font-weight-bold">Sent funds:</span> {printableBalance(msg.funds)}
+      </li>
+      <li className="list-group-item">
+        <span title="The contract level message" className="font-weight-bold">
+          Handle message
+        </span>
+        :
+        <ReactJson src={parseMsgContract(msg.msg)} theme="monokai" />
       </li>
     </Fragment>
   );

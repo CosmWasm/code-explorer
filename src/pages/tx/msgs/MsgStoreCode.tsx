@@ -23,10 +23,15 @@ export function MsgStoreCode({ msg }: Props): JSX.Element {
   return (
     <Fragment>
       <li className="list-group-item">
-        <span className="font-weight-bold">Sender:</span> <AccountLink address={msg.sender ?? "-"} maxLength={null} />
+        <span className="font-weight-bold">Sender:</span>{" "}
+        <AccountLink address={msg.sender ?? "-"} maxLength={null} />
       </li>
-      <li className="list-group-item"><span className="font-weight-bold">Source:</span> {msg.source || "–"}</li>
-      <li className="list-group-item"><span className="font-weight-bold">Builder:</span> {msg.builder || "–"}</li>
+      <li className="list-group-item">
+        <span className="font-weight-bold">Source:</span> {msg.source || "–"}
+      </li>
+      <li className="list-group-item">
+        <span className="font-weight-bold">Builder:</span> {msg.builder || "–"}
+      </li>
       <li className="list-group-item">
         <span className="font-weight-bold">Data:</span> {dataInfo}{" "}
         {!showAllCode ? (
