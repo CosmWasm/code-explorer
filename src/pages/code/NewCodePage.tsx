@@ -1,3 +1,5 @@
+import "./NewCodePage.css";
+
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -78,15 +80,20 @@ export function NewCodePage(): JSX.Element {
                         </li>
                         <li className="list-group-item d-flex align-items-baseline">
                             <span title="The wasm code">Wasm:</span>
+                            <div className="file btn btn-secondary">
+                              Select file
                             <input
                                 type="file"
+                                accept=".wasm"
                                 className="ml-3 flex-grow-1 form-control-file"
                                 onChange={(e) => setWasm(e.target.files?.item(0))}
                             />
+                            </div>
                         </li>
                         <li className="list-group-item d-flex align-items-baseline">
                             <label title="The wasm source">Source:</label>
                             <input
+                                type="url"
                                 className="ml-3 flex-grow-1 form-control"
                                 value={source}
                                 onChange={(event) => setSource(event.target.value)}
