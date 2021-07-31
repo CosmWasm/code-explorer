@@ -67,6 +67,9 @@
     text-decoration-color: initial;
     background-color: rgb(27, 30, 31);
   }
+  pre {
+    color: rgb(209, 205, 199);
+  }
   body {
     color: rgb(209, 205, 199);
   }
