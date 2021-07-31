@@ -11,11 +11,7 @@ import { Result } from "./ContractPage";
 const executePlaceholder = {
     name: "Nation coin",
     symbol: "NTN",
-    decimals: 6,
-    initial_balances: [{
-        address: "juno14vhcdsyf83ngsrrqc92kmw8q9xakqjm0ff2dpn",
-        amount: "10000000000"
-    }]
+    decimals: 6
 };
 
 const coinsPlaceholder = [{ denom: settings.backend.denominations[0], amount: "1" }];
