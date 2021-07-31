@@ -117,7 +117,7 @@ export function InstantiationContract({ codeId }: Props): JSX.Element {
           />
         </li>
         <li className="list-group-item d-flex align-items-baseline">
-          <span title="The contract query input">Label :</span>
+          <span title="The contract label">Label :</span>
           <input
             className="ml-3 flex-grow-1"
             value={label}
@@ -125,7 +125,7 @@ export function InstantiationContract({ codeId }: Props): JSX.Element {
           />
         </li>
         <li className="list-group-item d-flex align-items-baseline">
-          <span title="The contract query input">Memo:</span>
+          <span title="The tx memo">Memo:</span>
           <input
             className="ml-3 flex-grow-1"
             value={memo}

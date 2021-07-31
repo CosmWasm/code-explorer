@@ -74,39 +74,41 @@ export function NewCodePage(): JSX.Element {
                 <div className="card mb-3">
                     <ul className="list-group list-group-flush">
                         <li className="list-group-item d-flex align-items-baseline">
-                            <span title="The contract query input">Wasm:</span>
+                            <span>New Wasm Code</span>
+                        </li>
+                        <li className="list-group-item d-flex align-items-baseline">
+                            <span title="The wasm code">Wasm:</span>
                             <input
                                 type="file"
-                                className="ml-3 flex-grow-1"
+                                className="ml-3 flex-grow-1 form-control-file"
                                 onChange={(e) => setWasm(e.target.files?.item(0))}
                             />
                         </li>
                         <li className="list-group-item d-flex align-items-baseline">
-                            <span title="The contract query input">Source:</span>
+                            <label title="The wasm source">Source:</label>
                             <input
-                                className="ml-3 flex-grow-1"
+                                className="ml-3 flex-grow-1 form-control"
                                 value={source}
                                 onChange={(event) => setSource(event.target.value)}
                             />
                         </li>
                         <li className="list-group-item d-flex align-items-baseline">
-                            <span title="The contract query input">Builder:</span>
+                            <label title="The wasm builder">Builder:</label>
                             <input
-                                className="ml-3 flex-grow-1"
+                                className="ml-3 flex-grow-1 form-control"
                                 value={builder}
                                 onChange={(event) => setBuilder(event.target.value)}
                             />
                         </li>
                         <li className="list-group-item d-flex align-items-baseline">
-                            <span title="The contract query input">Memo:</span>
+                            <label title="The tx memo">Memo:</label>
                             <input
-                                className="ml-3 flex-grow-1"
+                                className="ml-3 flex-grow-1 form-control"
                                 value={memo}
                                 onChange={(event) => setMemo(event.target.value)}
                             />
                         </li>
-                        <li>
-                            <div className="list-group-item btn-group">
+                        <div className="list-group-item btn-group">
                                 {executing ? (
                                     <button className="btn btn-primary" type="button" disabled>
                                         <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>
@@ -122,7 +124,6 @@ export function NewCodePage(): JSX.Element {
                                     </button>
                                 )}
                             </div>
-                        </li>
                         {executeResponse?.result ? (
                             <li className="list-group-item">
                                 <span title="The contract formatted input">Response:</span>
