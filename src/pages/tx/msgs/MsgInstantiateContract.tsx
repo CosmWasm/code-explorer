@@ -14,15 +14,15 @@ export function MsgInstantiateContract({ msg }: Props): JSX.Element {
   return (
     <Fragment>
       <li className="list-group-item">
-        Sender: <AccountLink address={msg.sender || "-"} maxLength={null} />
+        <span className="font-weight-bold">Sender:</span> <AccountLink address={msg.sender || "-"} maxLength={null} />
       </li>
       <li className="list-group-item">
-        Code ID: <CodeLink codeId={msg.codeId?.toNumber() ?? 0} text={msg.codeId?.toString() ?? "-"} />
+        <span className="font-weight-bold">Code ID:</span> <CodeLink codeId={msg.codeId?.toNumber() ?? 0} text={msg.codeId?.toString() ?? "-"} />
       </li>
-      <li className="list-group-item">Label: {msg.label}</li>
-      <li className="list-group-item">Init funds: {printableBalance(msg.funds)}</li>
+      <li className="list-group-item"><span className="font-weight-bold">Label:</span> {msg.label}</li>
+      <li className="list-group-item"><span className="font-weight-bold">Init funds:</span> {printableBalance(msg.funds)}</li>
       <li className="list-group-item">
-        <span title="The contract level message">Init message</span>:
+        <span title="The contract level message" className="font-weight-bold">Init message</span>:
         <ReactJson src={parseMsgContract(msg.initMsg)} />
       </li>
     </Fragment>

@@ -12,12 +12,14 @@ export function MsgSend({ msg }: Props): JSX.Element {
   return (
     <Fragment>
       <li className="list-group-item">
-        Sender: <AccountLink address={msg.fromAddress ?? "-"} maxLength={null} />
+        <span className="font-weight-bold">Sender:</span> <AccountLink address={msg.fromAddress ?? "-"} maxLength={null} />
       </li>
       <li className="list-group-item">
-        Recipient: <AccountLink address={msg.toAddress ?? "-"} maxLength={null} />
+        <span className="font-weight-bold">Recipient:</span> <AccountLink address={msg.toAddress ?? "-"} maxLength={null} />
       </li>
-      <li className="list-group-item">Amount: {printableBalance(msg.amount ?? [])}</li>
+      <li className="list-group-item">
+      <span className="font-weight-bold">Amount:</span> {printableBalance(msg.amount ?? [])}
+      </li>
     </Fragment>
   );
 }
