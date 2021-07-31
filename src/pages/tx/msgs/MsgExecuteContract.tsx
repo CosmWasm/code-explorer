@@ -22,7 +22,7 @@ export function MsgExecuteContract({ msg }: Props): JSX.Element {
       <li className="list-group-item"><span className="font-weight-bold">Sent funds:</span> {printableBalance(msg.funds)}</li>
       <li className="list-group-item">
         <span title="The contract level message" className="font-weight-bold">Handle message</span>:
-        <ReactJson src={parseMsgContract(msg.msg)} />
+        <ReactJson src={parseMsgContract(msg.msg)} theme="monokai"/>
       </li>
     </Fragment>
   );

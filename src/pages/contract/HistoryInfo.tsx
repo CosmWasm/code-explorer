@@ -20,7 +20,7 @@ export function HistoryInfo({ contractCodeHistory }: Props): JSX.Element {
             <span title="The message operation type">
               {entry.operation} - <CodeLink codeId={entry.codeId} />
             </span>
-            <ReactJson src={entry.msg} />
+            <ReactJson src={entry.msg} theme="monokai"/>
           </li>
         ))}
       </ul>

@@ -23,7 +23,7 @@ export function MsgInstantiateContract({ msg }: Props): JSX.Element {
       <li className="list-group-item"><span className="font-weight-bold">Init funds:</span> {printableBalance(msg.funds)}</li>
       <li className="list-group-item">
         <span title="The contract level message" className="font-weight-bold">Init message</span>:
-        <ReactJson src={parseMsgContract(msg.initMsg)} />
+        <ReactJson src={parseMsgContract(msg.initMsg)} theme="monokai" />
       </li>
     </Fragment>
   );
