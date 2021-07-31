@@ -1,0 +1,78 @@
+  .breadcrumb {
+    background-color: rgb(35, 38, 39);
+  }
+  .list-group-item {
+  background-color: rgb(24, 26, 27);
+  border-color: rgba(140, 130, 115, 0.13);
+  }
+  .card {
+    background-color: rgb(24, 26, 27);
+    border-color: rgba(140, 130, 115, 0.13);
+  }
+  .form-control {
+    color: rgb(181, 175, 166);
+    background-color: rgb(24, 26, 27);
+    border-color: rgb(60, 65, 68);
+  }
+  
+  .table {
+    color: rgb(209, 205, 199);
+  }
+  .table thead th {
+    border-bottom-color: rgb(120, 112, 99);
+  }
+  .table td, .table th {
+    border-top-color: rgb(120, 112, 99);
+  }
+  .breadcrumb-item.active {
+    color: rgb(158, 150, 137);
+  }
+  a {
+    color: rgb(51, 162, 255);
+    text-decoration-color: initial;
+    background-color: transparent;
+  }
+  a:hover {
+    color: rgb(97, 183, 255);
+    text-decoration-color: initial;
+  }
+  .bg-white {
+    background-color: rgb(24, 26, 27) !important;
+  }
+  .btn-light {
+    color: rgb(200, 195, 188);
+    background-color: rgb(22, 24, 25);
+    border-color: rgb(123, 114, 101);
+  }
+  a.code-content {
+    background-color: rgba(24, 26, 27, 0.8) !important;
+    color: rgb(211, 207, 201) !important;
+  }
+  a.code-content:hover {
+    background-color: rgba(24, 26, 27, 0.9) !important;
+  }
+  .dropdown-menu {
+    color: rgb(209, 205, 199);
+    list-style-image: initial;
+    background-color: rgb(24, 26, 27);
+    border-color: rgba(140, 130, 115, 0.15);
+  }
+  .dropdown-item {
+    color: rgb(209, 205, 199);
+    background-color: transparent;
+    border-color: initial;
+  }
+  .dropdown-item:focus, .dropdown-item:hover {
+    color: rgb(217, 213, 208);
+    text-decoration-color: initial;
+    background-color: rgb(27, 30, 31);
+  }
+  body {
+    color: rgb(209, 205, 199);
+  }
+  
+  .white-row {
+    background-color: rgba(24, 26, 27, 0.8) !important;
+    color: rgb(201, 196, 189) !important;
+  }
+  
