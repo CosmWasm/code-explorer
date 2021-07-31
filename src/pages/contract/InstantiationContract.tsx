@@ -117,20 +117,28 @@ export function InstantiationContract({ codeId }: Props): JSX.Element {
           />
         </li>
         <li className="list-group-item d-flex align-items-baseline">
-          <span title="The contract label">Label :</span>
-          <input
-            className="ml-3 flex-grow-1"
-            value={label}
-            onChange={(event) => setLabel(event.target.value)}
-          />
+          <div className="form-group row flex-grow-1">
+              <label className="col-sm-2 col-form-label">Label</label>
+              <div className="col-sm-10">
+                <input
+                  className="form-control"
+                  value={label}
+                  onChange={(event) => setLabel(event.target.value)}
+                />
+              </div>
+            </div>
         </li>
         <li className="list-group-item d-flex align-items-baseline">
-          <span title="The tx memo">Memo:</span>
-          <input
-            className="ml-3 flex-grow-1"
-            value={memo}
-            onChange={(event) => setMemo(event.target.value)}
-          />
+          <div className="form-group row flex-grow-1">
+            <label className="col-sm-2 col-form-label">Memo</label>
+            <div className="col-sm-10">
+              <input
+                className="form-control"
+                value={memo}
+                onChange={(event) => setMemo(event.target.value)}
+              />
+            </div>
+          </div>
         </li>
         <div className="list-group-item btn-group">
           {executing ? (
