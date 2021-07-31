@@ -10,6 +10,7 @@ import { Redirect, Route, Switch } from "react-router";
 import { ClientContext, ClientContextValue } from "../contexts/ClientContext";
 import { AccountPage } from "../pages/account/AccountPage";
 import { CodePage } from "../pages/code/CodePage";
+import { NewCodePage } from "../pages/code/NewCodePage";
 import { CodesPage } from "../pages/codes/CodesPage";
 import { ContractPage } from "../pages/contract/ContractPage";
 import { TxPage } from "../pages/tx/TxPage";
@@ -64,6 +65,7 @@ export function App(): JSX.Element {
       <FlexibleRouter type={settings.deployment.routerType}>
         <Switch>
           <Route exact path="/codes" component={CodesPage} />
+          <Route path="/codes/new" component={NewCodePage} />
           <Route path="/codes/:codeId" component={CodePage} />
           <Route path="/contracts/:contractAddress" component={ContractPage} />
           <Route path="/transactions/:txId" component={TxPage} />

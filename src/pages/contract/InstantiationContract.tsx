@@ -11,11 +11,7 @@ import { Result } from "./ContractPage";
 const executePlaceholder = {
     name: "Nation coin",
     symbol: "NTN",
-    decimals: 6,
-    initial_balances: [{
-        address: "juno14vhcdsyf83ngsrrqc92kmw8q9xakqjm0ff2dpn",
-        amount: "10000000000"
-    }]
+    decimals: 6
 };
 
 const coinsPlaceholder = [{ denom: settings.backend.denominations[0], amount: "1" }];
@@ -117,20 +113,28 @@ export function InstantiationContract({ codeId }: Props): JSX.Element {
           />
         </li>
         <li className="list-group-item d-flex align-items-baseline">
-          <span title="The contract query input">Label :</span>
-          <input
-            className="ml-3 flex-grow-1"
-            value={label}
-            onChange={(event) => setLabel(event.target.value)}
-          />
+          <div className="form-group row flex-grow-1">
+              <label className="col-sm-2 col-form-label">Label</label>
+              <div className="col-sm-10">
+                <input
+                  className="form-control"
+                  value={label}
+                  onChange={(event) => setLabel(event.target.value)}
+                />
+              </div>
+            </div>
         </li>
         <li className="list-group-item d-flex align-items-baseline">
-          <span title="The contract query input">Memo:</span>
-          <input
-            className="ml-3 flex-grow-1"
-            value={memo}
-            onChange={(event) => setMemo(event.target.value)}
-          />
+          <div className="form-group row flex-grow-1">
+            <label className="col-sm-2 col-form-label">Memo</label>
+            <div className="col-sm-10">
+              <input
+                className="form-control"
+                value={memo}
+                onChange={(event) => setMemo(event.target.value)}
+              />
+            </div>
+          </div>
         </li>
         <div className="list-group-item btn-group">
           {executing ? (

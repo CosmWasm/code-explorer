@@ -16,13 +16,13 @@ export function ExecutionInfo({ tx, timestamp }: Props): JSX.Element {
 
   return (
     <ul className="list-group list-group-horizontal mb-3">
-      <li className="list-group-item">Height: {tx.height}</li>
+      <li className="list-group-item"><span className="font-weight-bold">Height:</span> {tx.height}</li>
       <li className="list-group-item">
-        <span title={timestamp}>Time: {time?.toLocaleString()}</span>
+        <span title={timestamp}><span className="font-weight-bold">Time:</span> {time?.toLocaleString()}</span>
       </li>
       <li className="list-group-item">
         <span title={`Execution succeeded: ${success ? "yes" : "no"}`}>
-          Success: {success ? checkMark : `${xMark} (error code ${tx.code})`}
+          <span className="font-weight-bold">Success:</span> {success ? <span className="text-success">{checkMark}</span> : <span className="text-danger" title={"error code: " + tx.code}>{xMark}</span>}
         </span>
       </li>
     </ul>

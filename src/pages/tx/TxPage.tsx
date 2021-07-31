@@ -72,6 +72,14 @@ export function TxPage(): JSX.Element {
     typeRegistry,
   ]);
 
+  const formatMsg = (typeUrl?: String) => {
+    if (!typeUrl) return typeUrl;
+
+    const idx = typeUrl.lastIndexOf('.');
+
+    return idx < 0 ? typeUrl : typeUrl.substring(idx+1);
+  };
+
   return (
     <div className="page">
       <Header />
@@ -123,10 +131,6 @@ export function TxPage(): JSX.Element {
         <div className="row white-row white-row-last">
           <div className="col">
             <h2>Messages</h2>
-            <p>
-              A Cosmos SDK transaction is composed of one or more messages, that represent actions to be
-              executed.
-            </p>
             {isLoadingState(details) ? (
               <p>Loading …</p>
             ) : isErrorState(details) ? (
@@ -137,7 +141,9 @@ export function TxPage(): JSX.Element {
               Tx.decode(details.tx).body?.messages?.map((msg: any, index: number) => (
                 <div className="card mb-3" key={`${details.hash}_${index}`}>
                   <div className="card-header">
-                    Message {index + 1} (Type: <code>{msg.typeUrl || <em>unset</em>}</code>)
+                    <h4>
+                      <span className="badge badge-pill badge-info">{formatMsg(msg.typeUrl) || <em>unset</em>}</span>
+                    </h4>
                   </div>
                   <ul className="list-group list-group-flush">
                     {isAnyMsgSend(msg) ? (
