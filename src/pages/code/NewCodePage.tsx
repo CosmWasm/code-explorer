@@ -8,7 +8,8 @@ import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
 import { ClientContext } from "../../contexts/ClientContext";
 import { Result } from "../contract/ContractPage";
-import { JsonView } from "../../components/JsonView";
+import { CodeLink } from "../../components/CodeLink";
+import { TransactionLink } from "../../components/TransactionLink";
 
 export function NewCodePage(): JSX.Element {
   const { userAddress, signingClient } = React.useContext(ClientContext);
@@ -132,10 +133,29 @@ export function NewCodePage(): JSX.Element {
                   )}
                 </div>
                 {executeResponse?.result ? (
-                  <li className="list-group-item">
-                    <span title="The contract formatted input">Response:</span>
-                    <JsonView src={executeResponse.result} strLength={100} />
-                  </li>
+                  <>
+                    <li className="list-group-item">
+                      <span className="font-weight-bold">Response:</span>
+                    </li>
+                    <li className="list-group-item">
+                      <div className="row mb-3">
+                        <div className="col-md-2">
+                          <span>Code ID:</span>
+                        </div>
+                        <div className="col-md-10">
+                          <CodeLink codeId={executeResponse.result.codeId} text={"#" + executeResponse.result.codeId} />
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-md-2">
+                          <span>Transaction:</span>
+                        </div>
+                        <div className="col-md-10">
+                          <TransactionLink transactionId={executeResponse.result.transactionHash} maxLength={99} />
+                        </div>
+                      </div>
+                    </li>
+                  </>
                 ) : null}
                 {error ? (
                   <li className="list-group-item">

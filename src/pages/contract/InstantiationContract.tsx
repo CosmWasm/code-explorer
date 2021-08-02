@@ -1,8 +1,9 @@
-import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
+import { InstantiateResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin } from "@cosmjs/stargate";
 import React from "react";
 import JSONInput from "react-json-editor-ajrm";
-import { JsonView } from "../../components/JsonView";
+import { ContractLink } from "../../components/ContractLink";
+import { TransactionLink } from "../../components/TransactionLink";
 
 import { ClientContext } from "../../contexts/ClientContext";
 import { settings } from "../../settings";
@@ -33,7 +34,7 @@ export function InstantiationContract({ codeId }: Props): JSX.Element {
   const [msgObject, setMsgObject] = React.useState<Result<Record<string, any>>>();
   const [coinsObject, setCoinsObject] = React.useState<Result<ReadonlyArray<Coin>>>();
 
-  const [executeResponse, setExecuteResponse] = React.useState<Result<ExecuteResult>>();
+  const [executeResponse, setExecuteResponse] = React.useState<Result<InstantiateResult>>();
 
   React.useEffect(() => {
     setMsgObject({ result: executePlaceholder });
@@ -65,7 +66,7 @@ export function InstantiationContract({ codeId }: Props): JSX.Element {
     setExecuting(true);
 
     try {
-      const executeResponseResult: ExecuteResult = await signingClient.instantiate(
+      const executeResponseResult: InstantiateResult = await signingClient.instantiate(
         userAddress,
         codeId,
         msgObject.result,
@@ -153,10 +154,29 @@ export function InstantiationContract({ codeId }: Props): JSX.Element {
           )}
         </div>
         {executeResponse?.result ? (
-          <li className="list-group-item">
-            <span title="The contract formatted input">Response:</span>
-            <JsonView src={executeResponse.result} />
-          </li>
+          <>
+            <li className="list-group-item">
+              <span className="font-weight-bold">Response:</span>
+            </li>
+            <li className="list-group-item">
+              <div className="row mb-3">
+                <div className="col-md-3">
+                  <span>Contract:</span>
+                </div>
+                <div className="col-md-9">
+                  <ContractLink address={executeResponse.result.contractAddress} maxLength={99} />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-3">
+                  <span>Transaction:</span>
+                </div>
+                <div className="col-md-9">
+                  <TransactionLink transactionId={executeResponse.result.transactionHash} maxLength={40} />
+                </div>
+              </div>
+            </li>
+          </>
         ) : null}
         {error ? (
           <li className="list-group-item">
