@@ -30,14 +30,6 @@ export function CodeInfo({ code, uploadTxHash }: Props): JSX.Element {
           Creator: <AccountLink address={code.creator} maxLength={null} />
         </li>
         <li className="list-group-item">Checksum: {code.checksum}</li>
-        <li className="list-group-item">
-          <p className="text-muted">
-            Code verification allows you to verify that uploaded code was compiled from the source it claims.{" "}
-            <a href="https://github.com/CosmWasm/cosmwasm-verify" className="text-muted">
-              Tell me more!
-            </a>
-          </p>
-        </li>
       </ul>
     </div>
   );
