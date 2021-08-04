@@ -8,10 +8,8 @@
   "license": "Apache-2.0",
   "scripts": {
     "base-start": "react-scripts start",
-    "start-stargate": "REACT_APP_BACKEND=devnetStargate yarn base-start",
-    "start-musselnet": "REACT_APP_BACKEND=musselnet yarn base-start",
-    "start-oysternet": "REACT_APP_BACKEND=oysternet yarn base-start",
-    "start": "yarn start-oysternet",
+    "start-devnet": "REACT_APP_BACKEND=devnet yarn base-start",
+    "start": "yarn start-devnet",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "lint": "eslint -c .eslintrc.js --max-warnings 0 'src/**/*.ts{,x}'",
