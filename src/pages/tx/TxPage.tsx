@@ -1,7 +1,7 @@
 import "./TxPage.css";
 
 import { Block, IndexedTx } from "@cosmjs/stargate";
-import { Tx } from "@cosmjs/stargate/build/codec/cosmos/tx/v1beta1/tx";
+import { Tx } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import React from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";

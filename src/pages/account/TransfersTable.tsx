@@ -1,4 +1,4 @@
-import { MsgSend } from "@cosmjs/stargate/build/codec/cosmos/bank/v1beta1/tx";
+import { MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
 import React from "react";
 
 import { AccountLink } from "../../components/AccountLink";

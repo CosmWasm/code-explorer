@@ -1,4 +1,4 @@
-import { Tx } from "@cosmjs/stargate/build/codec/cosmos/tx/v1beta1/tx";
+import { Tx } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import React from "react";
 
 import { printableBalance } from "../../ui-utils";
