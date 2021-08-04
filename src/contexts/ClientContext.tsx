@@ -1,9 +1,5 @@
 import { Registry } from "@cosmjs/proto-signing";
-import {
-  MsgExecuteContract,
-  MsgInstantiateContract,
-  MsgStoreCode,
-} from "cosmjs-types/cosmwasm/wasm/v1beta1/tx";
+import { MsgExecuteContract, MsgInstantiateContract, MsgStoreCode } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import React from "react";
 
 import { StargateClient, StargateSigningClient } from "../ui-utils/clients";

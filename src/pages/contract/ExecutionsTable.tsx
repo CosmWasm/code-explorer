@@ -1,4 +1,4 @@
-import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1beta1/tx";
+import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import React from "react";
 
 import { AccountLink } from "../../components/AccountLink";
