@@ -33,8 +33,13 @@
     ]
   },
   "dependencies": {
+    "@cosmjs/amino": "^0.25.5",
     "@cosmjs/cosmwasm-stargate": "^0.25.5",
+    "@cosmjs/crypto": "^0.25.5",
     "@cosmjs/ledger-amino": "^0.25.5",
+    "@cosmjs/proto-signing": "^0.25.5",
+    "@cosmjs/stargate": "^0.25.5",
+    "@cosmjs/utils": "^0.25.5",
     "@ledgerhq/hw-transport-webusb": "^5.36.0",
     "@types/jest": "^24.0.0",
     "@types/jquery": "^3.5",

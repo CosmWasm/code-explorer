@@ -20,12 +20,6 @@ import { msgExecuteContractTypeUrl, msgInstantiateContractTypeUrl, msgStoreCodeT
 
 export { StargateClient, StargateSigningClient };
 
-export function isStargateSigningClient(
-  signingClient: StargateSigningClient | null,
-): signingClient is StargateSigningClient {
-  return signingClient instanceof StargateSigningClient;
-}
-
 export function generateMnemonic(): string {
   return Bip39.encode(Random.getBytes(16)).toString();
 }
