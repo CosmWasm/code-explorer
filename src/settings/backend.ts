@@ -74,8 +74,8 @@ const lucinanetSettings: BackendSettings = {
   addressPrefix: "juno",
   gasPrice: GasPrice.fromString("0.25ucosm"),
   keplrChainInfo: {
-    rpc: "https://rpc.juno.giansalex.dev:443",
-    rest: "https://lcd.juno.giansalex.dev:443",
+    rpc: "https://rpc.juno.omniflix.co:443",
+    rest: "https://api.juno.omniflix.co:443",
     chainId: "lucina",
     chainName: "Juno testnet",
     stakeCurrency: {
