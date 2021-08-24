@@ -1,4 +1,4 @@
-import { MsgInstantiateContract as IMsgInstantiateContract } from "@cosmjs/cosmwasm-stargate/build/codec/cosmwasm/wasm/v1beta1/tx";
+import { MsgInstantiateContract as IMsgInstantiateContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import React, { Fragment } from "react";
 import ReactJson from "react-json-view";
 
@@ -23,7 +23,7 @@ export function MsgInstantiateContract({ msg }: Props): JSX.Element {
       <li className="list-group-item">Init funds: {printableBalance(msg.funds)}</li>
       <li className="list-group-item">
         <span title="The contract level message">Init message</span>:
-        <ReactJson src={parseMsgContract(msg.initMsg)} />
+        <ReactJson src={parseMsgContract(msg.msg)} />
       </li>
     </Fragment>
   );
