@@ -19,13 +19,13 @@ const devnetSettings: BackendSettings = {
   gasPrice: GasPrice.fromString("0.25ucosm"),
 };
 
-// const musselnetSettings: BackendSettings = {
-//   nodeUrls: ["https://rpc.musselnet.cosmwasm.com"],
-//   denominations: ["umayo", "ufrites"],
-//   addressPrefix: "wasm",
-//   gasPrice: GasPrice.fromString("0.25ucosm"),
-// };
-//
+const pebblenetSettings: BackendSettings = {
+  nodeUrls: ["https://rpc.pebblenet.cosmwasm.com"],
+  denominations: ["upebble", "urock"],
+  addressPrefix: "wasm",
+  gasPrice: GasPrice.fromString("0.25upebble"),
+};
+
 // const oysternetSettings: BackendSettings = {
 //   nodeUrls: ["http://rpc.oysternet.cosmwasm.com"],
 //   denominations: ["usponge"],
@@ -72,6 +72,7 @@ const devnetSettings: BackendSettings = {
 
 const knownBackends: Partial<Record<string, BackendSettings>> = {
   devnet: devnetSettings,
+  pebblenet: pebblenetSettings,
 };
 
 export function getCurrentBackend(): BackendSettings {

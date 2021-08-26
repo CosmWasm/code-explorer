@@ -3,7 +3,7 @@
 ## Use hosted
 
 The explorer is deployed at https://cosmwasm.github.io/code-explorer and is configured
-for [Heldernet](https://gist.github.com/webmaster128/6385a7e1885211d9937ada2688ce34c3).
+for Pebblenet.
 
 ## Use local
 
@@ -59,7 +59,7 @@ Requirements: yarn, Node.js 10+
 
 ```
 yarn install
-PUBLIC_URL=https://code-explorer.musselnet.cosmwasm.com/ REACT_APP_BACKEND=musselnet yarn build
+PUBLIC_URL=https://code-explorer.pebblenet.cosmwasm.com/ REACT_APP_BACKEND=pebblenet yarn build
 ```
 
 ## Credits
