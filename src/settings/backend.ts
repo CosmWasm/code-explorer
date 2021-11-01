@@ -24,19 +24,19 @@ const musselnetSettings: BackendSettings = {
   gasPrice: GasPrice.fromString("0.25ucosm"),
 };
 
-const oysternetSettings: BackendSettings = {
-  nodeUrls: ["http://rpc.oysternet.cosmwasm.com"],
-  denominations: ["usponge"],
+const pebblenetSettings: BackendSettings = {
+  nodeUrls: ["https://rpc.pebblenet.cosmwasm.com"],
+  denominations: ["upebble"],
   addressPrefix: "wasm",
   gasPrice: GasPrice.fromString("0.25ucosm"),
   keplrChainInfo: {
-    rpc: "http://rpc.oysternet.cosmwasm.com",
-    rest: "http://lcd.oysternet.cosmwasm.com",
-    chainId: "oysternet-1",
-    chainName: "Wasm Oysternet",
+    rpc: "https://rpc.pebblenet.cosmwasm.com",
+    rest: "https://lcd.pebblenet.cosmwasm.com",
+    chainId: "pebblenet-1",
+    chainName: "Wasm Pebblenet",
     stakeCurrency: {
-      coinDenom: "SPONGE",
-      coinMinimalDenom: "usponge",
+      coinDenom: "PEBBLE",
+      coinMinimalDenom: "upebble",
       coinDecimals: 6,
     },
     bip44: {
@@ -52,19 +52,20 @@ const oysternetSettings: BackendSettings = {
     },
     currencies: [
       {
-        coinDenom: "SPONGE",
-        coinMinimalDenom: "usponge",
+        coinDenom: "PEBBLE",
+        coinMinimalDenom: "upebble",
         coinDecimals: 6,
       },
     ],
     feeCurrencies: [
       {
-        coinDenom: "SPONGE",
-        coinMinimalDenom: "usponge",
+        coinDenom: "PEBBLE",
+        coinMinimalDenom: "upebble",
         coinDecimals: 6,
       },
     ],
-    features: ["stargate"],
+    features: ["stargate", "ibc-transfer", "cosmwasm"],
+    explorerUrlToTx: "https://block-explorer.pebblenet.cosmwasm.com/transactions/{txHash}",
   },
 };
 
@@ -116,7 +117,7 @@ const lucinanetSettings: BackendSettings = {
 const knownBackends: Partial<Record<string, BackendSettings>> = {
   devnetStargate: devnetStargateSettings,
   musselnet: musselnetSettings,
-  oysternet: oysternetSettings,
+  pebblenet: pebblenetSettings,
   lucinanet: lucinanetSettings,
 };
 
