@@ -7,7 +7,7 @@ import {
   MsgExecuteContract,
   MsgInstantiateContract,
   MsgStoreCode,
-} from "cosmjs-types/cosmwasm/wasm/v1beta1/tx";
+} from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { LedgerSigner } from "@cosmjs/ledger-amino";
 import { OfflineDirectSigner, OfflineSigner, Registry } from "@cosmjs/proto-signing";
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";

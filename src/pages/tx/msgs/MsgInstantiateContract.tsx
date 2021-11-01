@@ -1,4 +1,4 @@
-import { MsgInstantiateContract as IMsgInstantiateContract } from "cosmjs-types/cosmwasm/wasm/v1beta1/tx";
+import { MsgInstantiateContract as IMsgInstantiateContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import React, { Fragment } from "react";
 
 import { AccountLink } from "../../../components/AccountLink";
@@ -32,7 +32,7 @@ export function MsgInstantiateContract({ msg }: Props): JSX.Element {
           Init message
         </span>
         :
-        <JsonView src={parseMsgContract(msg.initMsg)} strLength={100} />
+        <JsonView src={parseMsgContract(msg.msg)} strLength={100} />
       </li>
     </Fragment>
   );
