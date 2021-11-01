@@ -10,14 +10,14 @@
     "base-start": "react-scripts start",
     "start-stargate": "REACT_APP_BACKEND=devnetStargate yarn base-start",
     "start-musselnet": "REACT_APP_BACKEND=musselnet yarn base-start",
-    "start-oysternet": "REACT_APP_BACKEND=oysternet yarn base-start",
-    "start-lucinanet": "REACT_APP_BACKEND=lucinanet yarn base-start",
-    "start": "yarn start-oysternet",
+    "start-pebblenet": "REACT_APP_BACKEND=pebblenet yarn base-start",
+    "start-uninet": "REACT_APP_BACKEND=uninet yarn base-start",
+    "start": "yarn start-pebblenet",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "lint": "eslint -c .eslintrc.js --max-warnings 0 'src/**/*.ts{,x}'",
     "lint-fix": "eslint -c .eslintrc.js 'src/**/*.ts{,x}' --fix",
-    "deploy": "PUBLIC_URL=https://cosmwasm.github.io/code-explorer/ REACT_APP_BACKEND=oysternet yarn build && gh-pages -d build"
+    "deploy": "PUBLIC_URL=https://cosmwasm.github.io/code-explorer/ REACT_APP_BACKEND=pebblenet yarn build && gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -34,8 +34,8 @@
     ]
   },
   "dependencies": {
-    "@cosmjs/cosmwasm-stargate": "^0.25.5",
-    "@cosmjs/ledger-amino": "^0.25.5",
+    "@cosmjs/cosmwasm-stargate": "^0.26.2",
+    "@cosmjs/ledger-amino": "^0.26.2",
     "@ledgerhq/hw-transport-webusb": "^5.36.0",
     "@types/jest": "^24.0.0",
     "@types/jquery": "^3.5",
