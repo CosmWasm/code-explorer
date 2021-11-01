@@ -3,6 +3,7 @@ import React from "react";
 
 import { AccountLink } from "../../components/AccountLink";
 import { TransactionLink } from "../../components/TransactionLink";
+import { parseMsgContract } from "../../ui-utils";
 
 export interface Execution {
   readonly key: string;
@@ -21,7 +22,7 @@ export function ExecutionsTable({ executions }: Props): JSX.Element {
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Height</th>
+          <th scope="col">Action</th>
           <th scope="col">Transaction ID</th>
           <th scope="col">Sender</th>
         </tr>
@@ -30,7 +31,7 @@ export function ExecutionsTable({ executions }: Props): JSX.Element {
         {executions.map((execution, index) => (
           <tr key={execution.key}>
             <th scope="row">{index + 1}</th>
-            <td>{execution.height}</td>
+            <td>{Object.keys(parseMsgContract(execution.msg.msg))[0]}</td>
             <td>
               <TransactionLink transactionId={execution.transactionId} />
             </td>
