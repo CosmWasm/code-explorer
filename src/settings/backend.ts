@@ -69,19 +69,19 @@ const pebblenetSettings: BackendSettings = {
   },
 };
 
-const lucinanetSettings: BackendSettings = {
+const uniSettings: BackendSettings = {
   nodeUrls: ["https://rpc.juno.giansalex.dev"],
-  denominations: ["ujuno"],
+  denominations: ["ujunox"],
   addressPrefix: "juno",
   gasPrice: GasPrice.fromString("0.25ucosm"),
   keplrChainInfo: {
     rpc: "https://rpc.juno.giansalex.dev:443",
     rest: "https://lcd.juno.giansalex.dev:443",
-    chainId: "lucina",
-    chainName: "Juno testnet",
+    chainId: "uni",
+    chainName: "Juno Testnet",
     stakeCurrency: {
-      coinDenom: "JUNO",
-      coinMinimalDenom: "ujuno",
+      coinDenom: "JUNOX",
+      coinMinimalDenom: "ujunox",
       coinDecimals: 6,
     },
     bip44: {
@@ -97,20 +97,20 @@ const lucinanetSettings: BackendSettings = {
     },
     currencies: [
       {
-        coinDenom: "JUNO",
-        coinMinimalDenom: "ujuno",
+        coinDenom: "JUNOX",
+        coinMinimalDenom: "ujunox",
         coinDecimals: 6,
       },
     ],
     feeCurrencies: [
       {
-        coinDenom: "JUNO",
-        coinMinimalDenom: "ujuno",
+        coinDenom: "JUNOX",
+        coinMinimalDenom: "ujunox",
         coinDecimals: 6,
       },
     ],
-    features: ["stargate", "ibc-transfer", "cosmwasm"],
-    explorerUrlToTx: "https://testnet.juno.aneka.io/txs/{txHash}",
+    features: ["stargate", "ibc-transfer", "cosmwasm", "no-legacy-stdTx"],
+    explorerUrlToTx: "https://uni.junoscan.com/transactions/{txHash}",
   },
 };
 
@@ -118,11 +118,11 @@ const knownBackends: Partial<Record<string, BackendSettings>> = {
   devnetStargate: devnetStargateSettings,
   musselnet: musselnetSettings,
   pebblenet: pebblenetSettings,
-  lucinanet: lucinanetSettings,
+  uninet: uniSettings,
 };
 
 export function getCurrentBackend(): BackendSettings {
-  const id = process.env.REACT_APP_BACKEND || "devnetStargate";
+  const id = process.env.REACT_APP_BACKEND || "uninet";
   const backend = knownBackends[id];
   if (!backend) {
     throw new Error(`No backend found for the given ID "${id}"`);
