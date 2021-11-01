@@ -1,5 +1,5 @@
 import { InstantiateResult } from "@cosmjs/cosmwasm-stargate";
-import { Coin } from "@cosmjs/stargate";
+import { calculateFee, Coin } from "@cosmjs/stargate";
 import React from "react";
 import JSONInput from "react-json-editor-ajrm";
 import { ContractLink } from "../../components/ContractLink";
@@ -71,10 +71,7 @@ export function InstantiationContract({ codeId }: Props): JSX.Element {
         codeId,
         msgObject.result,
         label,
-        {
-          amount: [{amount: "80000", denom: "upebble"}],
-          gas: "200000"
-        },
+        calculateFee(600000, settings.backend.gasPrice),
         {
           memo: memo,
           funds: coinsObject?.result,

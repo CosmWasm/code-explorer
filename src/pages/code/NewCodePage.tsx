@@ -1,6 +1,7 @@
 import "./NewCodePage.css";
 
 import { UploadResult } from "@cosmjs/cosmwasm-stargate";
+import { calculateFee } from "@cosmjs/stargate";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -10,6 +11,7 @@ import { ClientContext } from "../../contexts/ClientContext";
 import { Result } from "../contract/ContractPage";
 import { CodeLink } from "../../components/CodeLink";
 import { TransactionLink } from "../../components/TransactionLink";
+import { settings } from "../../settings";
 
 export function NewCodePage(): JSX.Element {
   const { userAddress, signingClient } = React.useContext(ClientContext);
@@ -38,10 +40,7 @@ export function NewCodePage(): JSX.Element {
       const executeResponseResult: UploadResult = await signingClient.upload(
         userAddress,
         wasmBytes,
-        {
-          amount: [{amount: "100000", denom: "upebble"}],
-          gas: "200000"
-        },
+        calculateFee(2000000, settings.backend.gasPrice),
         memo
       );
       setExecuteResponse({ result: executeResponseResult });
