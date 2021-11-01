@@ -31,8 +31,8 @@ export function CodeInfo({ code, uploadTxHash }: Props): JSX.Element {
           Creator: <AccountLink address={code.creator} maxLength={null} />
         </li>
         <li className="list-group-item">Checksum: {code.checksum}</li>
-        <li className="list-group-item">Source: {code.source || "–"}</li>
-        <li className="list-group-item">Builder: {code.builder || "–"}</li>
+        <li className="list-group-item">Source: </li>
+        <li className="list-group-item">Builder: </li>
         <li className="list-group-item">
           <p className="text-muted">
             Code verification allows you to verify that uploaded code was compiled from the source it claims.{" "}
@@ -41,7 +41,7 @@ export function CodeInfo({ code, uploadTxHash }: Props): JSX.Element {
             </a>
           </p>
           <p className="mb-0">
-            <VerifyContract checksum={code.checksum} source={code.source} builder={code.builder} />
+
           </p>
         </li>
       </ul>

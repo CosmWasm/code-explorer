@@ -41,10 +41,10 @@ export function NewCodePage(): JSX.Element {
         userAddress,
         wasmBytes,
         {
-          builder: builder,
-          source: source,
+          amount: [{amount: "100000", denom: "upebble"}],
+          gas: "200000"
         },
-        memo,
+        memo
       );
       setExecuteResponse({ result: executeResponseResult });
     } catch (error) {

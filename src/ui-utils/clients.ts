@@ -1,17 +1,15 @@
 import { makeCosmoshubPath, OfflineAminoSigner } from "@cosmjs/amino";
 import {
   CosmWasmClient as StargateClient,
-  CosmWasmFeeTable,
   SigningCosmWasmClient as StargateSigningClient,
 } from "@cosmjs/cosmwasm-stargate";
 import {
   MsgExecuteContract,
   MsgInstantiateContract,
   MsgStoreCode,
-} from "@cosmjs/cosmwasm-stargate/build/codec/cosmwasm/wasm/v1beta1/tx";
+} from "cosmjs-types/cosmwasm/wasm/v1beta1/tx";
 import { LedgerSigner } from "@cosmjs/ledger-amino";
 import { OfflineDirectSigner, OfflineSigner, Registry } from "@cosmjs/proto-signing";
-import { defaultGasLimits as defaultStargateGasLimits, GasLimits } from "@cosmjs/stargate";
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
 
 import { settings } from "../settings";
@@ -61,7 +59,7 @@ export async function loadLedgerWallet(addressPrefix: string): Promise<OfflineAm
 }
 
 async function createStargateSigningClient(signer: OfflineSigner): Promise<StargateSigningClient> {
-  const { nodeUrls, gasPrice } = settings.backend;
+  const { nodeUrls } = settings.backend;
   const endpoint = nodeUrls[0];
 
   const typeRegistry = new Registry([
@@ -70,20 +68,8 @@ async function createStargateSigningClient(signer: OfflineSigner): Promise<Starg
     [msgExecuteContractTypeUrl, MsgExecuteContract],
   ]);
 
-  const gasLimits: GasLimits<CosmWasmFeeTable> = {
-    ...defaultStargateGasLimits,
-    upload: 1500000,
-    init: 600000,
-    exec: 400000,
-    migrate: 600000,
-    send: 80000,
-    changeAdmin: 80000,
-  };
-
   return StargateSigningClient.connectWithSigner(endpoint, signer, {
     registry: typeRegistry,
-    gasPrice: gasPrice,
-    gasLimits: gasLimits,
   });
 }
 

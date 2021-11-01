@@ -1,4 +1,4 @@
-import { MsgExecuteContract as IMsgExecuteContract } from "@cosmjs/cosmwasm-stargate/build/codec/cosmwasm/wasm/v1beta1/tx";
+import { MsgExecuteContract as IMsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1beta1/tx";
 import React, { Fragment } from "react";
 
 import { AccountLink } from "../../../components/AccountLink";

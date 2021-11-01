@@ -1,7 +1,7 @@
 import { Registry } from "@cosmjs/proto-signing";
 import { IndexedTx } from "@cosmjs/stargate";
-import { Coin } from "@cosmjs/stargate/build/codec/cosmos/base/v1beta1/coin";
-import { Tx } from "@cosmjs/stargate/build/codec/cosmos/tx/v1beta1/tx";
+import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
+import { Tx } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 

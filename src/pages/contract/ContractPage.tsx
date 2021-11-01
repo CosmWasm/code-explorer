@@ -4,9 +4,9 @@ import { Contract, ContractCodeHistoryEntry } from "@cosmjs/cosmwasm-stargate";
 import { Registry } from "@cosmjs/proto-signing";
 import { Coin } from "@cosmjs/stargate";
 import { IndexedTx } from "@cosmjs/stargate";
-import { Coin as ICoin } from "@cosmjs/stargate/build/codec/cosmos/base/v1beta1/coin";
-import { Tx } from "@cosmjs/stargate/build/codec/cosmos/tx/v1beta1/tx";
-import { Any } from "@cosmjs/stargate/build/codec/google/protobuf/any";
+import { Coin as ICoin } from "cosmjs-types/cosmos/base/v1beta1/coin";
+import { Tx } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+import { Any } from "cosmjs-types/google/protobuf/any";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -33,14 +33,14 @@ import { InitializationInfo } from "./InitializationInfo";
 import { QueryContract } from "./QueryContract";
 
 type IAnyMsgExecuteContract = {
-  readonly typeUrl: "/cosmwasm.wasm.v1beta1.MsgExecuteContract";
+  readonly typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract";
   readonly value: Uint8Array;
 };
 
 export type Result<T> = { readonly result?: T; readonly error?: string };
 
 function isStargateMsgExecuteContract(msg: Any): msg is IAnyMsgExecuteContract {
-  return msg.typeUrl === "/cosmwasm.wasm.v1beta1.MsgExecuteContract" && !!msg.value;
+  return msg.typeUrl === "/cosmwasm.wasm.v1.MsgExecuteContract" && !!msg.value;
 }
 
 const getAndSetDetails = (

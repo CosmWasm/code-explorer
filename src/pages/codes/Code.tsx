@@ -18,8 +18,6 @@ export interface CodeData {
   readonly codeId: number;
   readonly checksum: string;
   readonly creator: string;
-  readonly source: string;
-  readonly builder: string;
 }
 
 interface Props {
@@ -56,10 +54,6 @@ export function Code({ data, index }: Props): JSX.Element {
         <div className="id">#{data.codeId}</div>
         <div className="details">
           Creator: {ellideMiddle(data.creator, 30)}
-          <br />
-          Source: {ellideMiddle(data.source, 42) || "–"}
-          <br />
-          Builder: {data.builder || "–"}
           <br />
           Checksum: {data.checksum.slice(0, 10)}
           <br />

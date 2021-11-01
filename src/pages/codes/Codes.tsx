@@ -38,8 +38,8 @@ export function Codes(): JSX.Element {
                 codeId: response.id,
                 checksum: response.checksum,
                 creator: response.creator,
-                source: response.source || "",
-                builder: response.builder || "",
+                // source: response.source || "",
+                // builder: response.builder || "",
               },
             }),
           )

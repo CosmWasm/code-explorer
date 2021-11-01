@@ -66,6 +66,10 @@ export function ExecuteContract({ contractAddress }: Props): JSX.Element {
         userAddress,
         contractAddress,
         msgObject.result,
+        {
+          amount: [{amount: "50000", denom: "upebble"}],
+          gas: "200000"
+        },
         memo,
         coinsObject?.result,
       );

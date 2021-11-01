@@ -72,8 +72,12 @@ export function InstantiationContract({ codeId }: Props): JSX.Element {
         msgObject.result,
         label,
         {
+          amount: [{amount: "80000", denom: "upebble"}],
+          gas: "200000"
+        },
+        {
           memo: memo,
-          transferAmount: coinsObject?.result,
+          funds: coinsObject?.result,
         },
       );
       setExecuteResponse({ result: executeResponseResult });
