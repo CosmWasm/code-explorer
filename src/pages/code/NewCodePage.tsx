@@ -15,8 +15,6 @@ export function NewCodePage(): JSX.Element {
   const { userAddress, signingClient } = React.useContext(ClientContext);
   const [wasm, setWasm] = React.useState<File | null>();
   const [memo, setMemo] = React.useState<string>();
-  const [source, setSource] = React.useState<string>();
-  const [builder, setBuilder] = React.useState<string>();
 
   const [executing, setExecuting] = React.useState(false);
   const [executeResponse, setExecuteResponse] = React.useState<Result<UploadResult>>();
@@ -90,23 +88,6 @@ export function NewCodePage(): JSX.Element {
                       onChange={(e) => setWasm(e.target.files?.item(0))}
                     />
                   </div>
-                </li>
-                <li className="list-group-item d-flex align-items-baseline">
-                  <label title="The wasm source">Source:</label>
-                  <input
-                    type="url"
-                    className="ml-3 flex-grow-1 form-control"
-                    value={source}
-                    onChange={(event) => setSource(event.target.value)}
-                  />
-                </li>
-                <li className="list-group-item d-flex align-items-baseline">
-                  <label title="The wasm builder">Builder:</label>
-                  <input
-                    className="ml-3 flex-grow-1 form-control"
-                    value={builder}
-                    onChange={(event) => setBuilder(event.target.value)}
-                  />
                 </li>
                 <li className="list-group-item d-flex align-items-baseline">
                   <label title="The tx memo">Memo:</label>

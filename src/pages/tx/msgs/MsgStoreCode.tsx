@@ -27,12 +27,6 @@ export function MsgStoreCode({ msg }: Props): JSX.Element {
         <AccountLink address={msg.sender ?? "-"} maxLength={null} />
       </li>
       <li className="list-group-item">
-        <span className="font-weight-bold">Source:</span> {msg.source || "–"}
-      </li>
-      <li className="list-group-item">
-        <span className="font-weight-bold">Builder:</span> {msg.builder || "–"}
-      </li>
-      <li className="list-group-item">
         <span className="font-weight-bold">Data:</span> {dataInfo}{" "}
         {!showAllCode ? (
           <Fragment>
