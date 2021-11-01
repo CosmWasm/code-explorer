@@ -74,7 +74,7 @@ const getAndSetInstantiationTxHash = (
 ): void => {
   (client.searchTx({
     tags: makeTags(
-      `message.module=wasm&message.action=instantiate&message.contract_address=${contractAddress}`,
+      `message.module=wasm&instantiate._contract_address=${contractAddress}`,
     ),
   }) as Promise<ReadonlyArray<{ readonly hash: string }>>)
     .then((results) => {
@@ -119,7 +119,7 @@ const stargateEffect = (
 
   client
     .searchTx({
-      tags: makeTags(`message.contract_address=${contractAddress}&message.action=execute`),
+      tags: makeTags(`message.module=wasm&execute._contract_address=${contractAddress}`),
     })
     .then((txs) => {
       const out = txs.reduce((executions: readonly Execution[], tx: IndexedTx): readonly Execution[] => {
