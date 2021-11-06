@@ -32,12 +32,8 @@ function InstanceRow({ position, address }: Props): JSX.Element {
 
     const tags = [
       {
-        key: "message.contract_address",
+        key: "execute._contract_address",
         value: address,
-      },
-      {
-        key: "message.action",
-        value: "execute",
       },
     ];
     (client?.searchTx({ tags: tags }) as Promise<ReadonlyArray<{ readonly hash: string }>>)

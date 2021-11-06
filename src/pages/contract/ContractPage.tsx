@@ -73,9 +73,7 @@ const getAndSetInstantiationTxHash = (
   setInstantiationTxHash: (instantiationTxHash: string | undefined | ErrorState | LoadingState) => void,
 ): void => {
   (client.searchTx({
-    tags: makeTags(
-      `message.module=wasm&message.action=instantiate&message.contract_address=${contractAddress}`,
-    ),
+    tags: makeTags(`message.module=wasm&instantiate._contract_address=${contractAddress}`),
   }) as Promise<ReadonlyArray<{ readonly hash: string }>>)
     .then((results) => {
       const first = results.find(() => true);
@@ -119,7 +117,7 @@ const stargateEffect = (
 
   client
     .searchTx({
-      tags: makeTags(`message.contract_address=${contractAddress}&message.action=execute`),
+      tags: makeTags(`message.module=wasm&execute._contract_address=${contractAddress}`),
     })
     .then((txs) => {
       const out = txs.reduce((executions: readonly Execution[], tx: IndexedTx): readonly Execution[] => {
