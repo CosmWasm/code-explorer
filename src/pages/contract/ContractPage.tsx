@@ -33,14 +33,14 @@ import { InitializationInfo } from "./InitializationInfo";
 import { QueryContract } from "./QueryContract";
 
 type IAnyMsgExecuteContract = {
-  readonly typeUrl: "/cosmwasm.wasm.v1beta1.MsgExecuteContract";
+  readonly typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract";
   readonly value: Uint8Array;
 };
 
 export type Result<T> = { readonly result?: T; readonly error?: string };
 
 function isStargateMsgExecuteContract(msg: Any): msg is IAnyMsgExecuteContract {
-  return msg.typeUrl === "/cosmwasm.wasm.v1beta1.MsgExecuteContract" && !!msg.value;
+  return msg.typeUrl === "/cosmwasm.wasm.v1.MsgExecuteContract" && !!msg.value;
 }
 
 const getAndSetDetails = (
