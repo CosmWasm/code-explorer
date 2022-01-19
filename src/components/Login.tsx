@@ -25,7 +25,7 @@ export function Login(): JSX.Element {
       const [userAddress, signingClient] = await getAddressAndStargateSigningClient(loadWallet, mnemonic);
       setUserAddress(userAddress);
       setSigningClient(signingClient);
-    } catch (error) {
+    } catch (error: any) {
       setError(error.message);
     }
 

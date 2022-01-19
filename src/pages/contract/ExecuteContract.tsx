@@ -70,7 +70,7 @@ export function ExecuteContract({ contractAddress }: Props): JSX.Element {
         coinsObject?.result,
       );
       setExecuteResponse({ result: executeResponseResult });
-    } catch (error) {
+    } catch (error: any) {
       setExecuteResponse({ error: `Execute error: ${error.message}` });
     }
 

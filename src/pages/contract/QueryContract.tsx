@@ -47,7 +47,7 @@ export function QueryContract({ contractAddress }: Props): JSX.Element {
 
       const formattedResult = JSON.stringify(queryResponseResult, null, "  ");
       setQueryResponse({ result: formattedResult });
-    } catch (error) {
+    } catch (error: any) {
       setQueryResponse({ error: `Query error: ${error.message}` });
     }
   }

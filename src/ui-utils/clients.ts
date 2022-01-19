@@ -34,6 +34,7 @@ export type WalletLoaderDirect = (
   mnemonic?: string,
 ) => Promise<OfflineDirectSigner | OfflineAminoSigner>;
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function loadKeplrWallet(client: StargateClient, keplrChainInfo: any): WalletLoaderDirect {
   return async () => {
     const chaindId = await client.getChainId();
