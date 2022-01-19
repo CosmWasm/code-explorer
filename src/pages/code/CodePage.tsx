@@ -42,12 +42,14 @@ export function CodePage(): JSX.Element {
       ?.getCodeDetails(codeId)
       .then(setDetails)
       .catch(() => setDetails(errorState));
-    (client?.searchTx({
-      tags: makeTags(`message.module=wasm&store_code.code_id=${codeId}`),
-    }) as Promise<ReadonlyArray<{ readonly hash: string }>>).then((results) => {
-      const first = results.find(() => true);
-      setUploadTxHash(first?.hash);
-    });
+    client
+      ?.searchTx({
+        tags: makeTags(`message.module=wasm&store_code.code_id=${codeId}`),
+      })
+      .then((results) => {
+        const first = results.find(() => true);
+        setUploadTxHash(first?.hash);
+      });
   }, [client, codeId]);
 
   const pageTitle = <span>Code #{codeId}</span>;

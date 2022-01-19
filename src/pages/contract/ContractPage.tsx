@@ -72,9 +72,10 @@ const getAndSetInstantiationTxHash = (
   contractAddress: string,
   setInstantiationTxHash: (instantiationTxHash: string | undefined | ErrorState | LoadingState) => void,
 ): void => {
-  (client.searchTx({
-    tags: makeTags(`message.module=wasm&instantiate._contract_address=${contractAddress}`),
-  }) as Promise<ReadonlyArray<{ readonly hash: string }>>)
+  client
+    .searchTx({
+      tags: makeTags(`message.module=wasm&instantiate._contract_address=${contractAddress}`),
+    })
     .then((results) => {
       const first = results.find(() => true);
       setInstantiationTxHash(first?.hash);
