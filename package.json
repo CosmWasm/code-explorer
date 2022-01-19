@@ -62,7 +62,7 @@
     "@typescript-eslint/eslint-plugin": "^5",
     "@typescript-eslint/parser": "^5",
     "eslint": "^7.1",
-    "eslint-config-prettier": "^6.15.0",
+    "eslint-config-prettier": "^8",
     "eslint-config-react-app": "^5.2.0",
     "eslint-plugin-prettier": "^3.3.0",
     "eslint-plugin-simple-import-sort": "^5.0.2",
