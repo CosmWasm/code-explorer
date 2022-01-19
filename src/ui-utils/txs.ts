@@ -3,9 +3,9 @@ import { Any } from "cosmjs-types/google/protobuf/any";
 type IAny = Any;
 
 export const msgSendTypeUrl = "/cosmos.bank.v1beta1.MsgSend";
-export const msgStoreCodeTypeUrl = "/cosmwasm.wasm.v1beta1.MsgStoreCode";
-export const msgInstantiateContractTypeUrl = "/cosmwasm.wasm.v1beta1.MsgInstantiateContract";
-export const msgExecuteContractTypeUrl = "/cosmwasm.wasm.v1beta1.MsgExecuteContract";
+export const msgStoreCodeTypeUrl = "/cosmwasm.wasm.v1.MsgStoreCode";
+export const msgInstantiateContractTypeUrl = "/cosmwasm.wasm.v1.MsgInstantiateContract";
+export const msgExecuteContractTypeUrl = "/cosmwasm.wasm.v1.MsgExecuteContract";
 
 export interface AnyMsgSend {
   readonly typeUrl: "/cosmos.bank.v1beta1.MsgSend";
@@ -13,17 +13,17 @@ export interface AnyMsgSend {
 }
 
 export interface AnyMsgStoreCode {
-  readonly typeUrl: "/cosmwasm.wasm.v1beta1.MsgStoreCode";
+  readonly typeUrl: "/cosmwasm.wasm.v1.MsgStoreCode";
   readonly value: Uint8Array;
 }
 
 export interface AnyMsgInstantiateContract {
-  readonly typeUrl: "/cosmwasm.wasm.v1beta1.MsgInstantiateContract";
+  readonly typeUrl: "/cosmwasm.wasm.v1.MsgInstantiateContract";
   readonly value: Uint8Array;
 }
 
 export interface AnyMsgExecuteContract {
-  readonly typeUrl: "/cosmwasm.wasm.v1beta1.MsgExecuteContract";
+  readonly typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract";
   readonly value: Uint8Array;
 }
 
