@@ -5,7 +5,6 @@ import { ClientContext } from "../../contexts/ClientContext";
 import { jsonInputStyle } from "../../ui-utils/jsonInput";
 import { Result } from "./ContractPage";
 
-// eslint-disable-next-line @typescript-eslint/camelcase
 const queryPlaceholder = { get_balance: { address: "cosmos1zk4hr47hlch274x28j32dgnhuyewqjrwxn4mvm" } };
 
 interface Props {

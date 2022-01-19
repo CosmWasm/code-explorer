@@ -10,7 +10,6 @@ import { Header } from "../../components/Header";
 import { ClientContext } from "../../contexts/ClientContext";
 import { settings } from "../../settings";
 import { ellideMiddle, printableBalance } from "../../ui-utils";
-import { StargateClient } from "../../ui-utils/clients";
 import {
   ErrorState,
   errorState,
@@ -36,34 +35,6 @@ function getTransferFromStargateMsgSend(typeRegistry: Registry, tx: IndexedTx) {
   };
 }
 
-const stargateEffect = (
-  client: StargateClient,
-  address: string,
-  typeRegistry: Registry,
-  setBalance: (balance: readonly ICoin[] | ErrorState | LoadingState) => void,
-  setTransfers: (transfers: readonly Transfer[] | ErrorState | LoadingState) => void,
-) => (): void => {
-  Promise.all(settings.backend.denominations.map((denom) => client.getBalance(address, denom)))
-    .then((balances) => {
-      const filteredBalances = balances.filter((balance): balance is Coin => balance !== null);
-      setBalance(filteredBalances);
-    })
-    .catch(() => setBalance(errorState));
-  client
-    .searchTx({ sentFromOrTo: address })
-    .then((txs) => {
-      const out = txs.reduce((transfers: readonly Transfer[], tx: IndexedTx): readonly Transfer[] => {
-        const decodedTx = Tx.decode(tx.tx);
-        const txTransfers = (decodedTx?.body?.messages ?? [])
-          .filter(isAnyMsgSend)
-          .map(getTransferFromStargateMsgSend(typeRegistry, tx));
-        return [...transfers, ...txTransfers];
-      }, []);
-      setTransfers(out);
-    })
-    .catch(() => setTransfers(errorState));
-};
-
 export function AccountPage(): JSX.Element {
   const { client, typeRegistry } = React.useContext(ClientContext);
   const { address: addressParam } = useParams<{ readonly address: string }>();
@@ -74,10 +45,29 @@ export function AccountPage(): JSX.Element {
     loadingState,
   );
 
-  React.useEffect(
-    client !== null ? stargateEffect(client, address, typeRegistry, setBalance, setTransfers) : () => {},
-    [address, client, typeRegistry],
-  );
+  React.useEffect(() => {
+    if (!client) return;
+
+    Promise.all(settings.backend.denominations.map((denom) => client.getBalance(address, denom)))
+      .then((balances) => {
+        const filteredBalances = balances.filter((balance): balance is Coin => balance !== null);
+        setBalance(filteredBalances);
+      })
+      .catch(() => setBalance(errorState));
+    client
+      .searchTx({ sentFromOrTo: address })
+      .then((txs) => {
+        const out = txs.reduce((transfers: readonly Transfer[], tx: IndexedTx): readonly Transfer[] => {
+          const decodedTx = Tx.decode(tx.tx);
+          const txTransfers = (decodedTx?.body?.messages ?? [])
+            .filter(isAnyMsgSend)
+            .map(getTransferFromStargateMsgSend(typeRegistry, tx));
+          return [...transfers, ...txTransfers];
+        }, []);
+        setTransfers(out);
+      })
+      .catch(() => setTransfers(errorState));
+  }, [address, client, typeRegistry]);
 
   const pageTitle = <span title={address}>Account {ellideMiddle(address, 15)}</span>;
 

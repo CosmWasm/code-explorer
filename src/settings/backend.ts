@@ -7,6 +7,7 @@ export interface BackendSettings {
   readonly denominations: readonly string[];
   readonly addressPrefix: string;
   readonly gasPrice: GasPrice;
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   readonly keplrChainInfo?: any;
 }
 

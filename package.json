@@ -54,14 +54,14 @@
     "react-json-view": "^1.21.3",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.4.1",
+    "react-scripts": "^4",
     "typescript": "~4.2"
   },
   "devDependencies": {
     "@types/react-router-dom": "^5.1.3",
-    "@typescript-eslint/eslint-plugin": "^2.24.0",
-    "@typescript-eslint/parser": "^2.24.0",
-    "eslint": "^6.8.0",
+    "@typescript-eslint/eslint-plugin": "^5",
+    "@typescript-eslint/parser": "^5",
+    "eslint": "^7.1",
     "eslint-config-prettier": "^6.15.0",
     "eslint-config-react-app": "^5.2.0",
     "eslint-plugin-prettier": "^3.3.0",
