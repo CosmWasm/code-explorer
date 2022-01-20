@@ -1,5 +1,9 @@
 import "./Codes.css";
 
+import { WasmExtension } from "@cosmjs/cosmwasm-stargate/build/queries"; // missing export, see https://github.com/cosmos/cosmjs/issues/1000
+import { toHex } from "@cosmjs/encoding";
+import { QueryClient } from "@cosmjs/stargate";
+import { QueryCodesResponse } from "cosmjs-types/cosmwasm/wasm/v1/query";
 import React from "react";
 
 import { ClientContext } from "../../contexts/ClientContext";
@@ -27,24 +31,41 @@ export function Codes(): JSX.Element {
   const [codes, setCodes] = React.useState<readonly LoadedCode[] | ErrorState | LoadingState>(loadingState);
 
   React.useEffect(() => {
-    client
-      ?.getCodes()
-      .then((codeInfos) => {
-        const processed = codeInfos
-          .map(
-            (response): LoadedCode => ({
+    if (!client) return;
+
+    // This is accessing private fields. The query client cannot be used directly.
+    // This is unfortunate especially because CosmWasmClient.getCodes does not support pagination.
+    // However, there is no better way available right now.
+    const queryClient: QueryClient & WasmExtension = (client as any).forceGetQueryClient();
+
+    (async () => {
+      const all = [];
+
+      try {
+        let startAtKey: Uint8Array | undefined = undefined;
+        do {
+          const response: QueryCodesResponse = await queryClient.wasm.listCodeInfo(startAtKey);
+          const { codeInfos, pagination } = response;
+          const loadedCodes = (codeInfos || []).map(
+            (entry): LoadedCode => ({
               source: nodeUrl,
               data: {
-                codeId: response.id,
-                checksum: response.checksum,
-                creator: response.creator,
+                codeId: entry.codeId.toNumber(),
+                checksum: toHex(entry.dataHash),
+                creator: entry.creator,
               },
             }),
-          )
-          .reverse();
-        setCodes(processed);
-      })
-      .catch(() => setCodes(errorState));
+          );
+          loadedCodes.reverse();
+          all.unshift(...loadedCodes);
+          startAtKey = pagination?.nextKey;
+        } while (startAtKey?.length !== 0);
+      } catch (_e: any) {
+        setCodes(errorState);
+      }
+
+      setCodes(all);
+    })();
   }, [client, nodeUrl]);
 
   // Display codes vertically on small devices and in a flex container on large and above
