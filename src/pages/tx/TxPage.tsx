@@ -10,7 +10,6 @@ import { FooterRow } from "../../components/FooterRow";
 import { Header } from "../../components/Header";
 import { ClientContext } from "../../contexts/ClientContext";
 import { ellideMiddle } from "../../ui-utils";
-import { StargateClient } from "../../ui-utils/clients";
 import {
   ErrorState,
   errorState,
@@ -32,27 +31,6 @@ import { MsgSend } from "./msgs/MsgSend";
 import { MsgStoreCode } from "./msgs/MsgStoreCode";
 import { TxInfo } from "./TxInfo";
 
-const stargateEffect = (
-  client: StargateClient,
-  txId: string,
-  setDetails: (details: IndexedTx | undefined | ErrorState | LoadingState) => void,
-  setBlockInfo: (block: Block | undefined | ErrorState | LoadingState) => void,
-) => (): void => {
-  client
-    .getTx(txId)
-    .then((tx) => {
-      setDetails(tx || undefined);
-      if (!tx) return;
-      client
-        .getBlock(tx.height)
-        .then((b) => {
-          setBlockInfo(b);
-        })
-        .catch(() => setBlockInfo(errorState));
-    })
-    .catch(() => setDetails(errorState));
-};
-
 export function TxPage(): JSX.Element {
   const { client, typeRegistry } = React.useContext(ClientContext);
   const { txId: txIdParam } = useParams<{ readonly txId: string }>();
@@ -66,11 +44,23 @@ export function TxPage(): JSX.Element {
 
   const [block, setBlockInfo] = React.useState<Block | undefined | ErrorState | LoadingState>(loadingState);
 
-  React.useEffect(client !== null ? stargateEffect(client, txId, setDetails, setBlockInfo) : () => {}, [
-    client,
-    txId,
-    typeRegistry,
-  ]);
+  React.useEffect(() => {
+    if (!client) return;
+
+    client
+      .getTx(txId)
+      .then((tx) => {
+        setDetails(tx || undefined);
+        if (!tx) return;
+        client
+          .getBlock(tx.height)
+          .then((b) => {
+            setBlockInfo(b);
+          })
+          .catch(() => setBlockInfo(errorState));
+      })
+      .catch(() => setDetails(errorState));
+  }, [client, txId, typeRegistry]);
 
   return (
     <div className="page">

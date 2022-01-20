@@ -42,5 +42,3 @@ export function isAnyMsgInstantiateContract(msg: IAny): msg is AnyMsgInstantiate
 export function isAnyMsgExecuteContract(msg: IAny): msg is AnyMsgExecuteContract {
   return msg.typeUrl === msgExecuteContractTypeUrl && !!msg.value;
 }
-
-/* eslint-enable @typescript-eslint/camelcase */

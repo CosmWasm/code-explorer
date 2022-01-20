@@ -72,9 +72,10 @@ const getAndSetInstantiationTxHash = (
   contractAddress: string,
   setInstantiationTxHash: (instantiationTxHash: string | undefined | ErrorState | LoadingState) => void,
 ): void => {
-  (client.searchTx({
-    tags: makeTags(`message.module=wasm&instantiate._contract_address=${contractAddress}`),
-  }) as Promise<ReadonlyArray<{ readonly hash: string }>>)
+  client
+    .searchTx({
+      tags: makeTags(`message.module=wasm&instantiate._contract_address=${contractAddress}`),
+    })
     .then((results) => {
       const first = results.find(() => true);
       setInstantiationTxHash(first?.hash);
@@ -94,44 +95,6 @@ function getExecutionFromStargateMsgExecuteContract(typeRegistry: Registry, tx: 
   };
 }
 
-const stargateEffect = (
-  client: StargateClient,
-  contractAddress: string,
-  typeRegistry: Registry,
-  setBalance: (balance: readonly ICoin[] | ErrorState | LoadingState) => void,
-  setContractCodeHistory: (contractCodeHistory: readonly ContractCodeHistoryEntry[]) => void,
-  setDetails: (details: Contract | ErrorState | LoadingState) => void,
-  setExecutions: (executions: readonly Execution[] | ErrorState | LoadingState) => void,
-  setInstantiationTxHash: (instantiationTxHash: string | undefined | ErrorState | LoadingState) => void,
-) => () => {
-  getAndSetContractCodeHistory(client, contractAddress, setContractCodeHistory);
-  getAndSetDetails(client, contractAddress, setDetails);
-  getAndSetInstantiationTxHash(client, contractAddress, setInstantiationTxHash);
-
-  Promise.all(settings.backend.denominations.map((denom) => client.getBalance(contractAddress, denom)))
-    .then((balances) => {
-      const filteredBalances = balances.filter((balance): balance is Coin => balance !== null);
-      setBalance(filteredBalances);
-    })
-    .catch(() => setBalance(errorState));
-
-  client
-    .searchTx({
-      tags: makeTags(`message.module=wasm&execute._contract_address=${contractAddress}`),
-    })
-    .then((txs) => {
-      const out = txs.reduce((executions: readonly Execution[], tx: IndexedTx): readonly Execution[] => {
-        const decodedTx = Tx.decode(tx.tx);
-        const txExecutions = (decodedTx?.body?.messages ?? [])
-          .filter(isStargateMsgExecuteContract)
-          .map(getExecutionFromStargateMsgExecuteContract(typeRegistry, tx));
-        return [...executions, ...txExecutions];
-      }, []);
-      setExecutions(out);
-    })
-    .catch(() => setExecutions(errorState));
-};
-
 export function ContractPage(): JSX.Element {
   const { client, typeRegistry } = React.useContext(ClientContext);
   const { contractAddress: contractAddressParam } = useParams<{ readonly contractAddress: string }>();
@@ -149,21 +112,36 @@ export function ContractPage(): JSX.Element {
     loadingState,
   );
 
-  React.useEffect(
-    client !== null
-      ? stargateEffect(
-          client,
-          contractAddress,
-          typeRegistry,
-          setBalance,
-          setContractCodeHistory,
-          setDetails,
-          setExecutions,
-          setInstantiationTxHash,
-        )
-      : () => {},
-    [client, contractAddress, typeRegistry],
-  );
+  React.useEffect(() => {
+    if (!client) return;
+
+    getAndSetContractCodeHistory(client, contractAddress, setContractCodeHistory);
+    getAndSetDetails(client, contractAddress, setDetails);
+    getAndSetInstantiationTxHash(client, contractAddress, setInstantiationTxHash);
+
+    Promise.all(settings.backend.denominations.map((denom) => client.getBalance(contractAddress, denom)))
+      .then((balances) => {
+        const filteredBalances = balances.filter((balance): balance is Coin => balance !== null);
+        setBalance(filteredBalances);
+      })
+      .catch(() => setBalance(errorState));
+
+    client
+      .searchTx({
+        tags: makeTags(`message.module=wasm&execute._contract_address=${contractAddress}`),
+      })
+      .then((txs) => {
+        const out = txs.reduce((executions: readonly Execution[], tx: IndexedTx): readonly Execution[] => {
+          const decodedTx = Tx.decode(tx.tx);
+          const txExecutions = (decodedTx?.body?.messages ?? [])
+            .filter(isStargateMsgExecuteContract)
+            .map(getExecutionFromStargateMsgExecuteContract(typeRegistry, tx));
+          return [...executions, ...txExecutions];
+        }, []);
+        setExecutions(out);
+      })
+      .catch(() => setExecutions(errorState));
+  }, [client, contractAddress, typeRegistry]);
 
   const pageTitle = <span title={contractAddress}>Contract {ellideMiddle(contractAddress, 15)}</span>;
 

@@ -6,8 +6,6 @@ import { ErrorState, errorState, LoadingState, loadingState } from "../ui-utils/
 import { EndpointSelector } from "./EndpointSelector";
 import { NodeInfoModal } from "./NodeInfoModal";
 
-interface Props {}
-
 const hrStyle: React.CSSProperties = {
   borderColor: "rgba(255, 255, 255, 0.8)",
 };

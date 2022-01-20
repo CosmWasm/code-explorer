@@ -10,7 +10,7 @@ module.exports = {
     "eslint:recommended",
     "react-app",
     "plugin:@typescript-eslint/recommended",
-    "prettier/@typescript-eslint",
+    "prettier",
     "plugin:prettier/recommended",
   ],
   rules: {
@@ -26,7 +26,8 @@ module.exports = {
     "prefer-const": "warn",
     "sort-imports": "off", // we use the simple-import-sort plugin instead
     "spaced-comment": ["warn", "always", { line: { markers: ["/ <reference"] } }],
-    "simple-import-sort/sort": "warn",
+    "simple-import-sort/imports": "warn",
+    "simple-import-sort/exports": "warn",
     "@typescript-eslint/explicit-function-return-type": [
       "error",
       {

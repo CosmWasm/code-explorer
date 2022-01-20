@@ -7,6 +7,7 @@ export interface BackendSettings {
   readonly denominations: readonly string[];
   readonly addressPrefix: string;
   readonly gasPrice: GasPrice;
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   readonly keplrChainInfo?: any;
 }
 
@@ -17,13 +18,6 @@ const devnetSettings: BackendSettings = {
   denominations: ["ucosm", "ustake"],
   addressPrefix: "wasm",
   gasPrice: GasPrice.fromString("0.25ucosm"),
-};
-
-const pebblenetSettings: BackendSettings = {
-  nodeUrls: ["https://rpc.pebblenet.cosmwasm.com"],
-  denominations: ["upebble", "urock"],
-  addressPrefix: "wasm",
-  gasPrice: GasPrice.fromString("0.25upebble"),
 };
 
 // const oysternetSettings: BackendSettings = {
@@ -72,7 +66,12 @@ const pebblenetSettings: BackendSettings = {
 
 const knownBackends: Partial<Record<string, BackendSettings>> = {
   devnet: devnetSettings,
-  pebblenet: pebblenetSettings,
+  sandynet: {
+    nodeUrls: ["https://rpc.sandynet.cosmwasm.com"],
+    denominations: ["ubay", "umaya"],
+    addressPrefix: "wasm",
+    gasPrice: GasPrice.fromString("0.25ubay"),
+  },
 };
 
 export function getCurrentBackend(): BackendSettings {
