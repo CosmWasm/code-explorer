@@ -46,7 +46,7 @@
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.0",
     "bootstrap": "^4.5",
-    "cosmjs-types": "^0.2.0",
+    "cosmjs-types": "^0.4.1",
     "jquery": "^3.5",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
