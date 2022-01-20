@@ -33,6 +33,9 @@ export function Codes(): JSX.Element {
   React.useEffect(() => {
     if (!client) return;
 
+    // This is accessing private fields. The query client cannot be used directly.
+    // This is unfortunate especially because CosmWasmClient.getCodes does not support pagination.
+    // However, there is no better way available right now.
     const queryClient: QueryClient & WasmExtension = (client as any).forceGetQueryClient();
 
     (async () => {
