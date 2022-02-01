@@ -3,7 +3,7 @@
 ## Use hosted
 
 The explorer is deployed at https://cosmwasm.github.io/code-explorer and is configured
-for Pebblenet.
+for Cliffnet.
 
 ## Use local
 
@@ -59,7 +59,7 @@ Requirements: yarn, Node.js 10+
 
 ```
 yarn install
-PUBLIC_URL=https://code-explorer.pebblenet.cosmwasm.com/ REACT_APP_BACKEND=pebblenet yarn build
+PUBLIC_URL=https://cosmwasm.github.io/code-explorer/ REACT_APP_BACKEND=cliffnet yarn build
 ```
 
 ## Credits
