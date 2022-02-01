@@ -66,11 +66,11 @@ const devnetSettings: BackendSettings = {
 
 const knownBackends: Partial<Record<string, BackendSettings>> = {
   devnet: devnetSettings,
-  sandynet: {
-    nodeUrls: ["https://rpc.sandynet.cosmwasm.com"],
-    denominations: ["ubay", "umaya"],
+  cliffnet: {
+    nodeUrls: ["https://rpc.cliffnet.cosmwasm.com"],
+    denominations: ["upebble", "urock"],
     addressPrefix: "wasm",
-    gasPrice: GasPrice.fromString("0.25ubay"),
+    gasPrice: GasPrice.fromString("0.25upebble"),
   },
 };
 
