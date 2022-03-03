@@ -1,4 +1,4 @@
-import { GasPrice } from "@cosmjs/stargate";
+import { GasPrice } from "cosmwasm";
 
 export type NonEmptyArray<ElementType> = { readonly 0: ElementType } & readonly ElementType[];
 

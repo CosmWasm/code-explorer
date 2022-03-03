@@ -1,7 +1,7 @@
 import "./MsgStoreCode.css";
 
-import { toBase64 } from "@cosmjs/encoding";
 import { MsgStoreCode as IMsgStoreCode } from "cosmjs-types/cosmwasm/wasm/v1beta1/tx";
+import { toBase64 } from "cosmwasm";
 import React, { Fragment } from "react";
 
 import { AccountLink } from "../../../components/AccountLink";

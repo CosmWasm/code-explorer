@@ -1,5 +1,4 @@
-import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
-import { calculateFee, Coin } from "@cosmjs/stargate";
+import { calculateFee, Coin, ExecuteResult } from "cosmwasm";
 import React from "react";
 import JSONInput from "react-json-editor-ajrm";
 

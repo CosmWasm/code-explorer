@@ -1,9 +1,7 @@
 import "./Codes.css";
 
-import { WasmExtension } from "@cosmjs/cosmwasm-stargate/build/queries"; // missing export, see https://github.com/cosmos/cosmjs/issues/1000
-import { toHex } from "@cosmjs/encoding";
-import { QueryClient } from "@cosmjs/stargate";
 import { QueryCodesResponse } from "cosmjs-types/cosmwasm/wasm/v1/query";
+import { QueryClient, toHex, WasmExtension } from "cosmwasm"; // missing export, see https://github.com/cosmos/cosmjs/issues/1000
 import React from "react";
 
 import { ClientContext } from "../../contexts/ClientContext";

@@ -1,5 +1,5 @@
-import { Registry } from "@cosmjs/proto-signing";
 import { MsgExecuteContract, MsgInstantiateContract, MsgStoreCode } from "cosmjs-types/cosmwasm/wasm/v1/tx";
+import { Registry } from "cosmwasm";
 import React from "react";
 import { Redirect, Route, Switch } from "react-router";
 

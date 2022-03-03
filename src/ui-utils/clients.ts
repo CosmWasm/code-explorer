@@ -1,13 +1,18 @@
-import { makeCosmoshubPath, OfflineAminoSigner } from "@cosmjs/amino";
-import {
-  CosmWasmClient as StargateClient,
-  SigningCosmWasmClient as StargateSigningClient,
-} from "@cosmjs/cosmwasm-stargate";
-import { Bip39, Random } from "@cosmjs/crypto";
-import { LedgerSigner } from "@cosmjs/ledger-amino";
-import { DirectSecp256k1HdWallet, OfflineDirectSigner, OfflineSigner, Registry } from "@cosmjs/proto-signing";
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
 import { MsgExecuteContract, MsgInstantiateContract, MsgStoreCode } from "cosmjs-types/cosmwasm/wasm/v1/tx";
+import {
+  Bip39,
+  CosmWasmClient as StargateClient,
+  DirectSecp256k1HdWallet,
+  LedgerSigner,
+  makeCosmoshubPath,
+  OfflineAminoSigner,
+  OfflineDirectSigner,
+  OfflineSigner,
+  Random,
+  Registry,
+  SigningCosmWasmClient as StargateSigningClient,
+} from "cosmwasm";
 
 import { settings } from "../settings";
 import { msgExecuteContractTypeUrl, msgInstantiateContractTypeUrl, msgStoreCodeTypeUrl } from "./txs";

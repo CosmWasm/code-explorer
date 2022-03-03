@@ -1,4 +1,4 @@
-import { fromHex } from "@cosmjs/encoding";
+import { fromHex } from "cosmwasm";
 
 import { getFileType } from "./magic";
 

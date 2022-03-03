@@ -1,6 +1,5 @@
-import { fromUtf8 } from "@cosmjs/encoding";
-import { Decimal } from "@cosmjs/math";
 import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
+import { Decimal, fromUtf8 } from "cosmwasm";
 
 export function ellideMiddle(str: string, maxOutLen: number): string {
   if (str.length <= maxOutLen) {
