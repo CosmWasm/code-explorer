@@ -2,7 +2,7 @@ import { MsgExecuteContract, MsgInstantiateContract, MsgStoreCode } from "cosmjs
 import { Registry } from "cosmwasm";
 import React from "react";
 
-import { StargateClient, StargateSigningClient } from "../ui-utils/clients";
+import { CosmWasmClient, SigningCosmWasmClient } from "../ui-utils/clients";
 import {
   msgExecuteContractTypeUrl,
   msgInstantiateContractTypeUrl,
@@ -11,13 +11,13 @@ import {
 
 export interface ClientContextValue {
   readonly nodeUrl: string;
-  readonly client: StargateClient | null;
+  readonly client: CosmWasmClient | null;
   readonly typeRegistry: Registry;
   readonly resetClient: (nodeUrl: string) => void;
   readonly userAddress?: string;
   readonly setUserAddress: (newUserAddress?: string) => void;
-  readonly signingClient?: StargateSigningClient;
-  readonly setSigningClient: (newSigningClient?: StargateSigningClient) => void;
+  readonly signingClient?: SigningCosmWasmClient;
+  readonly setSigningClient: (newSigningClient?: SigningCosmWasmClient) => void;
 }
 
 /**

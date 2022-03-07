@@ -103,7 +103,7 @@ async function createStargateSigningClient(signer: OfflineSigner): Promise<Signi
   });
 }
 
-export async function getAddressAndSigningCosmWasmClient(
+export async function getAddressAndStargateSigningClient(
   loadWallet: WalletLoaderDirect,
   mnemonic?: string,
 ): Promise<[string, SigningCosmWasmClient]> {

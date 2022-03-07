@@ -13,7 +13,7 @@ import { Header } from "../../components/Header";
 import { ClientContext } from "../../contexts/ClientContext";
 import { settings } from "../../settings";
 import { ellideMiddle, printableBalance } from "../../ui-utils";
-import { StargateClient } from "../../ui-utils/clients";
+import { CosmWasmClient } from "../../ui-utils/clients";
 import { makeTags } from "../../ui-utils/sdkhelpers";
 import {
   ErrorState,
@@ -41,7 +41,7 @@ function isStargateMsgExecuteContract(msg: Any): msg is IAnyMsgExecuteContract {
 }
 
 const getAndSetDetails = (
-  client: StargateClient,
+  client: CosmWasmClient,
   contractAddress: string,
   setDetails: (details: Contract | ErrorState | LoadingState) => void,
 ): void => {
@@ -52,7 +52,7 @@ const getAndSetDetails = (
 };
 
 const getAndSetContractCodeHistory = (
-  client: StargateClient,
+  client: CosmWasmClient,
   contractAddress: string,
   setContractCodeHistory: (contractCodeHistory: readonly ContractCodeHistoryEntry[]) => void,
 ): void => {
@@ -65,7 +65,7 @@ const getAndSetContractCodeHistory = (
 };
 
 const getAndSetInstantiationTxHash = (
-  client: StargateClient,
+  client: CosmWasmClient,
   contractAddress: string,
   setInstantiationTxHash: (instantiationTxHash: string | undefined | ErrorState | LoadingState) => void,
 ): void => {

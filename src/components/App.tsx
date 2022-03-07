@@ -10,7 +10,7 @@ import { CodesPage } from "../pages/codes/CodesPage";
 import { ContractPage } from "../pages/contract/ContractPage";
 import { TxPage } from "../pages/tx/TxPage";
 import { settings } from "../settings";
-import { StargateClient, StargateSigningClient } from "../ui-utils/clients";
+import { CosmWasmClient, SigningCosmWasmClient } from "../ui-utils/clients";
 import {
   msgExecuteContractTypeUrl,
   msgInstantiateContractTypeUrl,
@@ -28,7 +28,7 @@ const typeRegistry = new Registry([
 export function App(): JSX.Element {
   const [nodeUrl, setNodeUrl] = React.useState(nodeUrls[0]);
   const [userAddress, setUserAddress] = React.useState<string>();
-  const [signingClient, setSigningClient] = React.useState<StargateSigningClient>();
+  const [signingClient, setSigningClient] = React.useState<SigningCosmWasmClient>();
   const [contextValue, setContextValue] = React.useState<ClientContextValue>({
     nodeUrl: nodeUrl,
     client: null,
@@ -42,7 +42,7 @@ export function App(): JSX.Element {
 
   React.useEffect(() => {
     (async function updateContextValue() {
-      const client = await StargateClient.connect(nodeUrl);
+      const client = await CosmWasmClient.connect(nodeUrl);
       setContextValue((prevContextValue) => ({ ...prevContextValue, nodeUrl: nodeUrl, client: client }));
     })();
   }, [nodeUrl]);
