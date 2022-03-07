@@ -1,4 +1,4 @@
-import { ContractCodeHistoryEntry } from "@cosmjs/cosmwasm-stargate";
+import { ContractCodeHistoryEntry } from "cosmwasm";
 import React from "react";
 import ReactJson from "react-json-view";
 

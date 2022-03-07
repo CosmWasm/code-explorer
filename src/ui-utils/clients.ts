@@ -1,18 +1,23 @@
-import { makeCosmoshubPath, OfflineAminoSigner } from "@cosmjs/amino";
-import {
-  CosmWasmClient as StargateClient,
-  SigningCosmWasmClient as StargateSigningClient,
-} from "@cosmjs/cosmwasm-stargate";
-import { Bip39, Random } from "@cosmjs/crypto";
-import { LedgerSigner } from "@cosmjs/ledger-amino";
-import { DirectSecp256k1HdWallet, OfflineDirectSigner, OfflineSigner, Registry } from "@cosmjs/proto-signing";
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
 import { MsgExecuteContract, MsgInstantiateContract, MsgStoreCode } from "cosmjs-types/cosmwasm/wasm/v1/tx";
+import {
+  Bip39,
+  CosmWasmClient,
+  DirectSecp256k1HdWallet,
+  LedgerSigner,
+  makeCosmoshubPath,
+  OfflineAminoSigner,
+  OfflineDirectSigner,
+  OfflineSigner,
+  Random,
+  Registry,
+  SigningCosmWasmClient,
+} from "cosmwasm";
 
 import { settings } from "../settings";
 import { msgExecuteContractTypeUrl, msgInstantiateContractTypeUrl, msgStoreCodeTypeUrl } from "./txs";
 
-export { StargateClient, StargateSigningClient };
+export { CosmWasmClient, SigningCosmWasmClient };
 
 export function generateMnemonic(): string {
   return Bip39.encode(Random.getBytes(16)).toString();
@@ -35,7 +40,7 @@ export type WalletLoaderDirect = (
 ) => Promise<OfflineDirectSigner | OfflineAminoSigner>;
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function loadKeplrWallet(client: StargateClient, keplrChainInfo: any): WalletLoaderDirect {
+export function loadKeplrWallet(client: CosmWasmClient, keplrChainInfo: any): WalletLoaderDirect {
   return async () => {
     const chaindId = await client.getChainId();
 
@@ -83,7 +88,7 @@ export async function loadLedgerWallet(addressPrefix: string): Promise<OfflineAm
   return new LedgerSigner(ledgerTransport, { hdPaths: [makeCosmoshubPath(0)], prefix: addressPrefix });
 }
 
-async function createStargateSigningClient(signer: OfflineSigner): Promise<StargateSigningClient> {
+async function createStargateSigningClient(signer: OfflineSigner): Promise<SigningCosmWasmClient> {
   const { nodeUrls } = settings.backend;
   const endpoint = nodeUrls[0];
 
@@ -93,7 +98,7 @@ async function createStargateSigningClient(signer: OfflineSigner): Promise<Starg
     [msgExecuteContractTypeUrl, MsgExecuteContract],
   ]);
 
-  return StargateSigningClient.connectWithSigner(endpoint, signer, {
+  return SigningCosmWasmClient.connectWithSigner(endpoint, signer, {
     registry: typeRegistry,
   });
 }
@@ -101,7 +106,7 @@ async function createStargateSigningClient(signer: OfflineSigner): Promise<Starg
 export async function getAddressAndStargateSigningClient(
   loadWallet: WalletLoaderDirect,
   mnemonic?: string,
-): Promise<[string, StargateSigningClient]> {
+): Promise<[string, SigningCosmWasmClient]> {
   const signer = await loadWallet(settings.backend.addressPrefix, mnemonic);
   const userAddress = (await signer.getAccounts())[0].address;
   const signingClient = await createStargateSigningClient(signer);

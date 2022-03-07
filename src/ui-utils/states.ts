@@ -1,4 +1,4 @@
-import { isNonNullObject } from "@cosmjs/utils";
+import { isNonNullObject } from "cosmwasm";
 
 const runtimeCodes = {
   error: "_\u2588_ErrorState_\u2588_" as const,

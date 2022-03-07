@@ -1,12 +1,9 @@
 import "./ContractPage.css";
 
-import { Contract, ContractCodeHistoryEntry } from "@cosmjs/cosmwasm-stargate";
-import { Registry } from "@cosmjs/proto-signing";
-import { Coin } from "@cosmjs/stargate";
-import { IndexedTx } from "@cosmjs/stargate";
 import { Coin as ICoin } from "cosmjs-types/cosmos/base/v1beta1/coin";
 import { Tx } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import { Any } from "cosmjs-types/google/protobuf/any";
+import { Coin, Contract, ContractCodeHistoryEntry, IndexedTx, Registry } from "cosmwasm";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -16,7 +13,7 @@ import { Header } from "../../components/Header";
 import { ClientContext } from "../../contexts/ClientContext";
 import { settings } from "../../settings";
 import { ellideMiddle, printableBalance } from "../../ui-utils";
-import { StargateClient } from "../../ui-utils/clients";
+import { CosmWasmClient } from "../../ui-utils/clients";
 import { makeTags } from "../../ui-utils/sdkhelpers";
 import {
   ErrorState,
@@ -44,7 +41,7 @@ function isStargateMsgExecuteContract(msg: Any): msg is IAnyMsgExecuteContract {
 }
 
 const getAndSetDetails = (
-  client: StargateClient,
+  client: CosmWasmClient,
   contractAddress: string,
   setDetails: (details: Contract | ErrorState | LoadingState) => void,
 ): void => {
@@ -55,7 +52,7 @@ const getAndSetDetails = (
 };
 
 const getAndSetContractCodeHistory = (
-  client: StargateClient,
+  client: CosmWasmClient,
   contractAddress: string,
   setContractCodeHistory: (contractCodeHistory: readonly ContractCodeHistoryEntry[]) => void,
 ): void => {
@@ -68,7 +65,7 @@ const getAndSetContractCodeHistory = (
 };
 
 const getAndSetInstantiationTxHash = (
-  client: StargateClient,
+  client: CosmWasmClient,
   contractAddress: string,
   setInstantiationTxHash: (instantiationTxHash: string | undefined | ErrorState | LoadingState) => void,
 ): void => {
