@@ -1,7 +1,5 @@
 import "./Codes.css";
 
-import { QueryCodesResponse } from "cosmjs-types/cosmwasm/wasm/v1/query";
-import { QueryClient, toHex, WasmExtension } from "cosmwasm";
 import React from "react";
 
 import { ClientContext } from "../../contexts/ClientContext";
@@ -31,38 +29,23 @@ export function Codes(): JSX.Element {
   React.useEffect(() => {
     if (!client) return;
 
-    // This is accessing private fields. The query client cannot be used directly.
-    // This is unfortunate especially because CosmWasmClient.getCodes does not support pagination.
-    // However, there is no better way available right now.
-    const queryClient: QueryClient & WasmExtension = (client as any).forceGetQueryClient();
-
     (async () => {
-      const all = [];
-
       try {
-        let startAtKey: Uint8Array | undefined = undefined;
-        do {
-          const response: QueryCodesResponse = await queryClient.wasm.listCodeInfo(startAtKey);
-          const { codeInfos, pagination } = response;
-          const loadedCodes = (codeInfos || []).map(
-            (entry): LoadedCode => ({
-              source: nodeUrl,
-              data: {
-                codeId: entry.codeId.toNumber(),
-                checksum: toHex(entry.dataHash),
-                creator: entry.creator,
-              },
-            }),
-          );
-          loadedCodes.reverse();
-          all.unshift(...loadedCodes);
-          startAtKey = pagination?.nextKey;
-        } while (startAtKey?.length !== 0);
+        const all = (await client.getCodes()).map(
+          (entry): LoadedCode => ({
+            source: nodeUrl,
+            data: {
+              codeId: entry.id,
+              checksum: entry.checksum,
+              creator: entry.creator,
+            },
+          }),
+        );
+        all.reverse();
+        setCodes(all);
       } catch (_e: any) {
         setCodes(errorState);
       }
-
-      setCodes(all);
     })();
   }, [client, nodeUrl]);
 
