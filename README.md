@@ -1,3 +1,11 @@
+🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨<br>
+This repository was unmaintained for a long time and most likely contains security issues in the dependency tree.
+The code remains here for reference but it is highly recommended to not use it anymore.<br>
+<br>
+Many new tools have been developed by other teams in the meantime which go beyond what we developed here. Let's use and promote those tools to broaden the CosmWasm ecosystem. Giving up cosebases is part of innovation. Cheers!
+<br>
+🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦
+
 # CosmWasm Code Explorer
 
 ## Use hosted
